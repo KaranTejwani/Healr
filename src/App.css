@@ -1,0 +1,36 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 69px;
+}
+
+body {
+  margin: 0;
+}
+.nav-link {
+  color: #0033cc !important;
+  font-weight: 600;
+}
+.nav-underline {
+  position: relative;
+  display: inline-block;
+  color: #f90;
+  text-decoration: none;
+}
+
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #f90; /* or any color you want */
+  transition: width 0.4s ease;
+}
+
+.nav-underline:hover::after {
+  width: 100%;
+}
