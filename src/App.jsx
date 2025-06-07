@@ -2,6 +2,7 @@ import HeroSection from "./components/HeroSection";
 import AppNavbar from "./components/Navbar";
 import "./App.css";
 import HealthServices from "./components/HealthServices";
+import DoctorsList from "./components/DoctorsList";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <AppNavbar />
       <HeroSection />
       <HealthServices />
+      <DoctorsList />
     </>
   );
 }

@@ -1,0 +1,65 @@
+.doctors-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Heading and View All link in same row */
+.doctors-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.doctors-header h2 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #333;
+}
+
+.doctors-header a {
+  font-size: 0.95rem;
+  color: #ffa500;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.doctors-header a:hover {
+  text-decoration: underline;
+}
+
+/* Doctors Grid Layout */
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+/* Doctor Item */
+.doctor-card {
+  text-align: center;
+}
+
+.doctor-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.doctor-card p {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 0;
+}
+
+/* Responsive Grid for Mobile */
+@media (max-width: 768px) {
+  .doctors-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
