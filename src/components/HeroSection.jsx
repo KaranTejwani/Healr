@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./HeroSection.css";
-import doctorImage from "../IMAGES/image1.jpg"; // Replace with your uploaded image
+import doctorImage from "../IMAGES/image1.jpg";
+import SearchDoctor from "./searchDoctor";
 
 const HeroSection = () => {
+  const [query, setQuery] = useState("");
+
+  const handleSearch = async () => {
+    const results = await SearchDoctor(query);
+    console.log("Search results:", results);
+  };
+
   return (
     <div className="hero-section d-flex align-items-center">
       <div className="container">
@@ -25,10 +33,15 @@ const HeroSection = () => {
                     type="text"
                     className="form-control"
                     placeholder="Doctors, Hospital, Conditions"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                   />
                 </div>
                 <div className="col-md-3 col-12">
-                  <button className="btn btn-warning w-100 text-white fw-bold">
+                  <button
+                    className="btn btn-warning w-100 text-white fw-bold"
+                    onClick={handleSearch}
+                  >
                     Search
                   </button>
                 </div>
