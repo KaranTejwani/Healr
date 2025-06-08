@@ -4,16 +4,17 @@ body {
   overflow-x: hidden;
 }
 .hero-section {
-  width: 95vw; /* full viewport width */
+  width: 85vw;
   background: linear-gradient(to right, #683d2b, #1b0c4e);
-  /* background: linear-gradient(to right, #61323b, #1b0c4e); */
+  border-radius: 18px;
+  padding: 1rem;
+  min-height: 30vh;
+  margin-left: 70px;
 
-  border-radius: 20px;
-  padding: 2rem;
-  margin-top: 5px;
-  min-height: 40vh;
-  margin-left: 30px;
-  overflow: hidden;
+  /* 🛠️ Critical fix below */
+  margin-top: 80px; /* ensures it is pushed down */
+  position: relative;
+  z-index: 1;
 }
 
 .hero-section h1 {

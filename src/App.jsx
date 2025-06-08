@@ -3,6 +3,8 @@ import AppNavbar from "./components/Navbar";
 import "./App.css";
 import HealthServices from "./components/HealthServices";
 import DoctorsList from "./components/DoctorsList";
+import Footer from "./components/Footer";
+import About from "./components/About";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <HeroSection />
       <HealthServices />
       <DoctorsList />
+      <About />
+      <Footer />
     </>
   );
 }
