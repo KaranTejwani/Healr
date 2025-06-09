@@ -1,44 +1,17 @@
-// server.js
 import express from 'express';
-import fs from 'fs';
-import csv from 'csv-parser';
-import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import doctorsRoute from './routes/doctors.js';
 
+dotenv.config();
 const app = express();
-const PORT = 5000;
+app.use(express.json());
 
-app.use(cors());
+mongoose.connect(process.env.MONGODB_URI, { dbName: 'healrDB' })
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.error('MongoDB Error:', err));
 
-let doctors = [];
+app.use('/api/doctors', doctorsRoute);
 
-// Read CSV and load data into memory
-fs.createReadStream('doctors.csv')
-  .pipe(csv())
-  .on('data', (row) => {
-    doctors.push(row);
-  })
-  .on('end', () => {
-    console.log('CSV file successfully processed');
-  });
-
-// API endpoint to search doctors
-app.get('/search', (req, res) => {
-  const query = req.query.query?.toLowerCase();
-
-  if (!query) return res.status(400).json({ message: 'Query parameter is required' });
-
-  const results = doctors.filter((doc) => {
-    return (
-      doc['Name']?.toLowerCase().includes(query) ||
-      doc['Specialization']?.toLowerCase().includes(query) ||
-      doc['Location']?.toLowerCase().includes(query) ||
-      doc['Degrees']?.toLowerCase().includes(query)
-    );
-  });
-
-  res.json(results);
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
