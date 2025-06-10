@@ -27,24 +27,31 @@ const HeroSection = () => {
             </div>
 
             <div className="search-bar mt-4">
-              <div className="row g-2">
-                <div className="col-md-6 col-12">
+              <div className="search-container">
+                {/* <div className="location-section">
                   <input
                     type="text"
-                    className="form-control"
-                    placeholder="Doctors, Hospital, Conditions"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    className="form-control location-input"
+                    placeholder="Lahore"
+                    defaultValue="Lahore"
                   />
-                </div>
-                <div className="col-md-3 col-12">
-                  <button
-                    className="btn btn-warning w-100 text-white fw-bold"
-                    onClick={handleSearch}
-                  >
-                    Search
+                  <button className="btn btn-outline-light detect-button">
+                    📍 Detect
                   </button>
-                </div>
+                </div> */}
+                <input
+                  type="text"
+                  className="form-control main-search-input"
+                  placeholder="Doctors, Hospital, Conditions"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+                <button
+                  className="btn btn-warning search-button text-white fw-bold"
+                  onClick={handleSearch}
+                >
+                  Search
+                </button>
               </div>
             </div>
           </div>

@@ -4,11 +4,12 @@ import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
 import DoctorsList from "./components/DoctorsList";
-import ReviewSlider from "./components/ReviewSlider";
+
 import Footer from "./components/Footer";
 import About from "./components/About";
 import Signup from "./components/Signup"; // Create this file
 import Login from "./components/Login";
+import Testimonials from "./components/Testimonials";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
               <HeroSection />
               <HealthServices />
               <DoctorsList />
-              <ReviewSlider />
+              <Testimonials />
               <About />
               <Footer />
             </>
