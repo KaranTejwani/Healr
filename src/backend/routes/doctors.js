@@ -10,13 +10,21 @@ router.get('/', async (req, res) => {
 });
 
 // Filter doctors
+// Example: routes/doctors.js or wherever your routes are defined
 router.get('/search', async (req, res) => {
-  const { specialization, location } = req.query;
-  const filter = {};
-  if (specialization) filter.Specialization = specialization;
-  if (location) filter.Location = location;
+  const { search } = req.query;
+  if (!search) return res.status(400).json({ error: "Search term required" });
 
-  const doctors = await Doctor.find(filter);
+  const regex = new RegExp(search, 'i'); // case-insensitive
+
+  const doctors = await Doctor.find({
+    $or: [
+      { Name: regex },
+      { Specialization: regex },
+      { Location: regex },
+    ]
+  });
+
   res.json(doctors);
 });
 

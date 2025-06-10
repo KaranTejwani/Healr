@@ -1,21 +1,17 @@
-// searchDoctor.js
-export const SearchDoctor = async (query) => {
-  if (!query.trim()) {
-    console.log("Please enter a search query");
-    return [];
-  }
+// src/components/searchDoctor.js
 
+const SearchDoctor = async (query) => {
   try {
-    const response = await fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`);
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
+    const res = await fetch(`http://localhost:5000/api/doctors/search?search=${encodeURIComponent(query)}`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch doctors");
     }
-    const data = await response.json();
-    return data;
+    const data = await res.json();
+    return data; // this should be an array of doctor objects
   } catch (error) {
-    console.error("Error fetching search results:", error);
+    console.error("Error fetching doctors:", error);
     return [];
   }
 };
 
-export default SearchDoctor
+export default SearchDoctor;
