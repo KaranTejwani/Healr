@@ -4,7 +4,7 @@ import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
 import DoctorsList from "./components/DoctorsList";
-import ReviewSlider from "./components/ReviewSlider";
+import ReviewsSlider from "./components/ReviewsSlider";
 import Footer from "./components/Footer";
 import About from "./components/About";
 import Signup from "./components/Signup"; // Create this file
@@ -22,7 +22,7 @@ function App() {
               <HeroSection />
               <HealthServices />
               <DoctorsList />
-              <ReviewSlider />
+              <ReviewsSlider />
               <About />
               <Footer />
             </>
