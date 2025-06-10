@@ -6,6 +6,7 @@ import React from "react";
 
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import fetchAllDoctors from "./fetchAllDoctors";
+import DoctorDropdown from "./DoctorDropdown";
 
 const AppNavbar = () => {
   return (
@@ -19,12 +20,14 @@ const AppNavbar = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-between">
             <Nav className="me-auto">
-              <Nav.Link href="#" className="nav-underline" onClick={async () => {
-    const data = await fetchAllDoctors();
-    console.log("Doctors:", data); // Replace with setDoctors(data) if managing state
-  }}>
-                Doctors
-              </Nav.Link>
+              <div className="nav-underline">
+                <DoctorDropdown
+                  onSelect={(spec, city) => {
+                    console.log(`Selected: ${spec} in ${city}`);
+                    // Optionally navigate or fetch data here
+                  }}
+                />
+              </div>
               <Nav.Link href="#" className="nav-underline">
                 Hospitals
               </Nav.Link>

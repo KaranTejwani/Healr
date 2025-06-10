@@ -28,4 +28,24 @@ router.get('/search', async (req, res) => {
   res.json(doctors);
 });
 
+router.get('/selectedSearch', async (req, res) => {
+  const { specialization, location } = req.query;
+
+  if (!specialization || !location) {
+    return res.status(400).json({ error: "Both specialization and location are required" });
+  }
+
+  try {
+    const doctors = await Doctor.find({
+      Specialization: specialization,
+      Location: location,
+    });
+
+    res.json(doctors);
+  } catch (error) {
+    console.error('Error fetching doctors:', error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export default router;
