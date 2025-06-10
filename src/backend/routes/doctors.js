@@ -10,14 +10,42 @@ router.get('/', async (req, res) => {
 });
 
 // Filter doctors
+// Example: routes/doctors.js or wherever your routes are defined
 router.get('/search', async (req, res) => {
-  const { specialization, location } = req.query;
-  const filter = {};
-  if (specialization) filter.Specialization = specialization;
-  if (location) filter.Location = location;
+  const { search } = req.query;
+  if (!search) return res.status(400).json({ error: "Search term required" });
 
-  const doctors = await Doctor.find(filter);
+  const regex = new RegExp(search, 'i'); // case-insensitive
+
+  const doctors = await Doctor.find({
+    $or: [
+      { Name: regex },
+      { Specialization: regex },
+      { Location: regex },
+    ]
+  });
+
   res.json(doctors);
+});
+
+router.get('/selectedSearch', async (req, res) => {
+  const { specialization, location } = req.query;
+
+  if (!specialization || !location) {
+    return res.status(400).json({ error: "Both specialization and location are required" });
+  }
+
+  try {
+    const doctors = await Doctor.find({
+      Specialization: specialization,
+      Location: location,
+    });
+
+    res.json(doctors);
+  } catch (error) {
+    console.error('Error fetching doctors:', error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 export default router;

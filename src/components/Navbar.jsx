@@ -1,6 +1,7 @@
 // src/components/Navbar.jsx - Simplified version
 import { Link } from "react-router-dom";
-
+import fetchAllDoctors from "./fetchAllDoctors";
+import DoctorDropdown from "./DoctorDropdown";
 const AppNavbar = () => {
   return (
     <nav

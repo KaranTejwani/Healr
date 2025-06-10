@@ -6,10 +6,13 @@ import SearchDoctor from "./searchDoctor";
 
 const HeroSection = () => {
   const [query, setQuery] = useState("");
+  const [doctors, setDoctors] = useState([]);
 
   const handleSearch = async () => {
+    if (query.trim() === "") return;
     const results = await SearchDoctor(query);
     console.log("Search results:", results);
+    setDoctors(results);
   };
 
   return (
@@ -19,8 +22,7 @@ const HeroSection = () => {
           {/* Left Content */}
           <div className="col-md-6 text-white">
             <h1 className="display-5 fw-bold">
-              Find and Book the <span className="highlight">Best Doctors</span>{" "}
-              near you
+              Find and Book the <span className="highlight">Best Doctors</span> near you
             </h1>
             <div className="badge-box mt-3">
               <span className="badge-text">✅ 50M+ patients served</span>
@@ -65,6 +67,20 @@ const HeroSection = () => {
             />
           </div>
         </div>
+
+        {/* Display Results (Optional) */}
+        {doctors.length > 0 && (
+          <div className="mt-5 text-white">
+            <h3>Search Results:</h3>
+            <ul className="list-group">
+              {doctors.map((doc) => (
+                <li key={doc._id} className="list-group-item">
+                  <strong>{doc.name}</strong> — {doc.specialization} — {doc.location}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
