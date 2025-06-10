@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./HeroSection.css";
-import doctorImage from "../IMAGES/image1.jpg";
+import doctorImage from "../IMAGES/image1.png";
 import SearchDoctor from "./searchDoctor";
 
 const HeroSection = () => {

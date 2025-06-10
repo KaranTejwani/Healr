@@ -8,6 +8,7 @@
 
 body {
   margin: 0;
+  background-color: rgba(245, 245, 245, 0.986);
 }
 .nav-link {
   color: #0033cc !important;

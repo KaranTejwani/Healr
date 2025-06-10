@@ -1,0 +1,70 @@
+.signup-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 60px 20px 40px;
+  box-sizing: border-box;
+}
+
+/* Signup Box */
+.signup-box {
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.15),
+    -10px -10px 25px rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  padding: 30px;
+  width: 90vw;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+/* Brand Style */
+.brand {
+  color: #ff6b35;
+  font-weight: bold;
+  font-size: 24px;
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Input & Select */
+input,
+select {
+  width: 100%;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+}
+
+/* Button */
+.login-btn {
+  width: 100%;
+  background: #0033cc;
+  border: none;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* Link below */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-link a {
+  color: #0033cc;
+  text-decoration: none;
+  font-weight: bold;
+}
