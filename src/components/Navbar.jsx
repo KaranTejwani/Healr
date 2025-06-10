@@ -5,6 +5,7 @@ import { useState } from "react";
 import React from "react";
 
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import fetchAllDoctors from "./fetchAllDoctors";
 
 const AppNavbar = () => {
   return (
@@ -18,7 +19,10 @@ const AppNavbar = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-between">
             <Nav className="me-auto">
-              <Nav.Link href="#" className="nav-underline">
+              <Nav.Link href="#" className="nav-underline" onClick={async () => {
+    const data = await fetchAllDoctors();
+    console.log("Doctors:", data); // Replace with setDoctors(data) if managing state
+  }}>
                 Doctors
               </Nav.Link>
               <Nav.Link href="#" className="nav-underline">
