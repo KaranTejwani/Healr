@@ -4,26 +4,16 @@ import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
 import DoctorsList from "./components/DoctorsList";
-<<<<<<< HEAD
 import ReviewSlider from "./components/ReviewSlider";
-=======
 import Footer from "./components/Footer";
 import About from "./components/About";
 import Signup from "./components/Signup"; // Create this file
 import Login from "./components/Login";
->>>>>>> 44cc1b4bf1e14e515cc4f735d663e2345a977419
 
 function App() {
   return (
     <Router>
       <AppNavbar />
-<<<<<<< HEAD
-      <HeroSection />
-      <HealthServices />
-      <DoctorsList />
-      <ReviewSlider />
-    </>
-=======
       <Routes>
         <Route
           path="/"
@@ -32,6 +22,7 @@ function App() {
               <HeroSection />
               <HealthServices />
               <DoctorsList />
+              <ReviewSlider />
               <About />
               <Footer />
             </>
@@ -41,7 +32,6 @@ function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
->>>>>>> 44cc1b4bf1e14e515cc4f735d663e2345a977419
   );
 }
 
