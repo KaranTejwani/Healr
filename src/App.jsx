@@ -3,6 +3,7 @@ import AppNavbar from "./components/Navbar";
 import "./App.css";
 import HealthServices from "./components/HealthServices";
 import DoctorsList from "./components/DoctorsList";
+import ReviewSlider from "./components/ReviewSlider";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <HeroSection />
       <HealthServices />
       <DoctorsList />
+      <ReviewSlider />
     </>
   );
 }
