@@ -5,11 +5,35 @@ const Login = () => {
   const [emailOrMobile, setEmailOrMobile] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Add your login logic here
-    console.log("Logging in with:", emailOrMobile, password);
-  };
+  const handleLogin = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: emailOrMobile,
+        password: password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Login successful:", data);
+      // Store token or user info if returned, e.g., localStorage.setItem("token", data.token);
+      // Redirect or update UI as needed
+    } else {
+      console.error("Login failed:", data.message || "Unknown error");
+      alert(data.message || "Login failed");
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    alert("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div className="signup-container">
