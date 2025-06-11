@@ -59,7 +59,7 @@ function App() {
     //     <Route path="/terms-of-use" element={<TermsOfUsePage />} />
     //   </Routes>
     // </Router>
-    <DoctorDashboard />
+    <DoctorDashboard doctorId="6846f8d7da87d6a61414e7663" />
   );
 }
 
