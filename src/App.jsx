@@ -17,8 +17,8 @@ import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
 
 import ConditionsList from "./components/ConditionsList";
+import DoctorDashboard from "./components/DoctorDashboard";
 import DoctorsCityWise from "./components/DoctorsCityWise";
-
 function App() {
   return (
     <Router>
@@ -57,6 +57,7 @@ function App() {
         <Route path="/contact-us" element={<ContactUsPage />} />
       </Routes>
     </Router>
+    // <DoctorDashboard />
   );
 }
 

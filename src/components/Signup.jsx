@@ -7,6 +7,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("");
+  const [gender, setGender] = useState("");
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
@@ -25,6 +26,7 @@ const Signup = () => {
           email: emailOrMobile,
           password: password,
           role: role || "patient",
+          ...(role === "doctor" && { gender }),
         }),
       });
 
