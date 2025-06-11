@@ -1,39 +1,42 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Signup.css"; // Reuse the same CSS
 
 const Login = () => {
   const [emailOrMobile, setEmailOrMobile] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // ✅ For redirecting
 
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: emailOrMobile,
-        password: password,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailOrMobile,
+          password: password,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      console.log("Login successful:", data);
-      // Store token or user info if returned, e.g., localStorage.setItem("token", data.token);
-      // Redirect or update UI as needed
-    } else {
-      console.error("Login failed:", data.message || "Unknown error");
-      alert(data.message || "Login failed");
+      if (response.ok) {
+        console.log("Login successful:", data);
+
+        // ✅ Redirect and pass doctor object via state
+        navigate("/dashboard", { state: { doctor: data.doctor } });
+
+      } else {
+        console.error("Login failed:", data.message || "Unknown error");
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("Something went wrong. Please try again.");
     }
-  } catch (error) {
-    console.error("Error during login:", error);
-    alert("Something went wrong. Please try again.");
-  }
-};
-
+  };
 
   return (
     <div className="signup-container">

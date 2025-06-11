@@ -1,20 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const DoctorDashboard = ({ doctorId }) => {
-  const [doctor, setDoctor] = useState(null);
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/doctors/${doctorId}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => setDoctor(data))
-      .catch((err) => console.error("Error fetching doctor data:", err));
-  }, [doctorId]);
-
+const DoctorDashboard = ({ doctor }) => {
   if (!doctor) return <div className="p-8">Loading...</div>;
 
   return (

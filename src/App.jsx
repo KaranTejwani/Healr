@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
@@ -17,8 +17,9 @@ import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
 
 import ConditionsList from "./components/ConditionsList";
-import DoctorDashboard from "./components/DoctorDashboard";
+import DoctorDashboardWrapper from "./components/DoctorDashboardWrapper"
 import DoctorsCityWise from "./components/DoctorsCityWise";
+
 function App() {
   return (
     <Router>
@@ -40,12 +41,18 @@ function App() {
             </>
           }
         />
-        // {/* Signup/Login Routes */}
-        // <Route path="/signup" element={<Signup />} />
-        // <Route path="/login" element={<Login />} />
-        // {/* Doctors Listing Route */}
-        // <Route path="/search-results" element={<SearchResultsPage />} />
-        {/* New Footer Page Routes */}
+
+        {/* Signup/Login Routes */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Doctors Listing Route */}
+        <Route path="/search-results" element={<SearchResultsPage />} />
+
+        {/* Doctor Dashboard with state */}
+        <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
+
+        {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
@@ -53,7 +60,6 @@ function App() {
         <Route path="/contact-us" element={<ContactUsPage />} />
       </Routes>
     </Router>
-    // <DoctorDashboard />
   );
 }
 
