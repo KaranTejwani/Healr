@@ -1,94 +1,162 @@
-import React from 'react';
+import React from "react";
 
 const styles = {
-  container: {
-    padding: '40px',
-    maxWidth: '900px',
-    margin: '0 auto',
-    color: '#2D3748',
-    fontFamily: 'Segoe UI, Roboto, sans-serif',
-    backgroundColor: '#FFFFFF',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-    borderRadius: '12px',
-    lineHeight: '1.7',
+  wrapper: {
+    minHeight: "100vh",
+    backgroundColor: "#fff",
+    fontFamily: "Inter, Segoe UI, Roboto, sans-serif",
+    padding: "0",
+    margin: "0",
   },
-  heading: {
-    fontSize: '2.5rem',
-    fontWeight: '700',
-    marginBottom: '24px',
-    borderBottom: '2px solid #E2E8F0',
-    paddingBottom: '10px',
-    color: '#1A202C',
+  header: {
+    backgroundColor: "#000066",
+    color: "#fff",
+    padding: "40px 20px",
+    textAlign: "center",
   },
-  subheading: {
-    fontSize: '1.5rem',
-    fontWeight: '600',
-    marginTop: '32px',
-    marginBottom: '12px',
-    color: '#2B6CB0',
+  headerTitle: {
+    fontSize: "2.5rem",
+    fontWeight: "700",
+    marginBottom: "10px",
   },
-  paragraph: {
-    marginBottom: '16px',
-    fontSize: '1.05rem',
+  headerDesc: {
+    fontSize: "1.1rem",
+    fontWeight: "400",
   },
-  list: {
-    paddingLeft: '20px',
-    marginBottom: '16px',
+  content: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    padding: "40px 60px",
+    gap: "40px",
   },
-  listItem: {
-    marginBottom: '8px',
-    fontSize: '1.05rem',
+  about: {
+    color: "#2D3748",
+    fontSize: "1rem",
   },
-  link: {
-    color: '#2B6CB0',
-    textDecoration: 'none',
+  contactForm: {
+    maxWidth: "100%",
   },
-  bold: {
-    fontWeight: '600',
-    color: '#1A202C',
-  }
+  input: {
+    width: "100%",
+    padding: "10px",
+    margin: "6px 0",
+    border: "1px solid #CBD5E0",
+    borderRadius: "4px",
+    fontSize: "1rem",
+  },
+  textarea: {
+    width: "100%",
+    padding: "10px",
+    height: "100px",
+    margin: "6px 0",
+    border: "1px solid #CBD5E0",
+    borderRadius: "4px",
+    fontSize: "1rem",
+  },
+  button: {
+    backgroundColor: "#F6A623",
+    border: "none",
+    padding: "10px 16px",
+    borderRadius: "4px",
+    color: "#fff",
+    fontWeight: "600",
+    cursor: "pointer",
+    marginTop: "10px",
+  },
+  offices: {
+    fontSize: "1rem",
+    color: "#2D3748",
+  },
+  officeSection: {
+    marginBottom: "20px",
+  },
+  officeTitle: {
+    fontWeight: "700",
+    fontSize: "1.1rem",
+    marginBottom: "4px",
+  },
+  emailPhone: {
+    color: "#4A5568",
+    fontSize: "0.95rem",
+  },
 };
 
 const ContactUsPage = () => {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Contact Us</h1>
-      <p style={styles.paragraph}>
-        We value your feedback, suggestions, and inquiries. Our support team is available 7 days a week to assist you with appointments, accounts, or general questions.
-      </p>
-
-      <h2 style={styles.subheading}>Support Channels</h2>
-      <ul style={styles.list}>
-        <li style={styles.listItem}>
-          <span style={styles.bold}>Email:</span> support@yourplatform.com
-        </li>
-        <li style={styles.listItem}>
-          <span style={styles.bold}>Phone:</span> +92-xxx-xxxxxxx
-        </li>
-        <li style={styles.listItem}>
-          <span style={styles.bold}>Live Chat:</span> Available in the bottom-right corner during working hours
-        </li>
-      </ul>
-
-      <h2 style={styles.subheading}>Office Address</h2>
-      <p style={styles.paragraph}>
-        1st Floor, TechPark Building,<br />
-        Karachi, Sindh, Pakistan<br />
-        Zip Code: 74000
-      </p>
-
-      <h2 style={styles.subheading}>Business Hours</h2>
-      <p style={styles.paragraph}>
-        Monday – Saturday: 9:00 AM – 6:00 PM<br />
-        Sunday: Closed
-      </p>
-
-      <p style={styles.paragraph}>
-        For collaboration or business opportunities, please write to us at{' '}
-        <a href="mailto:partnerships@yourplatform.com" style={styles.link}>
-          partnerships@yourplatform.com
-        </a>.
-      </p>
+    <div style={styles.wrapper}>
+      <div style={styles.header}>
+        <div style={styles.headerTitle}>Contact Us</div>
+        <div style={styles.headerDesc}>
+          Get in touch with HEALR. Use the form to submit your queries or email
+          us at hello@HEALR.com
+        </div>
+      </div>
+      <div style={styles.content}>
+        <div style={styles.about}>
+          <h3>About HEALR</h3>
+          <p>
+            HEALR.com is Pakistan’s premier digital healthcare platform that
+            aims to revolutionize the local healthcare market. It connects
+            patients with the right doctors and enables the doctors to optimize
+            their medical practices via their practice management software.
+            Patients can use HEALR (web or mobile app) for the online doctor
+            appointment, e-consultation and online lab tests. On the other hand,
+            the doctors can manage their appointments, automate their
+            scheduling, manage medical records, and process billing.
+          </p>
+        </div>
+        <div style={styles.contactForm}>
+          <h3>Contact us</h3>
+          <p>
+            Please send us a note and we’ll get back to you as quickly as
+            possible.
+          </p>
+          <input style={styles.input} type="text" placeholder="Full name" />
+          <input style={styles.input} type="email" placeholder="Email" />
+          <input style={styles.input} type="text" placeholder="Phone" />
+          <input style={styles.input} type="text" placeholder="Subject" />
+          <textarea style={styles.textarea} placeholder="Message"></textarea>
+          <button style={styles.button}>Send Message</button>
+        </div>
+        <div style={styles.offices}>
+          <h3>Regional Offices</h3>
+          <div style={styles.officeSection}>
+            <div style={styles.officeTitle}>Lahore</div>
+            <div>
+              Address: 290 CCA Sector FF, DHA Phase IV, Lahore, Pakistan, 54660
+            </div>
+            <div style={styles.emailPhone}>
+              Email: hello@HEALR.com
+              <br />
+              Phone: 04238900939
+            </div>
+          </div>
+          <div style={styles.officeSection}>
+            <div style={styles.officeTitle}>Karachi</div>
+            <div>
+              Address: Office# 703, West Land Trade Center, Shaheed-e-Millat
+              Road, Karachi, 75350
+            </div>
+            <div style={styles.emailPhone}>
+              Email: hello@HEALR.com
+              <br />
+              Phone: 02138140600
+            </div>
+          </div>
+          <div style={styles.officeSection}>
+            <div style={styles.officeTitle}>Rawalpindi</div>
+            <div>
+              Address: Office #55 1st Floor, Midway Centrum Mall 6th rd, Murree
+              Road, Rawalpindi, 46300
+            </div>
+            <div style={styles.emailPhone}>
+              Email: hello@HEALR.com
+              <br />
+              Phone: 0518151800
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
