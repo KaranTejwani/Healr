@@ -7,6 +7,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("");
+  const [gender, setGender] = useState("");
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
@@ -25,6 +26,7 @@ const Signup = () => {
           email: emailOrMobile,
           password: password,
           role: role || "patient",
+          ...(role === "doctor" && { gender }),
         }),
       });
 
@@ -86,6 +88,17 @@ const Signup = () => {
           <option value="patient">Patient</option>
           <option value="doctor">Doctor</option>
         </select>
+
+          <select
+            className="input-select"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
 
         <button className="login-btn" onClick={handleSignup}>
           Sign Up

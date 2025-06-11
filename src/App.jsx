@@ -18,6 +18,7 @@ import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
 import TermsOfUsePage from "./components/TermsOfUsePage";
 import ConditionsList from "./components/ConditionsList";
+import DoctorDashboard from "./components/DoctorDashboard";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
       </Routes>
     </Router>
+    // <DoctorDashboard />
   );
 }
 
