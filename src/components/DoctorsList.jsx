@@ -38,13 +38,15 @@ const DoctorsList = () => {
     <div className="doctors-container">
       <div className="doctors-header">
         <h2>Consult best doctors online</h2>
-        <a href="/doctors">View All</a>
+        <a href="/doctors" className="view-all-link">View All</a>
       </div>
       <div className="doctors-grid">
         {doctors.map((doc, index) => (
           <div className="doctor-card" key={index}>
-            <img src={doc.icon} alt={doc.name} />
-            <p>{doc.name}</p>
+            <div className="doctor-icon">
+              <img src={doc.icon} alt={doc.name} />
+            </div>
+            <p className="doctor-name">{doc.name}</p>
           </div>
         ))}
       </div>

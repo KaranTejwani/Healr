@@ -17,6 +17,7 @@ import RefundPolicyPage from "./components/RefundPolicyPage";
 import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
 import TermsOfUsePage from "./components/TermsOfUsePage";
+import ConditionsList from "./components/ConditionsList";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <HeroSection />
               <HealthServices />
               <DoctorsList />
+              <ConditionsList/>
               <Testimonials />
               <About />
               <Footer />
