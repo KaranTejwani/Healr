@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 import {
   FaFacebookF,
   FaTwitter,
@@ -12,7 +13,6 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Existing columns */}
         <div className="footer-col">
           <h2 className="brand">
             <span className="highlight">heal</span>r
@@ -24,29 +24,30 @@ const Footer = () => {
           </p>
         </div>
 
+        {/* ✅ Only this section updated with <Link> */}
         <div className="footer-col">
           <h4>Company</h4>
           <ul>
             <li>
-              <a href="#">About us</a>
+              <Link to="/about-us">About us</Link>
             </li>
             <li>
-              <a href="#">Privacy policy</a>
+              <Link to="/privacy-policy">Privacy policy</Link>
             </li>
             <li>
-              <a href="#">Delivery Policy</a>
+              <Link to="/delivery-policy">Delivery Policy</Link>
             </li>
             <li>
-              <a href="#">Refund Policy</a>
+              <Link to="/refund-policy">Refund Policy</Link>
             </li>
             <li>
-              <a href="#">Payment Terms</a>
+              <Link to="/payment-terms">Payment Terms</Link>
             </li>
             <li>
-              <a href="#">Contact us</a>
+              <Link to="/contact-us">Contact us</Link>
             </li>
             <li>
-              <a href="#">Terms of Use</a>
+              <Link to="/terms-of-use">Terms of Use</Link>
             </li>
           </ul>
         </div>
@@ -111,8 +112,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* New Connect with Us column */}
-        {/* Connect with us - single line with icons */}
         <div className="footer-col">
           <h4>Connect with us</h4>
           <div className="connect-inline">

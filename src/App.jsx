@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
@@ -11,6 +10,13 @@ import Login from "./components/Login";
 import Testimonials from "./components/Testimonials";
 import SearchResultsPage from "./components/SearchResultsPage";
 
+import AboutUsPage from "./components/AboutUsPage";
+import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
+import DeliveryPolicyPage from "./components/DeliveryPolicyPage";
+import RefundPolicyPage from "./components/RefundPolicyPage";
+import PaymentTermsPage from "./components/PaymentTermsPage";
+import ContactUsPage from "./components/ContactUsPage";
+import TermsOfUsePage from "./components/TermsOfUsePage";
 
 function App() {
   return (
@@ -39,6 +45,14 @@ function App() {
         {/* Doctors Listing Route */}
         <Route path="/search-results" element={<SearchResultsPage />} />
 
+        {/* New Footer Page Routes */}
+        <Route path="/about-us" element={<AboutUsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
+        <Route path="/refund-policy" element={<RefundPolicyPage />} />
+        <Route path="/payment-terms" element={<PaymentTermsPage />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/terms-of-use" element={<TermsOfUsePage />} />
       </Routes>
     </Router>
   );
