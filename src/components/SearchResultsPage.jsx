@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ListFilteredDoctors from "./ListFilteredDoctors";
 import SearchDoctor from "./searchDoctor";
-// import SearchDoctor from "./SearchDoctor"; // existing search logic
+import fetchSelectedDoctors from "./fetchSelectedDoctors";
 
 const SearchResultsPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+
   const query = searchParams.get("query") || "";
+  const specialization = searchParams.get("specialization") || "";
+  const city = searchParams.get("city") || "";
 
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,20 +18,43 @@ const SearchResultsPage = () => {
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
-      const results = await SearchDoctor(query);
+      let results = [];
+
+      if (specialization && city) {
+        // Use fetchSelectedDoctors for dropdown search
+        results = await fetchSelectedDoctors(specialization, city);
+      } else if (query) {
+        // Use SearchDoctor for text-based search
+        results = await SearchDoctor(query);
+      }
+
       setDoctors(results);
       setLoading(false);
     };
 
-    if (query.trim()) {
+    // Fetch only if there's valid input
+    if ((specialization && city) || query.trim()) {
       fetchResults();
+    } else {
+      setLoading(false);
     }
-  }, [query]);
+  }, [query, specialization, city]);
+
+  // Create a readable message for what was searched
+  const renderSearchInfo = () => {
+    if (specialization && city) {
+      return `Specialization: "${specialization}" in "${city}"`;
+    } else if (query) {
+      return `"${query}"`;
+    }
+    return "your search";
+  };
 
   return (
     <div className="container mt-4">
       <h4>
-        Search Results for: <em>"{query}"</em>
+        {doctors.length} Search Result{doctors.length !== 1 && "s"} for:{" "}
+        <em>{renderSearchInfo()}</em>
       </h4>
       <hr />
       {loading ? (
