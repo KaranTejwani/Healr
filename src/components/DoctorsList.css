@@ -43,6 +43,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -72,12 +73,16 @@
 }
 
 .doctor-icon img {
+  display: block;
+  margin: 0 auto;
   width: 40px;
   height: 40px;
   object-fit: contain;
 }
 
 .doctor-name {
+  text-align: center;
+  width: 100%;
   font-size: 14px;
   font-weight: 500;
   color: #374151;
