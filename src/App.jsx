@@ -18,6 +18,7 @@ import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
 import TermsOfUsePage from "./components/TermsOfUsePage";
 import ConditionsList from "./components/ConditionsList";
+import DoctorsCityWise from "./components/DoctorsCityWise";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <ConditionsList/>
               <Testimonials />
               <About />
+              <DoctorsCityWise/>
               <Footer />
             </>
           }
