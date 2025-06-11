@@ -15,7 +15,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-col">
           <h2 className="brand">
-            <span className="highlight">heal</span>r
+            <span className="highlight">hea</span>lr
           </h2>
           <p>
             Book appointments with top doctors and specialists in Pakistan.
