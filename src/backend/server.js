@@ -5,6 +5,7 @@ import cors from 'cors'; // ✅ Import CORS
 
 import doctorsRoute from './routes/doctors.js';
 import authRoute from './routes/auth.js';
+import doctorAccountsRoutes from './routes/doctorAccounts.js';
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ mongoose.connect(process.env.MONGODB_URI, { dbName: 'healrDB' })
 // Routes
 app.use('/api/doctors', doctorsRoute);
 app.use('/api/auth', authRoute);
+app.use('/api/doctorAccounts', doctorAccountsRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
