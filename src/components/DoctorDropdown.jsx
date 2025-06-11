@@ -35,7 +35,12 @@ const DoctorDropdown = ({ onSelect }) => {
       <div
         onClick={handleDoctorsClick}
         className="nav-link nav-underline"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', color: "#333",
+                textDecoration: "none",
+                fontWeight: "500",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem", }}
       >
         Doctors
       </div>

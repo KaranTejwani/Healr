@@ -60,7 +60,7 @@ const AppNavbar = () => {
               // flexWrap: "wrap",
             }}
           >
-            <a
+            {/* <a
               href="#"
               style={{
                 color: "#333",
@@ -72,7 +72,13 @@ const AppNavbar = () => {
               }}
             >
               Doctors
-            </a>
+            </a> */}
+            <DoctorDropdown
+                  // onSelect={(spec, city) => {
+                  //   console.log(`Selected: ${spec} in ${city}`);
+                  //   // Optionally navigate or fetch data here
+                  // }}
+                />
             <a
               href="#"
               style={{
