@@ -22,44 +22,44 @@ import DoctorDashboard from "./components/DoctorDashboard";
 import DoctorsCityWise from "./components/DoctorsCityWise";
 function App() {
   return (
-    <Router>
-      <AppNavbar />
-      <Routes>
-        {/* Homepage Route */}
-        <Route
-          path="/"
-          element={
-            <>
-              <HeroSection />
-              <HealthServices />
-              <DoctorsList />
-              <ConditionsList/>
-              <Testimonials />
-              <About />
-              <DoctorsCityWise/>
-              <Footer />
-            </>
-          }
-        />
+    // <Router>
+    //   <AppNavbar />
+    //   <Routes>
+    //     {/* Homepage Route */}
+    //     <Route
+    //       path="/"
+    //       element={
+    //         <>
+    //           <HeroSection />
+    //           <HealthServices />
+    //           <DoctorsList />
+    //           <ConditionsList/>
+    //           <Testimonials />
+    //           <About />
+    //           <DoctorsCityWise/>
+    //           <Footer />
+    //         </>
+    //       }
+    //     />
 
-        {/* Signup/Login Routes */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+    //     {/* Signup/Login Routes */}
+    //     <Route path="/signup" element={<Signup />} />
+    //     <Route path="/login" element={<Login />} />
 
-        {/* Doctors Listing Route */}
-        <Route path="/search-results" element={<SearchResultsPage />} />
+    //     {/* Doctors Listing Route */}
+    //     <Route path="/search-results" element={<SearchResultsPage />} />
 
-        {/* New Footer Page Routes */}
-        <Route path="/about-us" element={<AboutUsPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
-        <Route path="/refund-policy" element={<RefundPolicyPage />} />
-        <Route path="/payment-terms" element={<PaymentTermsPage />} />
-        <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-      </Routes>
-    </Router>
-    // <DoctorDashboard />
+    //     {/* New Footer Page Routes */}
+    //     <Route path="/about-us" element={<AboutUsPage />} />
+    //     <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+    //     <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
+    //     <Route path="/refund-policy" element={<RefundPolicyPage />} />
+    //     <Route path="/payment-terms" element={<PaymentTermsPage />} />
+    //     <Route path="/contact-us" element={<ContactUsPage />} />
+    //     <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+    //   </Routes>
+    // </Router>
+    <DoctorDashboard />
   );
 }
 

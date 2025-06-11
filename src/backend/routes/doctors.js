@@ -48,4 +48,19 @@ router.get('/selectedSearch', async (req, res) => {
   }
 });
 
+// Get doctor by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const doctor = await Doctor.findById(req.params.id);
+    if (!doctor) {
+      return res.status(404).json({ error: "Doctor not found" });
+    }
+    res.json(doctor);
+  } catch (error) {
+    console.error('Error fetching doctor by ID:', error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 export default router;
