@@ -40,16 +40,12 @@ function App() {
             </>
           }
         />
-
-        {/* Signup/Login Routes */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* Doctors Listing Route */}
-        <Route path="/search-results" element={<SearchResultsPage />} />
-
+        // {/* Signup/Login Routes */}
+        // <Route path="/signup" element={<Signup />} />
+        // <Route path="/login" element={<Login />} />
+        // {/* Doctors Listing Route */}
+        // <Route path="/search-results" element={<SearchResultsPage />} />
         {/* New Footer Page Routes */}
-
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
         <Route path="/refund-policy" element={<RefundPolicyPage />} />

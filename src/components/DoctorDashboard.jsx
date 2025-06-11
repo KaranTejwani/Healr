@@ -1,63 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const DoctorDashboard = () => {
+const DoctorDashboard = ({ doctorId }) => {
+  const [doctor, setDoctor] = useState(null);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/doctors/${doctorId}`)
+      .then((res) => setDoctor(res.data))
+      .catch((err) => console.error("Error fetching doctor data:", err));
+  }, [doctorId]);
+
+  if (!doctor) return <div className="p-8">Loading...</div>;
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r p-4">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-6">
-          my<span className="text-gray-800">Practice</span>
-        </h2>
+      <aside className="w-64 bg-white p-4 border-r">
+        <h1 className="text-2xl font-bold text-indigo-700 mb-6">my<span className="text-black">Practice</span></h1>
         <nav className="space-y-4">
-          <button className="w-full text-left bg-orange-500 text-white px-4 py-2 rounded">
-            Appointments
-          </button>
-          <button className="w-full text-left text-gray-700 hover:text-indigo-600">
-            Revenue Report
-          </button>
-          <button className="w-full text-left text-gray-700 hover:text-indigo-600">
-            Patients
-          </button>
-          <button className="w-full text-left text-gray-700 hover:text-indigo-600">
-            Settings
-          </button>
+          <button className="w-full text-left bg-orange-500 text-white px-4 py-2 rounded">Appointments</button>
+          <button className="w-full text-left text-gray-700 hover:text-indigo-600">Revenue Report</button>
+          <button className="w-full text-left text-gray-700 hover:text-indigo-600">Patients</button>
+          <button className="w-full text-left text-gray-700 hover:text-indigo-600">Settings</button>
         </nav>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        {/* Top Bar */}
+        {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-bold">Welcome, Dr. Kashish 👩‍⚕️</h1>
+          <h2 className="text-xl font-bold">Welcome, {doctor.Name} 👋</h2>
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <p className="font-semibold">Ms. Kashish</p>
+              <p className="font-semibold">{doctor.Name}</p>
               <p className="text-sm text-gray-500">Doctor</p>
             </div>
             <img
               src="https://via.placeholder.com/40"
-              alt="profile"
+              alt="Profile"
               className="w-10 h-10 rounded-full"
             />
           </div>
         </div>
 
-        {/* Filters and Actions */}
+        {/* Actions */}
         <div className="bg-white p-4 rounded shadow mb-4 flex flex-wrap gap-3 items-center">
-          <input
-            type="date"
-            className="border rounded px-3 py-2"
-            defaultValue={new Date().toISOString().substr(0, 10)}
-          />
+          <input type="date" className="border rounded px-3 py-2" />
           <select className="border rounded px-3 py-2">
             <option>All Appointments</option>
           </select>
-          <button className="bg-blue-700 text-white px-4 py-2 rounded">
-            Add Prescription
-          </button>
-          <button className="bg-orange-500 text-white px-4 py-2 rounded">
-            Add Patient
-          </button>
+          <button className="bg-blue-700 text-white px-4 py-2 rounded">Add Prescription</button>
+          <button className="bg-orange-500 text-white px-4 py-2 rounded">Add Patient</button>
         </div>
 
         {/* Table */}
@@ -75,10 +68,9 @@ const DoctorDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="text-gray-500 text-sm text-center">
+              <tr className="text-center text-sm text-gray-500">
                 <td colSpan="7" className="py-4">
-                  No appointments found. If you have applied any filters, try to
-                  remove them or change them.
+                  No appointments found. If you have applied any filters, try to remove or change them.
                 </td>
               </tr>
             </tbody>
@@ -91,7 +83,6 @@ const DoctorDashboard = () => {
               <select className="border ml-1 rounded px-1 py-0.5">
                 <option>10</option>
                 <option>25</option>
-                <option>50</option>
               </select>
             </div>
             <div className="flex items-center space-x-2">
