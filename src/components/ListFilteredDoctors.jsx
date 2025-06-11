@@ -10,47 +10,52 @@ const ListFilteredDoctors = ({ doctors }) => {
     setSortOption(option);
   };
 
-  const sortedDoctors = sortOption
-  ? [...doctors].sort((a, b) => {
-      if (sortOption === "experience") {
-        return (b.Experience || 0) - (a.Experience || 0);
-      }
-      if (sortOption === "fee") {
-        return (a.Fee || 0) - (b.Fee || 0);
-      }
-      if (sortOption === "rating") {
-        const ratingA = parseInt(a.Rating?.replace("%", "") || "0");
-        const ratingB = parseInt(b.Rating?.replace("%", "") || "0");
-        return ratingB - ratingA;
-      }
-      return 0;
-    })
-  : doctors;
+  const getComparableValue = (value, defaultValue = -Infinity) => {
+    if (typeof value === "string") {
+      const parsed = parseInt(value.replace(/[^0-9]/g, ""));
+      return isNaN(parsed) ? defaultValue : parsed;
+    }
+    return typeof value === "number" ? value : defaultValue;
+  };
 
+  const sortedDoctors = sortOption
+    ? [...doctors].sort((a, b) => {
+        if (sortOption === "experience") {
+          return getComparableValue(b.Experience) - getComparableValue(a.Experience);
+        }
+        if (sortOption === "fee") {
+          return getComparableValue(a.Fee, Infinity) - getComparableValue(b.Fee, Infinity);
+        }
+        if (sortOption === "rating") {
+          return getComparableValue(b.Rating) - getComparableValue(a.Rating);
+        }
+        return 0;
+      })
+    : doctors;
 
   return (
     <div className="container my-5">
       {/* 🔘 Sorting Buttons */}
       <div className="mb-4 text-start">
         <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "experience" ? "active" : ""}`}
-            onClick={() => setSortOption("experience")}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "experience" ? "active" : ""}`}
+          onClick={() => handleSort("experience")}
         >
-            Most Experienced
+          Most Experienced
         </button>
         <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "fee" ? "active" : ""}`}
-            onClick={() => setSortOption("fee")}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "fee" ? "active" : ""}`}
+          onClick={() => handleSort("fee")}
         >
-            Lowest Fee
+          Lowest Fee
         </button>
         <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "rating" ? "active" : ""}`}
-            onClick={() => setSortOption("rating")}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "rating" ? "active" : ""}`}
+          onClick={() => handleSort("rating")}
         >
-            Highest Rating
+          Highest Rating
         </button>
-        </div>
+      </div>
 
       {/* 🩺 Doctor List */}
       {sortedDoctors.map((doc) => (
@@ -80,7 +85,7 @@ const ListFilteredDoctors = ({ doctors }) => {
                     ⏱ {doc.WaitTime || "15-30 Min"} Wait Time
                   </span>
                   <span className="badge bg-light text-dark">
-                    🎓 {doc.Experience} Years Experience
+                    🎓 {doc.Experience || "N/A"} Years Experience
                   </span>
                   <span className="badge bg-light text-dark">
                     👍 {doc.Rating || "98%"}
