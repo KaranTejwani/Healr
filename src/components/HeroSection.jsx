@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./HeroSection.css";
 import doctorImage from "../IMAGES/image1.png";
-import SearchDoctor from "./searchDoctor";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const [query, setQuery] = useState("");
-  const [doctors, setDoctors] = useState([]);
+  const navigate = useNavigate();
 
-  const handleSearch = async () => {
-    if (query.trim() === "") return;
-    const results = await SearchDoctor(query);
-    console.log("Search results:", results);
-    setDoctors(results);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/search-results?query=${encodeURIComponent(query.trim())}`);
+    }
   };
 
   return (
@@ -28,19 +28,8 @@ const HeroSection = () => {
               <span className="badge-text">✅ 50M+ patients served</span>
             </div>
 
-            <div className="search-bar mt-4">
+            <form onSubmit={handleSearch} className="search-bar mt-4">
               <div className="search-container">
-                {/* <div className="location-section">
-                  <input
-                    type="text"
-                    className="form-control location-input"
-                    placeholder="Lahore"
-                    defaultValue="Lahore"
-                  />
-                  <button className="btn btn-outline-light detect-button">
-                    📍 Detect
-                  </button>
-                </div> */}
                 <input
                   type="text"
                   className="form-control main-search-input"
@@ -49,13 +38,13 @@ const HeroSection = () => {
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <button
+                  type="submit"
                   className="btn btn-warning search-button text-white fw-bold"
-                  onClick={handleSearch}
                 >
                   Search
                 </button>
               </div>
-            </div>
+            </form>
           </div>
 
           {/* Right Content */}
@@ -67,20 +56,6 @@ const HeroSection = () => {
             />
           </div>
         </div>
-
-        {/* Display Results (Optional) */}
-        {doctors.length > 0 && (
-          <div className="mt-5 text-white">
-            <h3>Search Results:</h3>
-            <ul className="list-group">
-              {doctors.map((doc) => (
-                <li key={doc._id} className="list-group-item">
-                  <strong>{doc.name}</strong> — {doc.specialization} — {doc.location}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );
