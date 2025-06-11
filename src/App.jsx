@@ -19,7 +19,7 @@ import ContactUsPage from "./components/ContactUsPage";
 import TermsOfUsePage from "./components/TermsOfUsePage";
 import ConditionsList from "./components/ConditionsList";
 import DoctorDashboard from "./components/DoctorDashboard";
-
+import DoctorsCityWise from "./components/DoctorsCityWise";
 function App() {
   return (
     <Router>
@@ -36,6 +36,7 @@ function App() {
               <ConditionsList/>
               <Testimonials />
               <About />
+              <DoctorsCityWise/>
               <Footer />
             </>
           }
