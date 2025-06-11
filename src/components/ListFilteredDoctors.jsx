@@ -21,10 +21,15 @@ const ListFilteredDoctors = ({ doctors }) => {
   const sortedDoctors = sortOption
     ? [...doctors].sort((a, b) => {
         if (sortOption === "experience") {
-          return getComparableValue(b.Experience) - getComparableValue(a.Experience);
+          return (
+            getComparableValue(b.Experience) - getComparableValue(a.Experience)
+          );
         }
         if (sortOption === "fee") {
-          return getComparableValue(a.Fee, Infinity) - getComparableValue(b.Fee, Infinity);
+          return (
+            getComparableValue(a.Fee, Infinity) -
+            getComparableValue(b.Fee, Infinity)
+          );
         }
         if (sortOption === "rating") {
           return getComparableValue(b.Rating) - getComparableValue(a.Rating);
@@ -38,19 +43,25 @@ const ListFilteredDoctors = ({ doctors }) => {
       {/* 🔘 Sorting Buttons */}
       <div className="mb-4 text-start">
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "experience" ? "active" : ""}`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+            sortOption === "experience" ? "active" : ""
+          }`}
           onClick={() => handleSort("experience")}
         >
           Most Experienced
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "fee" ? "active" : ""}`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+            sortOption === "fee" ? "active" : ""
+          }`}
           onClick={() => handleSort("fee")}
         >
           Lowest Fee
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "rating" ? "active" : ""}`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+            sortOption === "rating" ? "active" : ""
+          }`}
           onClick={() => handleSort("rating")}
         >
           Highest Rating
