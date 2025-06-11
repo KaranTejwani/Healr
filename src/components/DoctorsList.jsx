@@ -1,5 +1,6 @@
 import React from "react";
 import "./DoctorsList.css";
+import { useNavigate } from "react-router-dom";
 
 import Dermatologist from "../assets/doctors/dermatologist.png";
 import Gynecologist from "../assets/doctors/gynecologist.png";
@@ -34,6 +35,13 @@ const doctors = [
 ];
 
 const DoctorsList = () => {
+  const navigate = useNavigate();
+
+  const handleSpecializationClick = (specialization) => {
+    const encodedQuery = encodeURIComponent(specialization.trim());
+    navigate(`/search-results?query=${encodedQuery}`);
+  };
+
   return (
     <div className="doctors-container">
       <div className="doctors-header">
@@ -42,7 +50,12 @@ const DoctorsList = () => {
       </div>
       <div className="doctors-grid">
         {doctors.map((doc, index) => (
-          <div className="doctor-card" key={index}>
+          <div
+            className="doctor-card"
+            key={index}
+            onClick={() => handleSpecializationClick(doc.name)}
+            style={{ cursor: "pointer" }}
+          >
             <div className="doctor-icon">
               <img src={doc.icon} alt={doc.name} />
             </div>
