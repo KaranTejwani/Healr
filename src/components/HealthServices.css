@@ -5,14 +5,14 @@
 }
 
 .service-card {
-  width: 200px;
+  width: 210px;
   background-color: #fff;
-  border-radius: 20px;
+  border-radius: 30px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: inline-block;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  margin: 10px;
+  margin: 5px;
   position: relative;
   z-index: 1;
 }
@@ -29,11 +29,11 @@
 }
 
 .service-content h5 {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
 .service-content p {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #555;
 }
 

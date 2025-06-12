@@ -5,6 +5,8 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
@@ -21,17 +23,43 @@ import DeliveryPolicyPage from "./components/DeliveryPolicyPage";
 import RefundPolicyPage from "./components/RefundPolicyPage";
 import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
-
 import ConditionsList from "./components/ConditionsList";
-
 import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
 import DrugGrid from "./components/DrugCard";
 import DrugSearchPage from "./components/DrugCard";
 function App() {
+  const [patient, setPatient] = useState(null);
+
+  // Load patient from localStorage and listen to changes
+  useEffect(() => {
+    const storedPatient = localStorage.getItem("patient");
+    if (storedPatient) {
+      try {
+        setPatient(JSON.parse(storedPatient));
+      } catch (e) {
+        console.error("Invalid patient JSON in localStorage", e);
+      }
+    }
+
+    // Sync state across tabs/windows
+    const handleStorageChange = () => {
+      const updatedPatient = localStorage.getItem("patient");
+      if (updatedPatient) {
+        setPatient(JSON.parse(updatedPatient));
+      } else {
+        setPatient(null);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
   return (
     <Router>
-      <AppNavbar />
+      {/* ✅ Pass login state to Navbar only */}
+      <AppNavbar patient={patient} setPatient={setPatient} />
       <Routes>
         {/* Homepage Route */}
         <Route
@@ -53,13 +81,12 @@ function App() {
         <Route path="/medicine" element={<DrugSearchPage />} />
         {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
 
-        {/* Doctors Listing Route */}
+        {/* ✅ Pass setPatient to login so it updates instantly */}
+        <Route path="/login" element={<Login setPatient={setPatient} />} />
+
         <Route path="/search-results" element={<SearchResultsPage />} />
-
-        {/* Doctor Dashboard with state */}
-        {/* <Route path="/dashboard" element={<DoctorDashboardWrapper />} /> */}
+        <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
 
         {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />

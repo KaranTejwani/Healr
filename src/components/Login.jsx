@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css"; // Reuse the same CSS
 
-const Login = () => {
+const Login = ({ setPatient }) => {
   const [emailOrMobile, setEmailOrMobile] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // ✅ For redirecting
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,9 +25,20 @@ const Login = () => {
       if (response.ok) {
         console.log("Login successful:", data);
 
-        // ✅ Redirect and pass doctor object via state
-        navigate("/dashboard", { state: { doctor: data.doctor } });
+        // If doctor logs in
+        if (data.doctor) {
+          navigate("/dashboard", { state: { doctor: data.doctor } });
 
+        // If patient logs in
+        } else if (data.user) {
+          console.log("Logged in as patient:", data.user);
+          localStorage.setItem("patient", JSON.stringify(data.user));
+          setPatient(data.user); // ✅ Updates App-level state
+          navigate("/"); // Redirect to homepage or patient dashboard if needed
+
+        } else {
+          alert("Unknown user type.");
+        }
       } else {
         console.error("Login failed:", data.message || "Unknown error");
         alert(data.message || "Login failed");
