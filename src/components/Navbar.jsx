@@ -10,9 +10,28 @@ const AppNavbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedPatient = JSON.parse(localStorage.getItem("patient"));
-    setPatient(storedPatient);
-  }, []);
+  const updatePatient = () => {
+    const storedPatient = localStorage.getItem("patient");
+    if (storedPatient) {
+      try {
+        setPatient(JSON.parse(storedPatient));
+      } catch (e) {
+        console.error("Invalid JSON in localStorage 'patient':", e);
+        setPatient(null);
+      }
+    } else {
+      setPatient(null);
+    }
+  };
+
+  updatePatient(); // Run on mount
+  window.addEventListener("storage", updatePatient); // React to login/logout
+
+  return () => {
+    window.removeEventListener("storage", updatePatient);
+  };
+}, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem("patient");

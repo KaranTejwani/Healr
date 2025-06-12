@@ -32,6 +32,9 @@ const Login = () => {
       // If it's a patient
       else if (data.user) {
         console.log("Logged in as patient:", data.user);
+        localStorage.setItem("patient", JSON.stringify(data.user));
+        window.dispatchEvent(new Event("storage"));
+        navigate("/patient-dashboard");
         // You can redirect to patient dashboard if needed
         // navigate("/patient-dashboard", { state: { patient: data.user } });
       }
