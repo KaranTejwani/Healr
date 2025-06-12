@@ -15,7 +15,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Testimonials from "./components/Testimonials";
 import SearchResultsPage from "./components/SearchResultsPage";
-import DoctorDashboardWrapper from "./components/DoctorDashboardWrapper"
+import DoctorDashboardWrapper from "./components/DoctorDashboardWrapper";
 import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import DeliveryPolicyPage from "./components/DeliveryPolicyPage";
 import RefundPolicyPage from "./components/RefundPolicyPage";
@@ -26,6 +26,8 @@ import ConditionsList from "./components/ConditionsList";
 
 import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
+import DrugGrid from "./components/DrugCard";
+import DrugSearchPage from "./components/DrugCard";
 function App() {
   return (
     <Router>
@@ -48,7 +50,7 @@ function App() {
           }
         />
         <Route path="/surgery" element={<SurgerySection />} />
-
+        <Route path="/medicine" element={<DrugSearchPage />} />
         {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />

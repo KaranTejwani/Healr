@@ -42,10 +42,10 @@ const ListFilteredDoctors = ({ doctors }) => {
     <div className="container my-5">
       {/* 🔘 Sorting Buttons */}
       <div className="mb-4 text-start filter-buttons-container">
-          <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
+        <button
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "experience" ? "active" : ""
-        }`}
+          }`}
           data-sort="experience"
           onClick={() => handleSort("experience")}
         >
@@ -110,7 +110,7 @@ const ListFilteredDoctors = ({ doctors }) => {
                 <p className="small mb-1">PMDC Verified</p>
                 <Link
                   to={`/video-consult/${doc._id}`}
-                  className="btn btn-outline-primary mb-2 w-100"
+                  className="btn btn-outline-primary video mb-2 w-100"
                 >
                   🎥 Video Consultation
                 </Link>

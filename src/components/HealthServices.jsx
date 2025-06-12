@@ -35,6 +35,7 @@ const services = [
     title: "Medicines",
     description: "Know your medicines better",
     image: medicineImage,
+    route: "/medicine",
   },
 ];
 
