@@ -1,69 +1,81 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./DoctorDashboard.css";
 
 const DoctorDashboard = ({ doctor }) => {
+  const navigate = useNavigate();
+
   if (!doctor) return <div className="p-8">Loading...</div>;
 
+  const {
+    name,
+    role,
+    profile: {
+      profilePicture,
+      specialization,
+      highestDegree,
+      numberOfPatients,
+      rating,
+    },
+  } = doctor;
+
+  const handleLogout = () => {
+    // Clear local storage/session (example: token)
+    localStorage.removeItem("token");
+
+    // Redirect to login
+    navigate("/login");
+  };
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="dashboard">
       {/* Sidebar */}
-      <aside className="w-64 bg-white p-4 border-r">
-        <h1 className="text-2xl font-bold text-indigo-700 mb-6">
+      <aside className="sidebar">
+        <h1 className="logo">
           my<span className="text-black">Practice</span>
         </h1>
-        <nav className="space-y-4">
-          <button className="w-full text-left bg-orange-500 text-white px-4 py-2 rounded">
-            Appointments
-          </button>
-          <button className="w-full text-left text-gray-700 hover:text-indigo-600">
-            Revenue Report
-          </button>
-          <button className="w-full text-left text-gray-700 hover:text-indigo-600">
-            Patients
-          </button>
-          <button className="w-full text-left text-gray-700 hover:text-indigo-600">
-            Settings
+        <nav className="nav">
+          <button className="nav-button active">Appointments</button>
+          <button className="nav-button">Revenue Report</button>
+          <button className="nav-button">Patients</button>
+          <button className="nav-button">Settings</button>
+          <button className="nav-button logout-btn" onClick={handleLogout}>
+            Logout
           </button>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-6">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Welcome, {doctor.Name} 👋</h2>
-          <div className="flex items-center gap-2">
-            <div className="text-right">
-              <p className="font-semibold">{doctor.Name}</p>
-              <p className="text-sm text-gray-500">Doctor</p>
+      <main className="main">
+        <div className="header">
+          <h2 className="welcome">Welcome, {name} 👋</h2>
+          <div className="doctor-info">
+            <div className="text">
+              <p className="doctor-name">{name}</p>
+              <p className="doctor-role">{specialization?.[0] || role}</p>
             </div>
             <img
-              src="https://via.placeholder.com/40"
+              src={profilePicture || "https://via.placeholder.com/40"}
               alt="Profile"
-              className="w-10 h-10 rounded-full"
+              className="profile-pic"
             />
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="bg-white p-4 rounded shadow mb-4 flex flex-wrap gap-3 items-center">
-          <input type="date" className="border rounded px-3 py-2" />
-          <select className="border rounded px-3 py-2">
+        <div className="actions">
+          <input type="date" className="input" />
+          <select className="input">
             <option>All Appointments</option>
           </select>
-          <button className="bg-blue-700 text-white px-4 py-2 rounded">
-            Add Prescription
-          </button>
-          <button className="bg-orange-500 text-white px-4 py-2 rounded">
-            Add Patient
-          </button>
+          <button className="btn btn-blue">Add Prescription</button>
+          <button className="btn btn-orange">Add Patient</button>
         </div>
 
-        {/* Table */}
-        <div className="bg-white p-4 rounded shadow">
-          <table className="w-full text-left">
-            <thead className="text-sm text-gray-600 border-b">
+        <div className="table-container">
+          <table className="table">
+            <thead>
               <tr>
-                <th className="py-2">MR #</th>
+                <th>MR #</th>
                 <th>Patient</th>
                 <th>Appt Time</th>
                 <th>Type</th>
@@ -73,8 +85,8 @@ const DoctorDashboard = ({ doctor }) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="text-center text-sm text-gray-500">
-                <td colSpan="7" className="py-4">
+              <tr className="empty-row">
+                <td colSpan="7">
                   No appointments found. If you have applied any filters, try
                   to remove or change them.
                 </td>
@@ -82,18 +94,17 @@ const DoctorDashboard = ({ doctor }) => {
             </tbody>
           </table>
 
-          {/* Pagination */}
-          <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
+          <div className="pagination">
             <div>
-              Rows per page:{" "}
-              <select className="border ml-1 rounded px-1 py-0.5">
+              Rows per page:
+              <select className="input small">
                 <option>10</option>
                 <option>25</option>
               </select>
             </div>
-            <div className="flex items-center space-x-2">
-              <button className="text-gray-400 cursor-not-allowed">&lt;</button>
-              <button className="text-gray-400 cursor-not-allowed">&gt;</button>
+            <div>
+              <button className="disabled">&lt;</button>
+              <button className="disabled">&gt;</button>
             </div>
           </div>
         </div>
