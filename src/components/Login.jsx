@@ -8,35 +8,43 @@ const Login = () => {
   const navigate = useNavigate(); // ✅ For redirecting
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: emailOrMobile,
-          password: password,
-        }),
-      });
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: emailOrMobile,
+        password: password,
+      }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (response.ok) {
-        console.log("Login successful:", data);
+    if (response.ok) {
+      console.log("Login successful:", data);
 
-        // ✅ Redirect and pass doctor object via state
+      // Check if it's a doctor
+      if (data.doctor) {
         navigate("/dashboard", { state: { doctor: data.doctor } });
-
-      } else {
-        console.error("Login failed:", data.message || "Unknown error");
-        alert(data.message || "Login failed");
+      } 
+      // If it's a patient
+      else if (data.user) {
+        console.log("Logged in as patient:", data.user);
+        // You can redirect to patient dashboard if needed
+        // navigate("/patient-dashboard", { state: { patient: data.user } });
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      alert("Something went wrong. Please try again.");
+
+    } else {
+      console.error("Login failed:", data.message || "Unknown error");
+      alert(data.message || "Login failed");
     }
-  };
+  } catch (error) {
+    console.error("Error during login:", error);
+    alert("Something went wrong. Please try again.");
+  }
+};
 
   return (
     <div className="signup-container">

@@ -1,9 +1,25 @@
-// src/components/Navbar.jsx - Simplified version
-import { Link } from "react-router-dom";
+// src/components/Navbar.jsx
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import fetchAllDoctors from "./fetchAllDoctors";
 import DoctorDropdown from "./DoctorDropdown";
 import ConditionsDropdown from "./ConditionDropdown";
+
 const AppNavbar = () => {
+  const [patient, setPatient] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedPatient = JSON.parse(localStorage.getItem("patient"));
+    setPatient(storedPatient);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("patient");
+    setPatient(null);
+    navigate("/login");
+  };
+
   return (
     <nav
       style={{
@@ -29,7 +45,6 @@ const AppNavbar = () => {
           height: "40px",
         }}
       >
-        {/* Brand */}
         <Link
           to="/"
           style={{
@@ -42,12 +57,10 @@ const AppNavbar = () => {
           <span style={{ color: "#0033cc" }}>lr</span>
         </Link>
 
-        {/* Navigation */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-
             gap: "3rem",
             flexWrap: "wrap",
           }}
@@ -58,28 +71,9 @@ const AppNavbar = () => {
               alignItems: "center",
               justifyContent: "center",
               gap: "3rem",
-              // flexWrap: "wrap",
             }}
           >
-            {/* <a
-              href="#"
-              style={{
-                color: "#333",
-                textDecoration: "none",
-                fontWeight: "500",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              Doctors
-            </a> */}
-            <DoctorDropdown
-                  // onSelect={(spec, city) => {
-                  //   console.log(`Selected: ${spec} in ${city}`);
-                  //   // Optionally navigate or fetch data here
-                  // }}
-                />
+            <DoctorDropdown />
             <a
               href="#"
               style={{
@@ -93,20 +87,7 @@ const AppNavbar = () => {
             >
               Hospitals
             </a>
-            {/* <a
-              href="#"
-              style={{
-                color: "#333",
-                textDecoration: "none",
-                fontWeight: "500",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              Medical Conditions
-            </a> */}
-            <ConditionsDropdown/>
+            <ConditionsDropdown />
             <a
               href="#"
               style={{
@@ -119,45 +100,94 @@ const AppNavbar = () => {
             </a>
           </div>
 
-          {/* Buttons */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: "0.75rem",
               flexWrap: "wrap",
+              position: "relative",
             }}
           >
-            <Link
-              to="/login"
-              style={{
-                padding: "0.75rem 1.5rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: "500",
-                fontSize: "0.95rem",
-                background: "transparent",
-                color: "#333",
-                border: "1px solid #333",
-              }}
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              style={{
-                padding: "0.75rem 1.5rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: "500",
-                fontSize: "0.95rem",
-                background: "#ffc107",
-                color: "#333",
-                border: "none",
-              }}
-            >
-              SignUp
-            </Link>
+            {!patient ? (
+              <>
+                <Link
+                  to="/login"
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "transparent",
+                    color: "#333",
+                    border: "1px solid #333",
+                  }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "#ffc107",
+                    color: "#333",
+                    border: "none",
+                  }}
+                >
+                  SignUp
+                </Link>
+              </>
+            ) : (
+              <div style={{ position: "relative" }}>
+                <button
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "#f0f0f0",
+                    color: "#333",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  {patient.name}
+                </button>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    right: 0,
+                    background: "white",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                    marginTop: "0.5rem",
+                    borderRadius: "6px",
+                    overflow: "hidden",
+                    zIndex: 1001,
+                  }}
+                >
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      background: "white",
+                      color: "#333",
+                      border: "none",
+                      textAlign: "left",
+                      width: "100%",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
