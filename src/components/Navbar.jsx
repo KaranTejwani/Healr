@@ -5,12 +5,14 @@ import fetchAllDoctors from "./fetchAllDoctors";
 import DoctorDropdown from "./DoctorDropdown";
 import ConditionsDropdown from "./ConditionDropdown";
 
-const AppNavbar = ({ patient, setPatient }) => {
+const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("patient");
-    setPatient(null);
+    localStorage.removeItem("doctor");
+    if (setPatient) setPatient(null);
+    if (setDoctor) setDoctor(null);
     navigate("/login");
   };
 
@@ -103,7 +105,7 @@ const AppNavbar = ({ patient, setPatient }) => {
               position: "relative",
             }}
           >
-            {!patient ? (
+            {!patient && !doctor ? (
               <>
                 <Link
                   to="/login"
@@ -138,37 +140,36 @@ const AppNavbar = ({ patient, setPatient }) => {
               </>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-  <button
-    style={{
-      padding: "0.75rem 1.5rem",
-      borderRadius: "6px",
-      fontWeight: "500",
-      fontSize: "0.95rem",
-      background: "#f0f0f0",
-      color: "#333",
-      border: "none",
-      cursor: "default",
-    }}
-  >
-    {patient.name}
-  </button>
-  <button
-    onClick={handleLogout}
-    style={{
-      padding: "0.75rem 1.5rem",
-      borderRadius: "6px",
-      fontWeight: "500",
-      fontSize: "0.95rem",
-      background: "#ff4d4f", // red
-      color: "white",
-      border: "none",
-      cursor: "pointer",
-    }}
-  >
-    Logout
-  </button>
-</div>
-
+                <button
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "#f0f0f0",
+                    color: "#333",
+                    border: "none",
+                    cursor: "default",
+                  }}
+                >
+                  {patient?.name || doctor?.name}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "#ff4d4f",
+                    color: "white",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         </div>
