@@ -44,28 +44,29 @@ import KneeReplacement from "../assets/surgeries/knee-replacement.png";
 // import LaserLithotripsy from "../assets/surgeries/laser-lithotripsy.png";
 
 const surgeries = [
-  { name: "Liposuction", icon: Liposuction },
-  { name: "Rhinoplasty", icon: Rhinoplasty },
-  { name: "Hair Transplant", icon: HairTransplant },
-  { name: "Caesarean (C-Section)", icon: Caesarean },
-  { name: "IVF", icon: IVF },
-  { name: "Penile Implants", icon: PenileImplants },
-  { name: "Vasectomy", icon: Vasectomy },
-  { name: "Hernia Surgery", icon: Hernia },
-  { name: "Circumcision", icon: Circumcision },
-  { name: "Fistula", icon: Fistula },
-  { name: "Cataract Eye Surgery", icon: Cataract },
-  { name: "Renal (Kidney) Transplant", icon: KidneyTransplant },
-  { name: "Root Canal", icon: RootCanal },
-  { name: "CO2 Fractional Laser", icon: CO2FractionalLaser },
-  { name: "Dental Implants", icon: DentalImplants },
-  { name: "Nephrectomy", icon: Nephrectomy },
+  { name: "Liposuction", icon: Liposuction, specialization: "Plastic Surgeon" },
+  { name: "Rhinoplasty", icon: Rhinoplasty, specialization: "ENT Surgeon" },
+  { name: "Hair Transplant", icon: HairTransplant, specialization: "Dermatologist" },
+  { name: "Caesarean (C-Section)", icon: Caesarean, specialization: "Gynecologist" },
+  { name: "IVF", icon: IVF, specialization: "Fertility Specialist" },
+  { name: "Penile Implants", icon: PenileImplants, specialization: "Urologist" },
+  { name: "Vasectomy", icon: Vasectomy, specialization: "Urologist" },
+  { name: "Hernia Surgery", icon: Hernia, specialization: "General Surgeon" },
+  { name: "Circumcision", icon: Circumcision, specialization: "Urologist" },
+  { name: "Fistula", icon: Fistula, specialization: "Colorectal Surgeon"},
+  { name: "Cataract Eye Surgery", icon: Cataract, specialization: "Ophthalmologist" },
+  { name: "Renal (Kidney) Transplant", icon: KidneyTransplant, specialization: "Nephrologist" },
+  { name: "Root Canal", icon: RootCanal, specialization: "Dentist" },
+  { name: "CO2 Fractional Laser", icon: CO2FractionalLaser, specialization: "Dermatologist" },
+  { name: "Dental Implants", icon: DentalImplants, specialization: "Dentist" },
+  { name: "Nephrectomy", icon: Nephrectomy, specialization: "Urologist" },
   {
     name: "Varicocele Microsurgery (Varicocelectomy)",
     icon: VaricoceleMicrosurgery,
+    specialization: "Urologist"
   },
-  { name: "ACL Reconstruction Surgery", icon: ACLReconstruction },
-  { name: "Knee Replacement Surgery", icon: KneeReplacement },
+  { name: "ACL Reconstruction Surgery", icon: ACLReconstruction, specialization: "Orthopedic Surgeon" },
+  { name: "Knee Replacement Surgery", icon: KneeReplacement, specialization: "Orthopedic Surgeon" },
   //   { name: "Piles Surgery", icon: PilesSurgery },
   //   { name: "Hip Replacement Surgery", icon: HipReplacement },
   //   { name: "Spinal Surgery", icon: SpinalSurgery },
@@ -113,6 +114,15 @@ const SurgerySection = () => {
     // You can integrate actual API call or routing here
   };
 
+  const handleSurgeryClick = (specialization) => {
+  const lowerSpecialization = specialization.toLowerCase();
+  if (lowerSpecialization && lowerSpecialization.length > 0) {
+    const encodedSpecialization = encodeURIComponent(lowerSpecialization);
+    navigate(`/search-results?query=${encodedSpecialization}`);
+  } else {
+    alert("No specialization found for this condition.");
+  }
+}
   return (
     <>
       <div className="hero-section d-flex align-items-center">
@@ -180,7 +190,7 @@ const SurgerySection = () => {
                 <div
                   className="col-6 col-md-4 col-lg-3 mb-4 text-center"
                   key={index}
-                  onClick={() => handleSurgeryClick(item.name)}
+                  onClick={() => handleSurgeryClick(item.specialization)}
                   style={{ cursor: "pointer" }}
                 >
                   <div
