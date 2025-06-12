@@ -26,10 +26,12 @@ import ConditionsList from "./components/ConditionsList";
 
 import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
+import PatientNavbar from "./components/PatientNavbar";
 function App() {
   return (
     <Router>
-      <AppNavbar />
+      {/* <AppNavbar /> */}
+      <PatientNavbar />
       <Routes>
         {/* Homepage Route */}
         <Route
