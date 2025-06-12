@@ -110,7 +110,7 @@ const ListFilteredDoctors = ({ doctors }) => {
                 <p className="small mb-1">PMDC Verified</p>
                 <Link
                   to={`/video-consult/${doc._id}`}
-                  className="btn btn-outline-primary mb-2 w-100"
+                  className="btn btn-outline-primary mb-2 w-100" style={{backgroundColor: "#2929d6"}}
                 >
                   🎥 Video Consultation
                 </Link>
