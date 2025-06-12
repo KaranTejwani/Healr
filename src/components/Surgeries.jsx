@@ -89,6 +89,7 @@ const surgeries = [
 ];
 const SurgerySection = () => {
   const [query, setQuery] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -96,7 +97,7 @@ const SurgerySection = () => {
     surgery: "",
   });
   const navigate = useNavigate();
-
+  const [submitted, setSubmitted] = useState(false);
   const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim()) {
@@ -109,9 +110,12 @@ const SurgerySection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted:", formData);
-    // You can integrate actual API call or routing here
+    // Simulate API call or form submission
+    console.log("Form submitted:", formData);
+    setSubmitted(true); // Show success popup
   };
+
+  const closeModal = () => setSubmitted(false);
 
   return (
     <>
@@ -303,6 +307,62 @@ const SurgerySection = () => {
                   Request Surgery Booking
                 </button>
               </form>
+
+              {/* ✅ Confirmation Modal */}
+              {submitted && (
+                <div
+                  style={{
+                    position: "fixed",
+                    top: "0",
+                    left: "0",
+                    width: "100vw",
+                    height: "100vh",
+                    background: "rgba(0, 0, 0, 0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 1000,
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "white",
+                      padding: "30px",
+                      borderRadius: "12px",
+                      textAlign: "center",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                      position: "relative",
+                      width: "90%",
+                      maxWidth: "400px",
+                    }}
+                  >
+                    {/* ❌ Close Button */}
+                    <button
+                      onClick={closeModal}
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        right: "15px",
+                        background: "transparent",
+                        border: "none",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        color: "#999",
+                      }}
+                      aria-label="Close"
+                    >
+                      ✖
+                    </button>
+
+                    <div style={{ fontSize: "48px", color: "green" }}>✔️</div>
+                    <p className="mt-3 mb-0 fw-semibold">
+                      Surgery booking Request submitted.
+                    </p>
+                    <p>You will be contacted by our representative shortly.</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

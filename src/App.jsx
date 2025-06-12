@@ -57,7 +57,7 @@ function App() {
         <Route path="/search-results" element={<SearchResultsPage />} />
 
         {/* Doctor Dashboard with state */}
-        <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
+        {/* <Route path="/dashboard" element={<DoctorDashboardWrapper />} /> */}
 
         {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
