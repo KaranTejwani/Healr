@@ -41,27 +41,30 @@ const ListFilteredDoctors = ({ doctors }) => {
   return (
     <div className="container my-5">
       {/* 🔘 Sorting Buttons */}
-      <div className="mb-4 text-start">
-        <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+      <div className="mb-4 text-start filter-buttons-container">
+          <button
+            className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "experience" ? "active" : ""
-          }`}
+        }`}
+          data-sort="experience"
           onClick={() => handleSort("experience")}
         >
           Most Experienced
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "fee" ? "active" : ""
           }`}
+          data-sort="fee"
           onClick={() => handleSort("fee")}
         >
           Lowest Fee
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "rating" ? "active" : ""
           }`}
+          data-sort="rating"
           onClick={() => handleSort("rating")}
         >
           Highest Rating
