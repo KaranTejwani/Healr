@@ -5,33 +5,8 @@ import fetchAllDoctors from "./fetchAllDoctors";
 import DoctorDropdown from "./DoctorDropdown";
 import ConditionsDropdown from "./ConditionDropdown";
 
-const AppNavbar = () => {
-  const [patient, setPatient] = useState(null);
+const AppNavbar = ({ patient, setPatient }) => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-  const updatePatient = () => {
-    const storedPatient = localStorage.getItem("patient");
-    if (storedPatient) {
-      try {
-        setPatient(JSON.parse(storedPatient));
-      } catch (e) {
-        console.error("Invalid JSON in localStorage 'patient':", e);
-        setPatient(null);
-      }
-    } else {
-      setPatient(null);
-    }
-  };
-
-  updatePatient(); // Run on mount
-  window.addEventListener("storage", updatePatient); // React to login/logout
-
-  return () => {
-    window.removeEventListener("storage", updatePatient);
-  };
-}, []);
-
 
   const handleLogout = () => {
     localStorage.removeItem("patient");
@@ -162,50 +137,38 @@ const AppNavbar = () => {
                 </Link>
               </>
             ) : (
-              <div style={{ position: "relative" }}>
-                <button
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "#f0f0f0",
-                    color: "#333",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  {patient.name}
-                </button>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "100%",
-                    right: 0,
-                    background: "white",
-                    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                    marginTop: "0.5rem",
-                    borderRadius: "6px",
-                    overflow: "hidden",
-                    zIndex: 1001,
-                  }}
-                >
-                  <button
-                    onClick={handleLogout}
-                    style={{
-                      padding: "0.75rem 1.5rem",
-                      background: "white",
-                      color: "#333",
-                      border: "none",
-                      textAlign: "left",
-                      width: "100%",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+  <button
+    style={{
+      padding: "0.75rem 1.5rem",
+      borderRadius: "6px",
+      fontWeight: "500",
+      fontSize: "0.95rem",
+      background: "#f0f0f0",
+      color: "#333",
+      border: "none",
+      cursor: "default",
+    }}
+  >
+    {patient.name}
+  </button>
+  <button
+    onClick={handleLogout}
+    style={{
+      padding: "0.75rem 1.5rem",
+      borderRadius: "6px",
+      fontWeight: "500",
+      fontSize: "0.95rem",
+      background: "#ff4d4f", // red
+      color: "white",
+      border: "none",
+      cursor: "pointer",
+    }}
+  >
+    Logout
+  </button>
+</div>
+
             )}
           </div>
         </div>
