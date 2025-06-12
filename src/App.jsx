@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
@@ -17,9 +23,9 @@ import PaymentTermsPage from "./components/PaymentTermsPage";
 import ContactUsPage from "./components/ContactUsPage";
 
 import ConditionsList from "./components/ConditionsList";
-import DoctorDashboardWrapper from "./components/DoctorDashboardWrapper"
-import DoctorsCityWise from "./components/DoctorsCityWise";
 
+import DoctorsCityWise from "./components/DoctorsCityWise";
+import SurgerySection from "./components/Surgeries";
 function App() {
   return (
     <Router>
@@ -41,6 +47,7 @@ function App() {
             </>
           }
         />
+        <Route path="/surgery" element={<SurgerySection />} />
 
         {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
