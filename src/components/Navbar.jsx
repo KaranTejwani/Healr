@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import fetchAllDoctors from "./fetchAllDoctors";
 import DoctorDropdown from "./DoctorDropdown";
+import ConditionsDropdown from "./ConditionDropdown";
 const AppNavbar = () => {
   return (
     <nav
@@ -92,7 +93,7 @@ const AppNavbar = () => {
             >
               Hospitals
             </a>
-            <a
+            {/* <a
               href="#"
               style={{
                 color: "#333",
@@ -104,7 +105,8 @@ const AppNavbar = () => {
               }}
             >
               Medical Conditions
-            </a>
+            </a> */}
+            <ConditionsDropdown/>
             <a
               href="#"
               style={{
