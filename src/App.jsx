@@ -28,6 +28,7 @@ import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
 import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
+import BookAppointment from "./components/BookAppointment";
 function App() {
   const [patient, setPatient] = useState(null);
   const [cart, setCart] = useState([]);
@@ -117,6 +118,7 @@ function App() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/payment-terms" element={<PaymentTermsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/book-appointment/:doctorId" element={<BookAppointment />} />
       </Routes>
     </Router>
   );

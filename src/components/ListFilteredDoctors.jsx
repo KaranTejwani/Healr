@@ -125,7 +125,7 @@ const ListFilteredDoctors = ({ doctors }) => {
                   🎥 Video Consultation
                 </Link>
                 <Link
-                  to={`/doctor/${doc._id}`}
+                  to={`/book-appointment/${doc._id}`}
                   className="btn btn-warning text-white w-100"
                 >
                   Book Appointment
