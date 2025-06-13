@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors'; // Import CORS
 import appointmentRoutes from './routes/appointments.js';
-import doctorsRoute from './routes/doctors.js';
 import authRoute from './routes/auth.js';
 import doctorAccountsRoutes from './routes/doctorAccounts.js';
 
@@ -24,7 +23,6 @@ mongoose.connect(process.env.MONGODB_URI, { dbName: 'healrDB' })
   .catch(err => console.error('MongoDB Error:', err));
 
 // Routes
-app.use('/api/doctors', doctorsRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/doctorAccounts', doctorAccountsRoutes);
 app.use('/api/appointments', appointmentRoutes);

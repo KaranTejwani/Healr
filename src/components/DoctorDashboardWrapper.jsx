@@ -3,7 +3,9 @@ import DoctorDashboard from "./DoctorDashboard";
 
 const DoctorDashboardWrapper = () => {
   const location = useLocation();
-  const doctor = location.state?.doctor;
+  const storedDoctor = JSON.parse(localStorage.getItem("doctor"));
+  const doctor = location.state?.doctor || storedDoctor;
+
 
   // Redirect to login if doctor data is not found
   if (!doctor) return <Navigate to="/" replace />;

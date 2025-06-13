@@ -2,7 +2,7 @@
 
 const fetchAllDoctors = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/doctors");
+    const res = await fetch("http://localhost:5000/api/doctorAccounts");
     if (!res.ok) {
       throw new Error("Failed to fetch doctors");
     }

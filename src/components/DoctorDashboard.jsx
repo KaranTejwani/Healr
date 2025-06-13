@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DoctorDashboard.css";
 
 const DoctorDashboard = ({ doctor }) => {
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState("Appointments"); // 🌟 Track active nav
 
   if (!doctor) return <div className="p-8">Loading...</div>;
 
@@ -19,14 +20,6 @@ const DoctorDashboard = ({ doctor }) => {
     },
   } = doctor;
 
-  const handleLogout = () => {
-    // Clear local storage/session (example: token)
-    localStorage.removeItem("token");
-
-    // Redirect to login
-    navigate("/login");
-  };
-
   return (
     <div className="dashboard">
       {/* Sidebar */}
@@ -35,12 +28,29 @@ const DoctorDashboard = ({ doctor }) => {
           my<span className="text-black">Practice</span>
         </h1>
         <nav className="nav">
-          <button className="nav-button active">Appointments</button>
-          <button className="nav-button">Revenue Report</button>
-          <button className="nav-button">Patients</button>
-          <button className="nav-button">Settings</button>
-          <button className="nav-button logout-btn" onClick={handleLogout}>
-            Logout
+          <button
+            className={`nav-button ${activeSection === "Appointments" ? "active" : ""}`}
+            onClick={() => setActiveSection("Appointments")}
+          >
+            Appointments
+          </button>
+          <button
+            className={`nav-button ${activeSection === "Revenue Report" ? "active" : ""}`}
+            onClick={() => setActiveSection("Revenue Report")}
+          >
+            Revenue Report
+          </button>
+          <button
+            className={`nav-button ${activeSection === "Patients" ? "active" : ""}`}
+            onClick={() => setActiveSection("Patients")}
+          >
+            Patients
+          </button>
+          <button
+            className={`nav-button ${activeSection === "Settings" ? "active" : ""}`}
+            onClick={() => setActiveSection("Settings")}
+          >
+            Settings
           </button>
         </nav>
       </aside>
@@ -51,14 +61,8 @@ const DoctorDashboard = ({ doctor }) => {
           <h2 className="welcome">Welcome, {name} 👋</h2>
           <div className="doctor-info">
             <div className="text">
-              <p className="doctor-name">{name}</p>
               <p className="doctor-role">{specialization?.[0] || role}</p>
             </div>
-            <img
-              src={profilePicture || "https://via.placeholder.com/40"}
-              alt="Profile"
-              className="profile-pic"
-            />
           </div>
         </div>
 
@@ -67,7 +71,9 @@ const DoctorDashboard = ({ doctor }) => {
           <select className="input">
             <option>All Appointments</option>
           </select>
-          <button className="btn btn-blue">Add Prescription</button>
+          <button className="btn btn-blue" onClick={() => navigate("/add-prescription")}>
+            Add Prescription
+          </button>
           <button className="btn btn-orange">Add Patient</button>
         </div>
 

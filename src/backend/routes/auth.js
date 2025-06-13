@@ -7,7 +7,20 @@ const router = express.Router();
 // Signup
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, password, role, gender } = req.body;
+    const {
+      name,
+      email,
+      password,
+      role,
+      gender,
+      specialization,
+      highestDegree,
+      experience,
+      fee,
+      waitTime,
+      numberOfPatients,
+      location
+    } = req.body;
 
     if (role === 'doctor') {
       const existingDoctor = await DoctorAccounts.findOne({ email });
@@ -21,18 +34,18 @@ router.post('/signup', async (req, res) => {
         password,
         role: 'doctor',
         profile: {
-          specialization: [],
-          highestDegree: '',
-          degrees: [],
-          experience: 0,
-          fee: 0,
-          waitTime: '',
-          numberOfPatients: 0,
-          rating: 0,
-          location: '',
+          specialization: specialization || [],
+          highestDegree: highestDegree || '',
+          degrees: highestDegree ? [highestDegree] : [],
+          experience: experience || '',
+          fee: fee || '',
+          waitTime: waitTime || '',
+          numberOfPatients: numberOfPatients || '0',
+          rating: '0',
+          location: location || '',
           availableSlots: [],
           verified: false,
-          profilePicture: ''
+          profilePicture: '',
         }
       });
 

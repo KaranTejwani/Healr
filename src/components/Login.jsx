@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css"; // Reuse the same CSS
 
-const Login = ({ setPatient }) => {
+const Login = ({ setPatient, setDoctor }) => {
   const [emailOrMobile, setEmailOrMobile] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -25,16 +25,17 @@ const Login = ({ setPatient }) => {
       if (response.ok) {
         console.log("Login successful:", data);
 
-        // If doctor logs in
+        // Doctor login
         if (data.doctor) {
+          localStorage.setItem("doctor", JSON.stringify(data.doctor));
+          setDoctor(data.doctor);
           navigate("/dashboard", { state: { doctor: data.doctor } });
 
-        // If patient logs in
+        // Patient login
         } else if (data.user) {
-          console.log("Logged in as patient:", data.user);
           localStorage.setItem("patient", JSON.stringify(data.user));
-          setPatient(data.user); // ✅ Updates App-level state
-          navigate("/"); // Redirect to homepage or patient dashboard if needed
+          setPatient(data.user);
+          navigate("/");
 
         } else {
           alert("Unknown user type.");
@@ -68,11 +69,9 @@ const Login = ({ setPatient }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <button className="login-btn" onClick={handleLogin}>
           Login
         </button>
-
         <p className="signup-link">
           Don’t have an account? <a href="/signup">Sign up</a>
         </p>
