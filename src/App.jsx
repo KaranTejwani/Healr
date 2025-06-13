@@ -29,10 +29,13 @@ import SurgerySection from "./components/Surgeries";
 
 function App() {
   const [patient, setPatient] = useState(null);
+  const [doctor, setDoctor] = useState(null); // ✅ Doctor login state
 
-  // Load patient from localStorage and listen to changes
+  // Load patient and doctor from localStorage and listen to changes
   useEffect(() => {
     const storedPatient = localStorage.getItem("patient");
+    const storedDoctor = localStorage.getItem("doctor");
+
     if (storedPatient) {
       try {
         setPatient(JSON.parse(storedPatient));
@@ -41,14 +44,21 @@ function App() {
       }
     }
 
-    // Sync state across tabs/windows
+    if (storedDoctor) {
+      try {
+        setDoctor(JSON.parse(storedDoctor));
+      } catch (e) {
+        console.error("Invalid doctor JSON in localStorage", e);
+      }
+    }
+
+    // Sync login state across tabs
     const handleStorageChange = () => {
       const updatedPatient = localStorage.getItem("patient");
-      if (updatedPatient) {
-        setPatient(JSON.parse(updatedPatient));
-      } else {
-        setPatient(null);
-      }
+      const updatedDoctor = localStorage.getItem("doctor");
+
+      setPatient(updatedPatient ? JSON.parse(updatedPatient) : null);
+      setDoctor(updatedDoctor ? JSON.parse(updatedDoctor) : null);
     };
 
     window.addEventListener("storage", handleStorageChange);
@@ -57,8 +67,13 @@ function App() {
 
   return (
     <Router>
-      {/* ✅ Pass login state to Navbar only */}
-      <AppNavbar patient={patient} setPatient={setPatient} />
+      {/* ✅ Send both patient and doctor state to Navbar */}
+      <AppNavbar
+        patient={patient}
+        setPatient={setPatient}
+        doctor={doctor}
+        setDoctor={setDoctor}
+      />
       <Routes>
         {/* Homepage Route */}
         <Route
@@ -78,10 +93,13 @@ function App() {
         />
         <Route path="/surgery" element={<SurgerySection />} />
         <Route path="/signup" element={<Signup />} />
-        
-        {/* ✅ Pass setPatient to login so it updates instantly */}
-        <Route path="/login" element={<Login setPatient={setPatient} />} />
-        
+
+        {/* ✅ Pass both setters for role-based login */}
+        <Route
+          path="/login"
+          element={<Login setPatient={setPatient} setDoctor={setDoctor} />}
+        />
+
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
 
