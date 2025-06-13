@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Drugcard.css";
+import { useNavigate } from "react-router-dom";
+import CartPopup from "./CartPopup";
+import { useCart } from "./CartContext";
 
 const defaultMedicines = [
   "Panadol",
@@ -42,7 +45,7 @@ const defaultMedicines = [
   "Azithromycin",
 ];
 
-const DrugCard = ({ drug, onDetailsClick }) => {
+const DrugCard = ({ drug, onDetailsClick, onAddToCart }) => {
   const brand = drug.openfda?.brand_name?.[0] || "Unknown";
   const purpose = drug.purpose?.[0] || "No purpose info";
   const price = drug.price || 0;
@@ -64,7 +67,9 @@ const DrugCard = ({ drug, onDetailsClick }) => {
         >
           👁️ Details
         </button>
-        <button className="btn btn-cart">🛒 Add to Cart</button>
+        <button className="btn btn-cart" onClick={() => onAddToCart(drug)}>
+          🛒 Add to Cart
+        </button>
       </div>
     </div>
   );
@@ -75,8 +80,18 @@ const DrugSearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedDrug, setSelectedDrug] = useState(null);
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
   const [selectedCartDrug, setSelectedCartDrug] = useState(null);
+  const [isCartVisible, setIsCartVisible] = useState(false);
+
+  const { cart, addToCart, removeFromCart } = useCart();
+
+  const navigate = useNavigate();
+
+  const handleAddToCart = (drug) => {
+    addToCart(drug); // ✅ This already updates the cart in context
+    setIsCartVisible(true); // ✅ This opens the cart popup
+  };
 
   // ✅ Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,26 +104,37 @@ const DrugSearchPage = () => {
 
   const fetchDefaultDrugs = async () => {
     setLoading(true);
-    const results = [];
-    for (let name of defaultMedicines) {
-      try {
-        const res = await fetch(
-          `https://api.fda.gov/drug/label.json?search=openfda.brand_name:${name}&limit=1`
-        );
-        const data = await res.json();
-        if (data.results?.[0]) {
-          results.push({
-            ...data.results[0],
-            price: Math.floor(Math.random() * (600 - 10 + 1)) + 10,
-          });
+
+    try {
+      const fetchPromises = defaultMedicines.map(async (name) => {
+        try {
+          const res = await fetch(
+            `https://api.fda.gov/drug/label.json?search=openfda.brand_name:${name}&limit=1`
+          );
+          const data = await res.json();
+          if (data.results?.[0]) {
+            return {
+              ...data.results[0],
+              price: Math.floor(Math.random() * (600 - 10 + 1)) + 10,
+            };
+          }
+        } catch (err) {
+          console.error(`Error fetching ${name}`, err);
+          return null;
         }
-      } catch (err) {
-        console.error(`Error fetching ${name}`, err);
-      }
+      });
+
+      const allResults = await Promise.all(fetchPromises);
+      const filteredResults = allResults.filter(Boolean); // remove nulls
+
+      setDrugs(filteredResults);
+      setCurrentPage(1);
+    } catch (error) {
+      console.error("Error in fetchDefaultDrugs", error);
+      setDrugs([]);
+    } finally {
+      setLoading(false);
     }
-    setDrugs(results);
-    setLoading(false);
-    setCurrentPage(1); // ✅ Reset page
   };
 
   useEffect(() => {
@@ -174,13 +200,28 @@ const DrugSearchPage = () => {
         </form>
 
         {loading ? (
-          <p className="text-center">Loading medicines...</p>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "150px" }}
+          >
+            <div className="loading">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
         ) : drugs.length > 0 ? (
           <>
             <div className="row g-4">
               {paginatedDrugs.map((drug, i) => (
                 <div className="col-md-6 col-lg-4" key={i}>
-                  <DrugCard drug={drug} onDetailsClick={setSelectedDrug} />
+                  <DrugCard
+                    drug={drug}
+                    onDetailsClick={setSelectedDrug}
+                    onAddToCart={handleAddToCart}
+                  />
                 </div>
               ))}
             </div>
@@ -241,6 +282,17 @@ const DrugSearchPage = () => {
           </div>
         )}
       </div>
+      {isCartVisible && (
+        <CartPopup
+          cart={cart}
+          onClose={() => setIsCartVisible(false)}
+          onRemove={(index) => removeFromCart(index)} // ✅ Use context method
+          onCheckout={() => {
+            setIsCartVisible(false);
+            navigate("/cart"); // ✅ Redirect to cart page
+          }}
+        />
+      )}
     </div>
   );
 };

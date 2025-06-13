@@ -26,10 +26,11 @@ import ContactUsPage from "./components/ContactUsPage";
 import ConditionsList from "./components/ConditionsList";
 import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
-import DrugGrid from "./components/DrugCard";
+import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
 function App() {
   const [patient, setPatient] = useState(null);
+  const [cart, setCart] = useState([]);
 
   // Load patient from localStorage and listen to changes
   useEffect(() => {
@@ -79,6 +80,10 @@ function App() {
         />
         <Route path="/surgery" element={<SurgerySection />} />
         <Route path="/medicine" element={<DrugSearchPage />} />
+        <Route
+          path="/cart"
+          element={<CartPage cart={cart} setCart={setCart} />}
+        />
         {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
 
