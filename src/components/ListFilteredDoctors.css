@@ -79,13 +79,12 @@ body {
   border: none;
   cursor: pointer;
 }
-
-.video-btn {
-  background-color: #f8f8ff;
+.video-btn,
+.btn-outline-primary {
+  background-color: #0202c1;
   border: 1px solid #2929d6;
-  color: #2929d6;
+  color: #e4e4ea;
 }
-
 .book-btn {
   background-color: #ffa726;
   color: #fff;
@@ -110,147 +109,150 @@ body {
 
 /* Custom styling for filter buttons */
 .filter-buttons-container {
-    background-color: white;
-    /* padding: 0.2rem; */
-    /* border-radius: 12px; */
-    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
-    /* margin-bottom: 2rem; */
-    /* border: 1px solid #e0e0e0; */
+  /* background-color: white; */
+  /* padding: 0.2rem; */
+  /* border-radius: 12px; */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  /* margin-bottom: 2rem; */
+  /* border: 1px solid #e0e0e0; */
 }
 
 /* Override Bootstrap button styles for filter buttons */
 .btn-outline-primary.filter-btn {
-    background-color: #ffffff;
-    border: 2px solid #2652e5;
-    color: #2652e5;
-    font-weight: 600;
-    /* padding: 0.75rem 1.5rem; */
-    border-radius: 25px;
-    margin-right: 0.75rem;
-    /* margin-bottom: 0.5rem; */
-    font-size: 0.9rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    text-transform: capitalize;
-    letter-spacing: 0.5px;
-    min-width: 120px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  background-color: #e5e3f2;
+  border: 2px solid #2652e5;
+  color: #143fd9;
+  font-weight: 600;
+  /* padding: 0.75rem 1.5rem; */
+  border-radius: 25px;
+  margin-right: 0.75rem;
+  /* margin-bottom: 0.5rem; */
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* Hover effect */
 .btn-outline-primary.filter-btn:hover {
-    background-color: #2652e5;
-    border-color: #2652e5;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(38, 82, 229, 0.3);
+  background-color: #2652e5;
+  border-color: #2652e5;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(38, 82, 229, 0.3);
 }
 
 /* Active state */
 .btn-outline-primary.filter-btn.active {
-    background-color: #2652e5;
-    border-color: #2652e5;
-    color: white;
-    box-shadow: 0 4px 12px rgba(38, 82, 229, 0.4);
-    transform: translateY(-1px);
+  background-color: #2652e5;
+  border-color: #2652e5;
+  color: white;
+  box-shadow: 0 4px 12px rgba(38, 82, 229, 0.4);
+  transform: translateY(-1px);
 }
 
 /* Focus state */
 .btn-outline-primary.filter-btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(38, 82, 229, 0.2);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(38, 82, 229, 0.2);
 }
 
 /* Add icons to buttons */
 .btn-outline-primary.filter-btn::before {
-    content: '';
-    margin-right: 0.5rem;
-    font-size: 1rem;
+  content: "";
+  margin-right: 0.5rem;
+  font-size: 1rem;
 }
 
 /* Specific icons for each button type */
 .btn-outline-primary.filter-btn[data-sort="experience"]::before {
-    content: '🎓';
+  content: "🎓";
 }
 
 .btn-outline-primary.filter-btn[data-sort="fee"]::before {
-    content: '💰';
+  content: "💰";
 }
 
 .btn-outline-primary.filter-btn[data-sort="rating"]::before {
-    content: '⭐';
+  content: "⭐";
 }
 
 /* Ripple effect on click */
 .btn-outline-primary.filter-btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
 }
 
 .btn-outline-primary.filter-btn:active::after {
-    width: 100px;
-    height: 100px;
+  width: 100px;
+  height: 100px;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .filter-buttons-container {
-        padding: 1rem;
-        text-align: center;
-    }
-    
-    .btn-outline-primary.filter-btn {
-        margin-right: 0.5rem;
-        margin-bottom: 0.75rem;
-        padding: 0.6rem 1.2rem;
-        font-size: 0.85rem;
-        min-width: 100px;
-    }
+  .filter-buttons-container {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .btn-outline-primary.filter-btn {
+    background-color: transparent;
+    border: 2px solid #2652e5;
+    color: #2652e5;
+    margin-right: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    min-width: 100px;
+  }
 }
 
 @media (max-width: 576px) {
-    .btn-outline-primary.filter-btn {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 0.5rem;
-    }
+  .btn-outline-primary.filter-btn {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
 }
 
 /* Alternative gradient style (optional) */
 .btn-outline-primary.filter-btn.gradient-style {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
 }
 
 .btn-outline-primary.filter-btn.gradient-style:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
 }
 
 /* Glassmorphism style (optional) */
 .btn-outline-primary.filter-btn.glass-style {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #2652e5;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #2652e5;
 }
 
 .btn-outline-primary.filter-btn.glass-style:hover {
-    background: rgba(38, 82, 229, 0.1);
-    backdrop-filter: blur(15px);
-    border-color: rgba(38, 82, 229, 0.3);
+  background: rgba(38, 82, 229, 0.1);
+  backdrop-filter: blur(15px);
+  border-color: rgba(38, 82, 229, 0.3);
 }

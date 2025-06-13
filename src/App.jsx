@@ -26,7 +26,8 @@ import ContactUsPage from "./components/ContactUsPage";
 import ConditionsList from "./components/ConditionsList";
 import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
-
+import DrugGrid from "./components/DrugCard";
+import DrugSearchPage from "./components/DrugCard";
 function App() {
   const [patient, setPatient] = useState(null);
   const [doctor, setDoctor] = useState(null); // ✅ Doctor login state
@@ -92,6 +93,8 @@ function App() {
           }
         />
         <Route path="/surgery" element={<SurgerySection />} />
+        <Route path="/medicine" element={<DrugSearchPage />} />
+        {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
 
         {/* ✅ Pass both setters for role-based login */}
