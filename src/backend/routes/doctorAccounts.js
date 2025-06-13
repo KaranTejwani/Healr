@@ -15,19 +15,63 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ Get a doctor by ID
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: 'Invalid doctor ID' });
+// ✅ General search (OR logic for name, specialization, location)
+router.get('/search', async (req, res) => {
+  const { search } = req.query;
+  if (!search) return res.status(400).json({ error: "Search term required" });
+
+  const regex = new RegExp(search, 'i'); // case-insensitive
+
+  try {
+    const doctors = await DoctorAccounts.find({
+      $or: [
+        { name: regex },
+        { 'profile.specialization': regex },
+        { 'profile.location': regex }
+      ]
+    });
+
+    res.json(doctors);
+  } catch (err) {
+    console.error('Error in general search:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// ✅ Filter doctors (AND logic)
+router.get('/search/filter', async (req, res) => {
+  const { specialization, location } = req.query;
+
+  let query = {};
+  if (specialization) query['profile.specialization'] = specialization;
+  if (location) query['profile.location'] = location;
+
+  try {
+    const doctors = await DoctorAccounts.find(query);
+    res.json(doctors);
+  } catch (err) {
+    console.error('Error filtering doctors:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// ✅ Specific filter for both specialization and location (mandatory both)
+router.get('/search/selected', async (req, res) => {
+  const { specialization, location } = req.query;
+
+  if (!specialization || !location) {
+    return res.status(400).json({ error: "Both specialization and location are required" });
   }
 
   try {
-    const doctor = await DoctorAccounts.findById(id);
-    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
-    res.json(doctor);
+    const doctors = await DoctorAccounts.find({
+      'profile.specialization': specialization,
+      'profile.location': location
+    });
+
+    res.json(doctors);
   } catch (err) {
-    console.error('Error fetching doctor by ID:', err);
+    console.error('Error in selected search:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -80,19 +124,19 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// ✅ Search doctors by specialization or location
-router.get('/search/filter', async (req, res) => {
-  const { specialization, location } = req.query;
-
-  let query = {};
-  if (specialization) query['profile.specialization'] = specialization;
-  if (location) query['profile.location'] = location;
+// ✅ Get a doctor by ID (must be LAST to prevent route conflicts)
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid doctor ID' });
+  }
 
   try {
-    const doctors = await DoctorAccounts.find(query);
-    res.json(doctors);
+    const doctor = await DoctorAccounts.findById(id);
+    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
+    res.json(doctor);
   } catch (err) {
-    console.error('Error filtering doctors:', err);
+    console.error('Error fetching doctor by ID:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

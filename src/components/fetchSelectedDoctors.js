@@ -1,6 +1,6 @@
 const fetchSelectedDoctors = async (specialization, location) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/doctors/selectedSearch?specialization=${encodeURIComponent(specialization)}&location=${encodeURIComponent(location)}`);
+    const res = await fetch(`http://localhost:5000/api/doctorAccounts/search/filter?specialization=${encodeURIComponent(specialization)}&location=${encodeURIComponent(location)}`);
 
     if (!res.ok) {
       throw new Error('Failed to fetch selected doctors');
