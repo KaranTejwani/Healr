@@ -179,24 +179,22 @@ const DrugSearchPage = () => {
         <p className="text-center text-muted mb-4">
           Find and order your medicines online
         </p>
-
         <form
           onSubmit={handleSearch}
-          className="d-flex justify-content-center gap-2 mb-4"
+          className="d-flex justify-content-center mb-4"
         >
-          <input
-            type="text"
-            className="form-control form-control-lg rounded-pill shadow-sm w-50"
-            placeholder="Search by brand name (e.g. Panadol, Augmentin)"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="btn btn-primary btn-lg rounded-pill px-4"
-          >
-            Search
-          </button>
+          <div className="search-bar-merged">
+            <input
+              type="text"
+              className="search-input-merged"
+              placeholder="Search by brand name (e.g. Panadol, Augmentin)"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button type="submit" className="search-btn-merged">
+              <i className="bi bi-search"></i>
+            </button>
+          </div>
         </form>
 
         {loading ? (
@@ -227,20 +225,21 @@ const DrugSearchPage = () => {
             </div>
 
             {/* ✅ Pagination Controls */}
-            <div className="d-flex justify-content-center mt-4 gap-3">
+            {/* ✅ Modern Pagination Controls */}
+            <div className="d-flex justify-content-center mt-5 gap-4">
               <button
-                className="btn btn-outline-secondary"
+                className="modern-pagination-btn"
                 onClick={() => setCurrentPage((p) => p - 1)}
                 disabled={currentPage === 1}
               >
-                ⬅️ Previous
+                Previous
               </button>
               <button
-                className="btn btn-outline-secondary"
+                className="modern-pagination-btn"
                 onClick={() => setCurrentPage((p) => p + 1)}
                 disabled={currentPage === totalPages}
               >
-                Next ➡️
+                Next
               </button>
             </div>
           </>
