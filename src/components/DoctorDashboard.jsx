@@ -48,7 +48,6 @@ const DoctorDashboard = ({ doctor }) => {
     <div className="dashboard d-flex">
       {/* Sidebar */}
       <aside className="sidebar bg-primary text-white p-4" style={{ width: "220px" }}>
-        <h3 className="mb-4">my<span className="text-warning">Practice</span></h3>
         {["Appointments", "Revenue Report", "Patients", "Settings"].map((section) => (
           <button
             key={section}
@@ -64,8 +63,8 @@ const DoctorDashboard = ({ doctor }) => {
       <main className="flex-grow-1 p-4 bg-light">
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="fw-bold">Welcome, Dr. {name} 👋</h2>
-          <button className="btn btn-outline-dark" onClick={() => navigate("/add-prescription")}>
+          <h2 className="fw-bold">Welcome, {name} 👋</h2>
+          <button className="btn add-prescription-btn" onClick={() => navigate("/add-prescription")}>
             ➕ Add Prescription
           </button>
         </div>
@@ -80,7 +79,7 @@ const DoctorDashboard = ({ doctor }) => {
               style={{ width: "100px", height: "100px", objectFit: "cover" }}
             />
             <div>
-              <h4 className="mb-1">Dr. {name} {verified && <span className="badge bg-success ms-2">Verified ✅</span>}</h4>
+              <h4 className="mb-1">{name} {verified && <span className="badge bg-success ms-2">Verified ✅</span>}</h4>
               <p className="mb-1 text-muted">{specialization?.join(", ") || role}</p>
               <p className="mb-1"><strong>Degree:</strong> {highestDegree} ({degrees?.join(", ")})</p>
               <div className="d-flex flex-wrap gap-3 mt-2">

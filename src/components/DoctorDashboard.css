@@ -172,6 +172,14 @@
   transition: background 0.3s;
 }
 
-.logout-btn:hover {
-  background-color: #dc2626;
+.add-prescription-btn {
+  color: #000;                 /* black text */
+  background-color: transparent;
+  border: 1px solid #000;
+  transition: background 0.3s, color 0.3s;
+}
+
+.add-prescription-btn:hover {
+  background-color: #000;      /* black background */
+  color: #fff;                 /* white text */
 }
