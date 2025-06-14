@@ -29,8 +29,8 @@ import SurgerySection from "./components/Surgeries";
 import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
 import BookAppointment from "./components/BookAppointment";
-import BookAppointment from "./components/BookAppointment";
 import InClinicAppointments from "./components/InClinicAppointments";
+import LaboratoryTests from "./components/LaboratoryTests";
 // import AddPrescription from "./components/AddPrescription";
 function App() {
   const [patient, setPatient] = useState(null);
@@ -102,6 +102,7 @@ function App() {
           path="/in-clinic-appointment"
           element={<InClinicAppointments />}
         />
+        <Route path="/labs" element={<LaboratoryTests />} />
         <Route path="/surgery" element={<SurgerySection />} />
         <Route path="/medicine" element={<DrugSearchPage />} />
         <Route
