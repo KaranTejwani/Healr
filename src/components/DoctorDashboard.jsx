@@ -84,7 +84,7 @@ const DoctorDashboard = ({ doctor }) => {
               <p className="mb-1"><strong>Degree:</strong> {highestDegree} ({degrees?.join(", ")})</p>
               <div className="d-flex flex-wrap gap-3 mt-2">
                 <span className="badge bg-primary">🎓 {experience || "N/A"} yrs</span>
-                <span className="badge bg-secondary">💵 Rs. {fee}</span>
+                <span className="badge bg-secondary">💵 {fee}</span>
                 <span className="badge bg-info text-dark">⏱ {waitTime}</span>
                 <span className="badge bg-warning text-dark">🏥 {location || "No Location"}</span>
                 <span className="badge bg-success">⭐ {rating || "N/A"}</span>
