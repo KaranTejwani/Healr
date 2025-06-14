@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useCart } from "./CartContext"; // ✅ correct import
+import { useCart } from "./CartContext";
+import "./CartPage.css"; // Import the CSS file
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { cart, removeFromCart, clearCart } = useCart(); // ✅ use from context
+  const { cart, removeFromCart, clearCart } = useCart();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -14,109 +15,140 @@ const CartPage = () => {
   });
 
   const handleRemove = (index) => {
-    removeFromCart(index); // ✅ remove using context method
+    removeFromCart(index);
   };
 
   const total = cart.reduce((sum, d) => sum + d.price, 0);
 
   const handleOrder = (e) => {
     e.preventDefault();
-    alert("Order placed! ✅");
-    clearCart(); // ✅ clear via context
+    alert("Order placed successfully!");
+    clearCart();
     navigate("/");
   };
 
   return (
-    <div className="container py-5">
-      <h1 className="mb-4">🛒 Your Cart</h1>
+    <div className="cart-page-container">
+      <div className="cart-content">
+        <div className="cart-header">
+          <h1>🛒 Your Cart</h1>
+        </div>
 
-      {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <>
-          <ul className="list-group mb-4">
-            {cart.map((item, i) => (
-              <li
-                key={i}
-                className="list-group-item d-flex justify-content-between"
+        <div className="cart-main">
+          {cart.length === 0 ? (
+            <div className="empty-cart">
+              <div className="empty-cart-icon">🛒</div>
+              <p>Your cart is empty</p>
+              <button
+                className="continue-shopping-btn"
+                onClick={() => navigate(-1)}
               >
-                <div>
-                  <strong>{item.openfda?.brand_name?.[0]}</strong>
-                  <br />
-                  Qty: {item.quantity} — Rs. {item.price}
+                ← Start Shopping
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="cart-items-section">
+                <div className="cart-items-list">
+                  {cart.map((item, i) => (
+                    <div key={i} className="cart-item">
+                      <div className="item-info">
+                        <div className="item-name">
+                          {item.openfda?.brand_name?.[0]}
+                        </div>
+                        <div className="item-details">
+                          <span className="quantity-badge">
+                            Qty: {item.quantity}
+                          </span>
+                          <span className="price-badge">Rs. {item.price}</span>
+                        </div>
+                      </div>
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemove(i)}
+                        title="Remove item"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleRemove(i)}
-                >
-                  ❌
+
+                <div className="cart-total">
+                  <h4>Total: Rs. {total}</h4>
+                </div>
+              </div>
+
+              <form className="shipping-form" onSubmit={handleOrder}>
+                <h5 className="shipping-header">📦 Shipping Address</h5>
+
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Full Name"
+                    value={formData.name}
+                    required
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Street Address"
+                    value={formData.address}
+                    required
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="City"
+                    value={formData.city}
+                    required
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Zip Code"
+                    value={formData.zip}
+                    required
+                    onChange={(e) =>
+                      setFormData({ ...formData, zip: e.target.value })
+                    }
+                  />
+                </div>
+
+                <button type="submit" className="place-order-btn">
+                  Place Order
                 </button>
-              </li>
-            ))}
-          </ul>
+              </form>
 
-          <h4>Total: Rs. {total}</h4>
-
-          <form className="mt-4" onSubmit={handleOrder}>
-            <h5>📦 Shipping Address</h5>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Full Name"
-                value={formData.name}
-                required
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Address"
-                value={formData.address}
-                required
-                onChange={(e) =>
-                  setFormData({ ...formData, address: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="City"
-                value={formData.city}
-                required
-                onChange={(e) =>
-                  setFormData({ ...formData, city: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Zip Code"
-                value={formData.zip}
-                required
-                onChange={(e) =>
-                  setFormData({ ...formData, zip: e.target.value })
-                }
-              />
-            </div>
-            <button type="submit" className="btn btn-success w-100">
-              ✅ Place Order
-            </button>
-          </form>
-        </>
-      )}
-
-      <button className="btn btn-link mt-4" onClick={() => navigate(-1)}>
-        🔙 Continue Shopping
-      </button>
+              <button
+                className="continue-shopping-btn"
+                onClick={() => navigate(-1)}
+              >
+                ← Continue Shopping
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

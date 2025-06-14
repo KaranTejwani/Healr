@@ -29,7 +29,7 @@ import SurgerySection from "./components/Surgeries";
 import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
 import BookAppointment from "./components/BookAppointment";
-import BookAppointment from "./components/BookAppointment";
+
 import InClinicAppointments from "./components/InClinicAppointments";
 // import AddPrescription from "./components/AddPrescription";
 function App() {
