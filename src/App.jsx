@@ -29,8 +29,12 @@ import SurgerySection from "./components/Surgeries";
 import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
 import BookAppointment from "./components/BookAppointment";
+import BookAppointment from "./components/BookAppointment";
+import InClinicAppointments from "./components/InClinicAppointments";
+// import AddPrescription from "./components/AddPrescription";
 function App() {
   const [patient, setPatient] = useState(null);
+
   const [cart, setCart] = useState([]);
   const [doctor, setDoctor] = useState(null); // ✅ Doctor login state
 
@@ -94,12 +98,21 @@ function App() {
             </>
           }
         />
+        <Route
+          path="/in-clinic-appointment"
+          element={<InClinicAppointments />}
+        />
         <Route path="/surgery" element={<SurgerySection />} />
         <Route path="/medicine" element={<DrugSearchPage />} />
         <Route
           path="/cart"
           element={<CartPage cart={cart} setCart={setCart} />}
         />
+        <Route
+          path="/cart"
+          element={<CartPage cart={cart} setCart={setCart} />}
+        />
+
         {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
 
@@ -111,6 +124,7 @@ function App() {
 
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
+        {/* <Route path="/add-prescription" element={<AddPrescription />} /> */}
 
         {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
@@ -118,7 +132,14 @@ function App() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/payment-terms" element={<PaymentTermsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/book-appointment/:doctorId" element={<BookAppointment />} />
+        <Route
+          path="/book-appointment/:doctorId"
+          element={<BookAppointment />}
+        />
+        <Route
+          path="/book-appointment/:doctorId"
+          element={<BookAppointment />}
+        />
       </Routes>
     </Router>
   );

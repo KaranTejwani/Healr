@@ -3,12 +3,23 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const BookAppointment = () => {
   const { doctorId } = useParams(); // Get doctorId from URL
-  const [patientId, setPatientId] = useState("684b0fb23f29070ec0668202"); // Replace with actual logged-in user ID
+  const [patientId, setPatientId] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
   const [reason, setReason] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedPatient = localStorage.getItem("patient");
+    if (storedPatient) {
+      const patientObj = JSON.parse(storedPatient);
+      setPatientId(patientObj._id); // ✅ Get ID from stored patient object
+    } else {
+      alert("Please log in first to book an appointment.");
+      navigate("/login"); // ✅ Redirect to login page
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +45,7 @@ const BookAppointment = () => {
 
       if (response.ok) {
         setMessage("Appointment booked successfully!");
+        // Optionally navigate to another page after success
         // navigate("/appointments");
       } else {
         setMessage(data.message || "Failed to book appointment.");
@@ -43,6 +55,9 @@ const BookAppointment = () => {
       setMessage("Something went wrong.");
     }
   };
+
+  // Prevent rendering the form until patientId is set
+  if (!patientId) return null;
 
   return (
     <div className="container mt-5">
