@@ -112,7 +112,7 @@ const DoctorDashboard = ({ doctor }) => {
                 <span className="badge bg-primary">
                   🎓 {experience || "N/A"} yrs
                 </span>
-                <span className="badge bg-secondary">💵 Rs. {fee}</span>
+                <span className="badge bg-secondary">💵 {fee}</span>
                 <span className="badge bg-info text-dark">⏱ {waitTime}</span>
                 <span className="badge bg-warning text-dark">
                   🏥 {location || "No Location"}
