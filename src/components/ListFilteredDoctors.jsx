@@ -22,17 +22,21 @@ const ListFilteredDoctors = ({ doctors }) => {
     ? [...doctors].sort((a, b) => {
         if (sortOption === "experience") {
           return (
-            getComparableValue(b.Experience) - getComparableValue(a.Experience)
+            getComparableValue(b.profile.experience) -
+            getComparableValue(a.profile.experience)
           );
         }
         if (sortOption === "fee") {
           return (
-            getComparableValue(a.Fee, Infinity) -
-            getComparableValue(b.Fee, Infinity)
+            getComparableValue(a.profile.fee, Infinity) -
+            getComparableValue(b.profile.fee, Infinity)
           );
         }
         if (sortOption === "rating") {
-          return getComparableValue(b.Rating) - getComparableValue(a.Rating);
+          return (
+            getComparableValue(b.profile.rating) -
+            getComparableValue(a.profile.rating)
+          );
         }
         return 0;
       })
@@ -46,7 +50,6 @@ const ListFilteredDoctors = ({ doctors }) => {
           className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "experience" ? "active" : ""
           }`}
-          data-sort="experience"
           onClick={() => handleSort("experience")}
         >
           Most Experienced
@@ -55,7 +58,6 @@ const ListFilteredDoctors = ({ doctors }) => {
           className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "fee" ? "active" : ""
           }`}
-          data-sort="fee"
           onClick={() => handleSort("fee")}
         >
           Lowest Fee
@@ -64,7 +66,6 @@ const ListFilteredDoctors = ({ doctors }) => {
           className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
             sortOption === "rating" ? "active" : ""
           }`}
-          data-sort="rating"
           onClick={() => handleSort("rating")}
         >
           Highest Rating
@@ -78,36 +79,44 @@ const ListFilteredDoctors = ({ doctors }) => {
             <div className="row align-items-center">
               <div className="col-md-2 text-center">
                 <img
-                  src={doc.image || "./src/IMAGES/profile.jpg"}
-                  alt={doc.Name}
+                  src={doc.profile?.profilePicture || "./src/IMAGES/profile.jpg"}
+                  alt={doc.name}
                   className="img-fluid rounded-circle doctor-avatar"
                 />
               </div>
               <div className="col-md-7">
                 <h5 className="doctor-name">
-                  {doc.Name}{" "}
-                  {doc.platinum && (
+                  {doc.name}{" "}
+                  {doc.profile?.verified && (
                     <span className="badge bg-warning text-dark ms-2">
-                      Platinum Doctor ⭐
+                      PMDC Verified ⭐
                     </span>
                   )}
                 </h5>
-                <p className="mb-1">{doc.Specialization}</p>
-                <p className="mb-1 text-muted">{doc.Qualifications}</p>
+                <p className="mb-1">
+                  {doc.profile?.specialization?.join(", ") || "No Specialization"}
+                </p>
+                <p className="mb-1 text-muted">
+                  {doc.profile?.highestDegree}{" "}
+                  {doc.profile?.degrees?.length > 0 &&
+                    `(${doc.profile.degrees.join(", ")})`}
+                </p>
                 <div className="d-flex flex-wrap gap-3 mt-2">
                   <span className="badge bg-light text-dark">
-                    ⏱ {doc.WaitTime || "15-30 Min"} Wait Time
+                    ⏱ {doc.profile?.waitTime || "15-30 Min"} Wait Time
                   </span>
                   <span className="badge bg-light text-dark">
-                    🎓 {doc.Experience || "N/A"} Years Experience
+                    🎓 {doc.profile?.experience || "N/A"} Years Experience
                   </span>
                   <span className="badge bg-light text-dark">
-                    👍 {doc.Rating || "98%"}
+                    👍 {doc.profile?.rating || "98%"}
                   </span>
                 </div>
               </div>
               <div className="col-md-3 text-end">
-                <p className="small mb-1">PMDC Verified</p>
+                <p className="small mb-1">
+                  {doc.profile?.verified ? "PMDC Verified" : "Not Verified"}
+                </p>
                 <Link
                   to={`/video-consult/${doc._id}`}
                   className="btn btn-outline-primary mb-2 w-100"
@@ -116,7 +125,7 @@ const ListFilteredDoctors = ({ doctors }) => {
                   🎥 Video Consultation
                 </Link>
                 <Link
-                  to={`/doctor/${doc._id}`}
+                  to={`/book-appointment/${doc._id}`}
                   className="btn btn-warning text-white w-100"
                 >
                   Book Appointment
@@ -128,18 +137,18 @@ const ListFilteredDoctors = ({ doctors }) => {
               <div className="col-md-6">
                 <p className="mb-1 fw-semibold">Online Video Consultation</p>
                 <p className="text-success mb-1">
-                  Available {doc.availability || "today"}
+                  Available {doc.profile?.availableSlots?.length ? "today" : "soon"}
                 </p>
                 <p>Rs. {doc.videoFee || "1,500"}</p>
               </div>
               <div className="col-md-6">
                 <p className="mb-1 fw-semibold">
-                  {doc.Location || "Clinic/Hospital Name"}
+                  {doc.profile?.location || "Clinic/Hospital Name"}
                 </p>
                 <p className="text-success mb-1">
                   Available {doc.hospitalAvailability || "today"}
                 </p>
-                <p>Rs. {doc.Fee || "2,500"}</p>
+                <p>Rs. {doc.profile?.fee || "2,500"}</p>
               </div>
             </div>
           </div>

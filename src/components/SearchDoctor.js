@@ -2,7 +2,7 @@
 
 const SearchDoctor = async (query) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/doctors/search?search=${encodeURIComponent(query)}`);
+    const res = await fetch(`http://localhost:5000/api/doctorAccounts/search?search=${encodeURIComponent(query)}`);
     if (!res.ok) {
       throw new Error("Failed to fetch doctors");
     }

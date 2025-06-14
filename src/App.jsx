@@ -26,11 +26,14 @@ import ContactUsPage from "./components/ContactUsPage";
 import ConditionsList from "./components/ConditionsList";
 import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
-import DrugGrid from "./components/DrugCard";
+import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
+import BookAppointment from "./components/BookAppointment";
+import InClinicAppointments from "./components/InClinicAppointments";
 // import AddPrescription from "./components/AddPrescription";
 function App() {
   const [patient, setPatient] = useState(null);
+  const [cart, setCart] = useState([]);
   const [doctor, setDoctor] = useState(null); // ✅ Doctor login state
 
   // Load patient and doctor from localStorage and listen to changes
@@ -93,8 +96,14 @@ function App() {
             </>
           }
         />
+        <Route path="/in-clinic-appointment" element={<InClinicAppointments />} />
         <Route path="/surgery" element={<SurgerySection />} />
         <Route path="/medicine" element={<DrugSearchPage />} />
+        <Route
+          path="/cart"
+          element={<CartPage cart={cart} setCart={setCart} />}
+        />
+
         {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
 
@@ -114,6 +123,7 @@ function App() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/payment-terms" element={<PaymentTermsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/book-appointment/:doctorId" element={<BookAppointment />} />
       </Routes>
     </Router>
   );
