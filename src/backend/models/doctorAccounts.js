@@ -9,11 +9,11 @@ const doctorAccountsSchema = new mongoose.Schema({
     specialization: [String],
     highestDegree: String,
     degrees: [String],
-    experience: Number,
-    fee: Number,
+    experience: String,
+    fee: String,
     waitTime: String,
-    numberOfPatients: { type: Number, default: 0 },
-    rating: { type: Number, default: 0 },
+    numberOfPatients: { type: String, default: "0" },
+    rating: { type: String, default: "0" },
     location: String,
     availableSlots: [
       {

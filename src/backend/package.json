@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
@@ -17,5 +16,5 @@
     "express": "^5.1.0",
     "mongoose": "^8.15.1"
   },
-  "devDependencies": {}
+  "description": ""
 }
