@@ -25,6 +25,7 @@ const services = [
     title: "Laboratory Tests",
     description: "Avail Exclusive discounts on lab tests.",
     image: labImage,
+    route: "/labs"
   },
   {
     title: "Procedures & Surgeries",
