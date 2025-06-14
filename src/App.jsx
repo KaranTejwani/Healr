@@ -28,7 +28,7 @@ import DoctorsCityWise from "./components/DoctorsCityWise";
 import SurgerySection from "./components/Surgeries";
 import DrugGrid from "./components/DrugCard";
 import DrugSearchPage from "./components/DrugCard";
-import AddPrescription from "./components/AddPrescription";
+// import AddPrescription from "./components/AddPrescription";
 function App() {
   const [patient, setPatient] = useState(null);
   const [doctor, setDoctor] = useState(null); // ✅ Doctor login state
@@ -106,7 +106,7 @@ function App() {
 
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
-        <Route path="/add-prescription" element={<AddPrescription />} />
+        {/* <Route path="/add-prescription" element={<AddPrescription />} /> */}
 
         {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
