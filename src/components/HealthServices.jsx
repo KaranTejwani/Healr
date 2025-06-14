@@ -19,6 +19,7 @@ const services = [
     title: "In-Clinic Appointments",
     description: "Book an In-Person visit to doctor's clinic.",
     image: clinicImage,
+    route: "/in-clinic-appointment"
   },
   {
     title: "Laboratory Tests",
