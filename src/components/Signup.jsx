@@ -59,45 +59,78 @@ const Signup = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().trim().required("Name is required"),
-      email: Yup.string().trim().required("Email or mobile is required"),
+
+      email: Yup.string()
+        .trim()
+        .required("Email or mobile is required")
+        .test(
+          "is-email-or-phone",
+          "Must be a valid email or 11-digit number",
+          function (value) {
+            if (!value) return false;
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+            const isPhone = /^\d{11}$/.test(value);
+            return isEmail || isPhone;
+          }
+        ),
+
       password: Yup.string().min(6, "Password too short").required("Required"),
+
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Required"),
+
       role: Yup.string().required("Select a role"),
+
       gender: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Gender is required"),
+        then: () => Yup.string().trim().required("Gender is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       specialization: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Specialization is required"),
+        then: () => Yup.string().trim().required("Specialization is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       highestDegree: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Degree is required"),
+        then: () => Yup.string().trim().required("Degree is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       experience: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Experience is required"),
+        then: () => Yup.string().trim().required("Experience is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       fee: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Fee is required"),
+        then: () => Yup.string().trim().required("Fee is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       waitTime: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Wait time is required"),
+        then: () => Yup.string().trim().required("Wait time is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       numberOfPatients: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Patient count is required"),
+        then: () => Yup.string().trim().required("Patient count is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
+
       location: Yup.string().when("role", {
         is: "doctor",
-        then: Yup.string().trim().required("Location is required"),
+        then: () => Yup.string().trim().required("Location is required"),
+        otherwise: () => Yup.string().notRequired(),
       }),
     }),
+
     onSubmit: async (values) => {
       const body = {
         name: values.name,
