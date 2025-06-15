@@ -6,6 +6,8 @@ import appointmentRoutes from './routes/appointments.js';
 import authRoute from './routes/auth.js';
 import doctorAccountsRoutes from './routes/doctorAccounts.js';
 import laboratoryRoutes from './routes/laboratories.js';
+import medicalRecordsRoutes from './routes/medicalRecords.js';
+import prescriptionRoutes from './routes/prescriptions.js';
 
 dotenv.config();
 const app = express();
@@ -28,6 +30,8 @@ app.use('/api/auth', authRoute);
 app.use('/api/doctorAccounts', doctorAccountsRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/laboratories', laboratoryRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
+app.use('/api/medical-records', medicalRecordsRoutes);
 
 
 // Start server
