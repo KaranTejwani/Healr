@@ -1,78 +1,101 @@
-import React from "react";
-import styles from "./AddPrescription.module.css";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-const AddPrescription = () => {
+const BookAppointment = () => {
+  const { doctorId } = useParams(); // Get doctorId from URL
+  const [patientId, setPatientId] = useState(null);
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [timeSlot, setTimeSlot] = useState("");
+  const [reason, setReason] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedPatient = localStorage.getItem("patient");
+    if (storedPatient) {
+      const patientObj = JSON.parse(storedPatient);
+      setPatientId(patientObj._id); // ✅ Get ID from stored patient object
+    } else {
+      alert("Please log in first to book an appointment.");
+      navigate("/login"); // ✅ Redirect to login page
+    }
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const appointmentData = {
+      patient: patientId,
+      doctor: doctorId,
+      appointmentDate,
+      timeSlot,
+      reason,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/appointments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointmentData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("Appointment booked successfully!");
+        // Optionally navigate to another page after success
+        // navigate("/appointments");
+      } else {
+        setMessage(data.message || "Failed to book appointment.");
+      }
+    } catch (error) {
+      console.error("Booking error:", error);
+      setMessage("Something went wrong.");
+    }
+  };
+
+  // Prevent rendering the form until patientId is set
+  if (!patientId) return null;
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.card}>
-        {/* Patient Details Section */}
-        <div className={styles.row}>
-          <select className={styles.input} defaultValue="">
-            <option value="" disabled hidden>Select hospital *</option>
-            <option value="Hospital A">Hospital A</option>
-            <option value="Hospital B">Hospital B</option>
-          </select>
-          <input type="text" placeholder="Phone number *" className={styles.input} />
-          <input type="text" placeholder="Patient's name *" className={styles.input} />
-          <select className={styles.input} defaultValue="">
-            <option value="" disabled hidden>Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          <input type="number" placeholder="Age (years)" className={styles.input} />
-        </div>
+    <div className="container mt-5">
+      <h2>Book an Appointment</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Appointment Date:</label>
+        <input
+          type="date"
+          className="form-control"
+          value={appointmentDate}
+          onChange={(e) => setAppointmentDate(e.target.value)}
+          required
+        />
 
-        {/* Tabs */}
-        <div className={styles.tabs}>
-          <button className={`${styles.tab} ${styles.active}`}>ADD MEDICAL RECORD</button>
-          <button className={styles.tab}>PREVIOUS MEDICAL RECORDS(0)</button>
-        </div>
+        <label>Time Slot:</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="e.g. 10:00 AM - 10:30 AM"
+          value={timeSlot}
+          onChange={(e) => setTimeSlot(e.target.value)}
+          required
+        />
 
-        {/* Form and Sidebar */}
-        <div className={styles.row}>
-          {/* Main Form */}
-          <div style={{ flex: 3 }}>
-            <h3 className={styles.label}>Symptoms</h3>
+        <label>Reason (optional):</label>
+        <textarea
+          className="form-control"
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+        />
 
-            <h3 className={styles.label}>Follow-up after</h3>
-            <div className={styles.followupRow}>
-              {["3 Days", "5 Days", "1 Week", "2 Weeks", "1 Month", "Select date & time"].map((label) => (
-                <button key={label} className={styles.chip}>{label}</button>
-              ))}
-            </div>
-
-            <div className={styles.row}>
-              <select className={styles.input} style={{ flex: 2 }}>
-                <option>Choose a service</option>
-              </select>
-              <input type="number" value="0" className={styles.input} style={{ flex: 1 }} />
-            </div>
-
-            <div className={styles.row} style={{ justifyContent: "flex-end", marginTop: "1rem" }}>
-              <button className={styles.disabledButton}>SAVE</button>
-              <button className={styles.disabledButton}>SAVE & PRINT</button>
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className={styles.sidebar}>
-            <div className={styles.cardBox}>
-              <h4>Templates</h4>
-              <p style={{ fontSize: "0.9rem" }}>Save this prescription as a template</p>
-              <input type="text" placeholder="Enter template name" className={styles.input} />
-              <button className={styles.disabledButton}>SAVE AS TEMPLATE</button>
-            </div>
-
-            <div className={styles.cardBox}>
-              <h4>Suggestions</h4>
-              <p style={{ fontSize: "0.9rem" }}>Suggestions will appear here once you select a field</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        <button type="submit" className="btn btn-primary mt-3">
+          Book Now
+        </button>
+      </form>
+      {message && <div className="alert alert-info mt-3">{message}</div>}
     </div>
   );
 };
 
-export default AddPrescription;
+export default BookAppointment;
