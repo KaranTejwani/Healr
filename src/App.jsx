@@ -32,7 +32,7 @@ import BookAppointment from "./components/BookAppointment";
 
 import InClinicAppointments from "./components/InClinicAppointments";
 import LaboratoryTests from "./components/LaboratoryTests";
-// import AddPrescription from "./components/AddPrescription";
+import AddPrescription from "./components/AddPrescription";
 function App() {
   const [patient, setPatient] = useState(null);
 
@@ -126,7 +126,7 @@ function App() {
 
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
-        {/* <Route path="/add-prescription" element={<AddPrescription />} /> */}
+        <Route path="/add-prescription" element={<AddPrescription />} />
 
         {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
