@@ -71,20 +71,45 @@ router.post('/signup', async (req, res) => {
 
 // Login (common for both)
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, accountType } = req.body;
 
   try {
-    const user = await User.findOne({ email, password });
-    if (user) {
+    // Check both account types simultaneously
+    const [user, doctor] = await Promise.all([
+      User.findOne({ email, password }),
+      DoctorAccounts.findOne({ email, password })
+    ]);
+
+    // If specific account type is requested (from account selection)
+    if (accountType) {
+      if (accountType === 'doctor' && doctor) {
+        return res.status(200).json({ message: 'Login successful', doctor });
+      }
+      if (accountType === 'patient' && user) {
+        return res.status(200).json({ message: 'Login successful', user });
+      }
+      return res.status(400).json({ error: 'Invalid account type or credentials' });
+    }
+
+    // Handle different account scenarios
+    if (user && doctor) {
+      // Both accounts exist - return both for frontend to handle
+      return res.status(200).json({ 
+        message: 'Multiple accounts found', 
+        user, 
+        doctor,
+        hasBothAccounts: true 
+      });
+    } else if (user) {
+      // Only patient account
       return res.status(200).json({ message: 'Login successful', user });
-    }
-
-    const doctor = await DoctorAccounts.findOne({ email, password });
-    if (doctor) {
+    } else if (doctor) {
+      // Only doctor account
       return res.status(200).json({ message: 'Login successful', doctor });
+    } else {
+      // No accounts found
+      return res.status(400).json({ error: 'Invalid credentials' });
     }
-
-    return res.status(400).json({ error: 'Invalid credentials' });
 
   } catch (err) {
     console.error('Login Error:', err);
