@@ -28,7 +28,6 @@ import SurgerySection from "./components/Surgeries";
 import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
 import BookAppointment from "./components/BookAppointment";
-import About from "./components/About";
 import InClinicAppointments from "./components/InClinicAppointments";
 import LaboratoryTests from "./components/LaboratoryTests";
 import AddPrescription from "./components/AddPrescription";
@@ -38,9 +37,7 @@ function App() {
   const [patient, setPatient] = useState(null);
 
   const [cart, setCart] = useState([]);
-  const [doctor, setDoctor] = useState(null); // ✅ Doctor login state
-
-  // Load patient and doctor from localStorage and listen to changes
+  const [doctor, setDoctor] = useState(null);
   useEffect(() => {
     const storedPatient = localStorage.getItem("patient");
     const storedDoctor = localStorage.getItem("doctor");
@@ -60,8 +57,6 @@ function App() {
         console.error("Invalid doctor JSON in localStorage", e);
       }
     }
-
-    // Sync login state across tabs
     const handleStorageChange = () => {
       const updatedPatient = localStorage.getItem("patient");
       const updatedDoctor = localStorage.getItem("doctor");
@@ -76,7 +71,6 @@ function App() {
 
   return (
     <Router>
-      {/* ✅ Send both patient and doctor state to Navbar */}
       <AppNavbar
         patient={patient}
         setPatient={setPatient}
@@ -84,7 +78,6 @@ function App() {
         setDoctor={setDoctor}
       />
       <Routes>
-        {/* Homepage Route */}
         <Route
           path="/"
           element={
@@ -112,35 +105,20 @@ function App() {
           path="/cart"
           element={<CartPage cart={cart} setCart={setCart} />}
         />
-        <Route
-          path="/cart"
-          element={<CartPage cart={cart} setCart={setCart} />}
-        />
-
-        {/* Signup/Login Routes */}
         <Route path="/signup" element={<Signup />} />
-
-        {/* ✅ Pass both setters for role-based login */}
         <Route
           path="/login"
           element={<Login setPatient={setPatient} setDoctor={setDoctor} />}
         />
-
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
         <Route path="/add-prescription" element={<AddPrescription />} />
-
-        {/* Footer Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/payment-terms" element={<PaymentTermsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/about" element={<About />} />
-        <Route
-          path="/book-appointment/:doctorId"
-          element={<BookAppointment />}
-        />
         <Route
           path="/book-appointment/:doctorId"
           element={<BookAppointment />}
