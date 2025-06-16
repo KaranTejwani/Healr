@@ -84,16 +84,16 @@ const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
               Hospitals
             </a>
             <ConditionsDropdown />
-            <Link
-              to="/about"
+            <a
+              href="#About"
               style={{
                 color: "#333",
                 textDecoration: "none",
                 fontWeight: "500",
-            }}
+              }}
             >
-            About
-            </Link>
+              About
+            </a>
 
           </div>
 
