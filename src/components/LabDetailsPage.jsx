@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import CartPopup from "./CartPopup";
-import { useCart } from "./CartContext";
-import "./LaboratoryTests.module.css";
-import HeroSection from "./HeroSection";
-import PopularLabs from "./PopularLabs";
-import PopularMedicalTests from "./PopularMedicalTests";
-import PopularRadiologyTests from "./PopularRadiologyTests";
-import Footer from "./Footer";
+import React, { useMemo, useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import PopularMedicalTests from "../components/PopularMedicalTests";
+import PopularRadiologyTests from "../components/PopularRadiologyTests";
+import CartPopup from "../components/CartPopup";
 
+// 💳 Card component (your version)
 const TestCard = ({ test, onAddToCart }) => {
   return (
     <div
@@ -39,15 +35,18 @@ const TestCard = ({ test, onAddToCart }) => {
   );
 };
 
-const LaboratoryTests = () => {
+const LabDetailsPage = () => {
+  const { labName } = useParams();
+  const navigate = useNavigate();
+
   const [laboratories, setLaboratories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const testsPerPage = 10;
+  const [cart, setCart] = useState([]);
   const [isCartVisible, setIsCartVisible] = useState(false);
-  const { cart, addToCart, removeFromCart } = useCart();
-  const navigate = useNavigate();
+  const testsPerPage = 6;
 
+  // ✅ Fetch labs from backend
   useEffect(() => {
     const fetchLaboratories = async () => {
       try {
@@ -61,7 +60,9 @@ const LaboratoryTests = () => {
     fetchLaboratories();
   }, []);
 
+  // ✅ Flatten all tests
   const allTests = useMemo(() => {
+    if (!Array.isArray(laboratories)) return [];
     return laboratories.reduce((acc, lab) => {
       const labTests = lab.tests.map((test) => ({
         ...test,
@@ -71,65 +72,59 @@ const LaboratoryTests = () => {
     }, []);
   }, [laboratories]);
 
+  // ✅ Filter by selected lab and search
   const filteredTests = useMemo(() => {
-    if (!searchTerm.trim()) return allTests;
-    return allTests.filter((test) =>
-      test.testName.toLowerCase().includes(searchTerm.toLowerCase())
+    return allTests.filter(
+      (test) =>
+        test.labName?.toLowerCase() === labName?.toLowerCase() &&
+        test.testName.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [allTests, searchTerm]);
+  }, [allTests, labName, searchTerm]);
 
+  const totalPages = Math.ceil(filteredTests.length / testsPerPage);
   const indexOfLastTest = currentPage * testsPerPage;
   const indexOfFirstTest = indexOfLastTest - testsPerPage;
   const currentTests = filteredTests.slice(indexOfFirstTest, indexOfLastTest);
-  const totalPages = Math.ceil(filteredTests.length / testsPerPage);
 
   const getPageNumbers = () => {
-    const maxPagesToShow = 7;
-    const pages = [];
-    let start = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-    let end = start + maxPagesToShow - 1;
+    const totalNumbers = 7;
+    const half = Math.floor(totalNumbers / 2);
+
+    if (totalPages <= totalNumbers) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    let start = Math.max(currentPage - half, 1);
+    let end = start + totalNumbers - 1;
 
     if (end > totalPages) {
       end = totalPages;
-      start = Math.max(1, end - maxPagesToShow + 1);
+      start = end - totalNumbers + 1;
     }
 
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-    return pages;
+    return Array.from({ length: totalNumbers }, (_, i) => start + i);
   };
 
   const handleAddToCart = (test) => {
-    addToCart({
-      ...test,
-      openfda: { brand_name: [test.testName] },
-      price: test.fee,
-      quantity: 1,
-    });
+    setCart([...cart, test]);
     setIsCartVisible(true);
   };
 
+  const removeFromCart = (index) => {
+    const updated = [...cart];
+    updated.splice(index, 1);
+    setCart(updated);
+  };
+
   return (
-    <>
-      <HeroSection />
+    <div className="container py-4">
+      <h2 className="fw-bold text-left mb-4">{labName}</h2>
 
-      <div className="bg-light py-2">
-        <div className="container">
-          {laboratories && laboratories.length > 0 ? (
-            <PopularLabs labs={laboratories.slice(0, 9)} />
-          ) : (
-            <p className="text-muted">Loading labs or no labs found.</p>
-          )}
-        </div>
-      </div>
-
-      <PopularMedicalTests />
-      <PopularRadiologyTests />
+      <PopularMedicalTests labName={labName} />
+      <PopularRadiologyTests labName={labName} />
 
       <div className="container py-3">
         <h5 className="fw-semibold mb-2">Search Tests</h5>
-
         <input
           type="text"
           className="form-control mb-4"
@@ -200,16 +195,15 @@ const LaboratoryTests = () => {
         <CartPopup
           cart={cart}
           onClose={() => setIsCartVisible(false)}
-          onRemove={(index) => removeFromCart(index)}
+          onRemove={removeFromCart}
           onCheckout={() => {
             setIsCartVisible(false);
             navigate("/cart");
           }}
         />
       )}
-      <Footer />
-    </>
+    </div>
   );
 };
 
-export default LaboratoryTests;
+export default LabDetailsPage;

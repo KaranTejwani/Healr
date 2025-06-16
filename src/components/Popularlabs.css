@@ -1,0 +1,98 @@
+.popular-labs-container {
+  position: relative;
+  padding: 0 1rem;
+}
+
+.scroll-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-cards-wrapper {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.5rem;
+}
+
+.lab-cards-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.lab-card {
+  background: white;
+  min-width: 240px;
+  max-width: 240px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  padding: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.lab-card:hover {
+  transform: translateY(-4px);
+  border: 1px solid black;
+}
+
+.lab-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.lab-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: #333;
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+/* .badges {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.5rem;
+} */
+
+.discount {
+  background-color: #eef4ff;
+  color: #1d3b78;
+  font-weight: 500;
+}
+
+.home {
+  background-color: #e8f6ec;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  border-radius: 50%;
+  padding: 0.4rem 0.5rem;
+  font-size: 1.2rem;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.arrow.left {
+  left: -12px;
+}
+
+.arrow.right {
+  right: -12px;
+}
