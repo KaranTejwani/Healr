@@ -22,24 +22,28 @@ const PatientList = ({ doctor }) => {
             if (!patientMap.has(patientId)) {
               patientMap.set(patientId, {
                 ...appointment.patient,
-                visitCount: 1,
-                lastVisit: appointment.appointmentDate,
+                visitCount: appointment.status === 'completed' ? 1 : 0,
+                lastVisit: appointment.status === 'completed' ? appointment.appointmentDate : null,
                 appointments: [appointment]
               });
             } else {
               const patient = patientMap.get(patientId);
-              patient.visitCount++;
-              patient.appointments.push(appointment);
-              // Update last visit if this appointment is more recent
-              if (new Date(appointment.appointmentDate) > new Date(patient.lastVisit)) {
-                patient.lastVisit = appointment.appointmentDate;
+              // Only increment visit count for completed appointments
+              if (appointment.status === 'completed') {
+                patient.visitCount++;
+                // Update last visit if this completed appointment is more recent
+                if (!patient.lastVisit || new Date(appointment.appointmentDate) > new Date(patient.lastVisit)) {
+                  patient.lastVisit = appointment.appointmentDate;
+                }
               }
+              patient.appointments.push(appointment);
             }
           }
         });
 
         // Convert Map to Array and sort by last visit date
         const patientsArray = Array.from(patientMap.values())
+          .filter(patient => patient.visitCount > 0) // Only show patients with completed visits
           .sort((a, b) => new Date(b.lastVisit) - new Date(a.lastVisit));
         
         setPatients(patientsArray);
@@ -97,7 +101,7 @@ const PatientList = ({ doctor }) => {
                   <span className={styles['stat-icon']}>📅</span>
                   <div className={styles['stat-details']}>
                     <span className={styles['stat-value']}>
-                      {new Date(patient.lastVisit).toLocaleDateString()}
+                      {patient.lastVisit ? new Date(patient.lastVisit).toLocaleDateString() : 'No visits yet'}
                     </span>
                     <span className={styles['stat-label']}>Last Visit</span>
                   </div>
@@ -107,16 +111,19 @@ const PatientList = ({ doctor }) => {
               <div className={styles['visit-history']}>
                 <h4>Recent Visits</h4>
                 <div className={styles['history-list']}>
-                  {patient.appointments.slice(0, 3).map((appointment) => (
-                    <div key={appointment._id} className={styles['history-item']}>
-                      <span className={styles['visit-date']}>
-                        {new Date(appointment.appointmentDate).toLocaleDateString()}
-                      </span>
-                      <span className={`${styles['visit-status']} ${styles[appointment.status.toLowerCase()]}`}>
-                        {appointment.status}
-                      </span>
-                    </div>
-                  ))}
+                  {patient.appointments
+                    .filter(appointment => appointment.status === 'completed')
+                    .slice(0, 3)
+                    .map((appointment) => (
+                      <div key={appointment._id} className={styles['history-item']}>
+                        <span className={styles['visit-date']}>
+                          {new Date(appointment.appointmentDate).toLocaleDateString()}
+                        </span>
+                        <span className={`${styles['visit-status']} ${styles[appointment.status.toLowerCase()]}`}>
+                          {appointment.status}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

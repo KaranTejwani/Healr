@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./DoctorDashboard.css";
 import PatientList from "./PatientList";
 import RevenueReport from "./RevenueReport";
+import DoctorSettings from "./DoctorSettings";
 
 const DoctorDashboard = ({ doctor }) => {
   const navigate = useNavigate();
@@ -27,6 +28,36 @@ const DoctorDashboard = ({ doctor }) => {
 
     if (doctor?._id) fetchAppointments();
   }, [doctor]);
+
+  const handleConfirmAppointment = async (appointmentId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/appointments/${appointmentId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'confirmed' }),
+      });
+
+      if (response.ok) {
+        // Update the local state to reflect the change
+        setAppointments(appointments.map(appt => 
+          appt._id === appointmentId ? { ...appt, status: 'confirmed' } : appt
+        ));
+      } else {
+        console.error('Failed to confirm appointment');
+      }
+    } catch (error) {
+      console.error('Error confirming appointment:', error);
+    }
+  };
+
+  const handleProfileUpdate = (updatedDoctor) => {
+    // Update the doctor state in the parent component
+    if (typeof onDoctorUpdate === 'function') {
+      onDoctorUpdate(updatedDoctor);
+    }
+  };
 
   if (!doctor) return <div className="p-5">Loading doctor data...</div>;
 
@@ -71,6 +102,7 @@ const DoctorDashboard = ({ doctor }) => {
                       <th>Time</th>
                       <th>Status</th>
                       <th>Reason</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -92,6 +124,16 @@ const DoctorDashboard = ({ doctor }) => {
                           </span>
                         </td>
                         <td>{appt.reason || "-"}</td>
+                        <td>
+                          {appt.status === 'pending' && (
+                            <button
+                              className="btn btn-success btn-sm"
+                              onClick={() => handleConfirmAppointment(appt._id)}
+                            >
+                              Confirm
+                            </button>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -105,12 +147,7 @@ const DoctorDashboard = ({ doctor }) => {
       case "Revenue Report":
         return <RevenueReport doctor={doctor} />;
       case "Settings":
-        return (
-          <div className="appointments-card">
-            <h3 className="mb-4">⚙️ Settings</h3>
-            <p>Settings section coming soon...</p>
-          </div>
-        );
+        return <DoctorSettings doctor={doctor} onProfileUpdate={handleProfileUpdate} />;
       default:
         return null;
     }

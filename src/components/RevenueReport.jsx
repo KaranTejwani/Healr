@@ -6,6 +6,8 @@ const RevenueReport = ({ doctor }) => {
     totalEarnings: 0,
     monthlyEarnings: 0,
     completedAppointments: 0,
+    confirmedAppointments: 0,
+    totalAppointments: 0,
     pendingPayments: 0
   });
   const [loading, setLoading] = useState(true);
@@ -26,20 +28,30 @@ const RevenueReport = ({ doctor }) => {
         const processedData = appointments.reduce((acc, appointment) => {
           const appointmentDate = new Date(appointment.appointmentDate);
           const isCompleted = appointment.status === 'completed';
+          const isConfirmed = appointment.status === 'confirmed';
           const isPaid = appointment.isPaid;
           
-          // Calculate total earnings
-          if (isCompleted) {
+          // Count total appointments (including cancelled)
+          acc.totalAppointments++;
+          
+          // Calculate earnings only for confirmed and completed appointments
+          if (isCompleted || isConfirmed) {
             acc.totalEarnings += doctor.profile.fee;
-            acc.completedAppointments++;
             
             // Calculate monthly earnings
             if (appointmentDate >= startOfMonth) {
               acc.monthlyEarnings += doctor.profile.fee;
             }
             
-            // Track pending payments
-            if (!isPaid) {
+            // Track completed vs confirmed appointments
+            if (isCompleted) {
+              acc.completedAppointments++;
+            } else if (isConfirmed) {
+              acc.confirmedAppointments++;
+            }
+            
+            // Track pending payments (only for completed appointments that aren't paid)
+            if (isCompleted && !isPaid) {
               acc.pendingPayments += doctor.profile.fee;
             }
           }
@@ -49,6 +61,8 @@ const RevenueReport = ({ doctor }) => {
           totalEarnings: 0,
           monthlyEarnings: 0,
           completedAppointments: 0,
+          confirmedAppointments: 0,
+          totalAppointments: 0,
           pendingPayments: 0
         });
 
@@ -107,22 +121,22 @@ const RevenueReport = ({ doctor }) => {
             <div className={styles['stat-card']}>
               <div className={styles['stat-icon']}>📊</div>
               <div className={styles['stat-info']}>
-                <h3>{revenueData.completedAppointments}</h3>
-                <p>Completed Appointments</p>
+                <h3>{revenueData.totalAppointments}</h3>
+                <p>Total Appointments</p>
               </div>
             </div>
             <div className={styles['stat-card']}>
-              <div className={styles['stat-icon']}>⏳</div>
+              <div className={styles['stat-icon']}>✅</div>
               <div className={styles['stat-info']}>
-                <h3>₹{revenueData.pendingPayments}</h3>
-                <p>Pending Payments</p>
+                <h3>{revenueData.confirmedAppointments}</h3>
+                <p>Confirmed Appointments</p>
               </div>
             </div>
             <div className={styles['stat-card']}>
               <div className={styles['stat-icon']}>💵</div>
               <div className={styles['stat-info']}>
                 <h3>₹{doctor.profile.fee}</h3>
-                <p>Fee</p>
+                <p>Fee per Appointment</p>
               </div>
             </div>
           </div>

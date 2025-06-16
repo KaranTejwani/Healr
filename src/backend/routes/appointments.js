@@ -71,14 +71,21 @@ router.get('/doctor/:id', async (req, res) => {
 router.put('/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
+    const appointment = await Appointment.findById(req.params.id);
 
-    const appointment = await Appointment.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true }
-    );
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
 
-    if (!appointment) return res.status(404).json({ message: 'Appointment not found' });
+    // Update status
+    appointment.status = status;
+
+    // If appointment is being confirmed, mark it as paid
+    if (status === 'confirmed') {
+      appointment.isPaid = true;
+    }
+
+    await appointment.save();
 
     res.status(200).json({ message: 'Status updated', appointment });
   } catch (error) {
