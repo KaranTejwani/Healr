@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DoctorDashboard.css";
+import PatientList from "./PatientList";
+import RevenueReport from "./RevenueReport";
 
 const DoctorDashboard = ({ doctor }) => {
   const navigate = useNavigate();
@@ -46,124 +48,158 @@ const DoctorDashboard = ({ doctor }) => {
     },
   } = doctor;
 
+  const renderContent = () => {
+    switch (activeSection) {
+      case "Appointments":
+        return (
+          <div className="appointments-card">
+            <h3 className="mb-4">📅 Upcoming Appointments</h3>
+            {loading ? (
+              <div className="loading-state">Loading appointments...</div>
+            ) : appointments.length === 0 ? (
+              <div className="empty-state">
+                <p>No appointments scheduled for today.</p>
+              </div>
+            ) : (
+              <div className="table-container">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Patient</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                      <th>Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {appointments.map((appt, index) => (
+                      <tr key={appt._id}>
+                        <td>{index + 1}</td>
+                        <td>{appt.patient?.name || "N/A"}</td>
+                        <td>
+                          {new Date(appt.appointmentDate).toLocaleDateString()}
+                        </td>
+                        <td>{appt.timeSlot}</td>
+                        <td>
+                          <span
+                            className={`status-badge ${
+                              appt.status.toLowerCase()
+                            }`}
+                          >
+                            {appt.status}
+                          </span>
+                        </td>
+                        <td>{appt.reason || "-"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        );
+      case "Patients":
+        return <PatientList doctor={doctor} />;
+      case "Revenue Report":
+        return <RevenueReport doctor={doctor} />;
+      case "Settings":
+        return (
+          <div className="appointments-card">
+            <h3 className="mb-4">⚙️ Settings</h3>
+            <p>Settings section coming soon...</p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="dashboard d-flex">
+    <div className="dashboard">
       {/* Sidebar */}
-      <aside
-        className="sidebar bg-primary text-white p-4"
-        style={{ width: "220px" }}
-      >
-        <h3 className="mb-4">
-          my<span className="text-warning">Practice</span>
-        </h3>
-        {["Appointments", "Revenue Report", "Patients", "Settings"].map(
-          (section) => (
-            <button
-              key={section}
-              className={`btn w-100 mb-2 ${
-                activeSection === section
-                  ? "btn-light text-dark"
-                  : "btn-outline-light"
-              }`}
-              onClick={() => setActiveSection(section)}
-            >
-              {section}
-            </button>
-          )
-        )}
+      <aside className="sidebar">
+        <div className="logo">
+          Dr.<span className="text-warning">Dashboard</span>
+        </div>
+        <nav className="nav">
+          {["Appointments", "Revenue Report", "Patients", "Settings"].map(
+            (section) => (
+              <button
+                key={section}
+                className={`nav-button ${
+                  activeSection === section ? "active" : ""
+                }`}
+                onClick={() => setActiveSection(section)}
+              >
+                {section}
+              </button>
+            )
+          )}
+        </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow-1 p-4 bg-light">
+      <main className="main">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="fw-bold">Welcome, {name} 👋</h2>
+        <div className="header">
+          <h1 className="welcome">Welcome, {name} 👋</h1>
           <button
-            className="btn add-prescription-btn"
+            className="add-prescription-btn"
             onClick={() => navigate("/add-prescription")}
           >
-            ➕ Add Prescription
+            <span>➕</span> Add Prescription
           </button>
         </div>
 
-        {/* Doctor Profile Summary */}
-        <div className="card p-4 mb-4 shadow-sm">
-          <div className="d-flex align-items-center">
+        {/* Doctor Profile Card */}
+        <div className="profile-card">
+          <div className="profile-header">
             <img
               src={profilePicture || "./src/IMAGES/profile.jpg"}
               alt="Doctor"
-              className="rounded-circle me-4"
-              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              className="profile-pic"
             />
-            <div>
-              <h4 className="mb-1">
-                {name}{" "}
+            <div className="profile-details">
+              <h2 className="doctor-name">
+                {name}
                 {verified && (
-                  <span className="badge bg-success ms-2">Verified ✅</span>
+                  <span className="verified-badge">
+                    <span>✓</span> Verified
+                  </span>
                 )}
-              </h4>
-              <p className="mb-1 text-muted">
-                {specialization?.join(", ") || role}
+              </h2>
+              <p className="doctor-role">{specialization?.join(", ") || role}</p>
+              <p className="doctor-degree">
+                {highestDegree} ({degrees?.join(", ")})
               </p>
-              <p className="mb-1">
-                <strong>Degree:</strong> {highestDegree} ({degrees?.join(", ")})
-              </p>
-              <div className="d-flex flex-wrap gap-3 mt-2">
-                <span className="badge bg-primary">
-                  🎓 {experience || "N/A"} yrs
-                </span>
-                <span className="badge bg-secondary">💵 {fee}</span>
-                <span className="badge bg-info text-dark">⏱ {waitTime}</span>
-                <span className="badge bg-warning text-dark">
-                  🏥 {location || "No Location"}
-                </span>
-                <span className="badge bg-success">⭐ {rating || "N/A"}</span>
-                <span className="badge bg-dark">
-                  👥 {numberOfPatients || 0} Patients
-                </span>
-              </div>
             </div>
+          </div>
+          <div className="profile-stats">
+            <span className="stat-badge" style={{ backgroundColor: "#e0f2fe" }}>
+              🎓 {experience || "N/A"} years experience
+            </span>
+            <span className="stat-badge" style={{ backgroundColor: "#fef3c7" }}>
+              💵 {fee}
+            </span>
+            <span className="stat-badge" style={{ backgroundColor: "#dcfce7" }}>
+              ⏱ {waitTime}
+            </span>
+            <span className="stat-badge" style={{ backgroundColor: "#f3e8ff" }}>
+              🏥 {location || "No Location"}
+            </span>
+            <span className="stat-badge" style={{ backgroundColor: "#fee2e2" }}>
+              ⭐ {rating || "N/A"}
+            </span>
+            <span className="stat-badge" style={{ backgroundColor: "#e0e7ff" }}>
+              👥 {numberOfPatients || 0} Patients
+            </span>
           </div>
         </div>
 
-        {/* Appointments Section */}
-        <div className="card p-4 shadow-sm">
-          <h5 className="mb-3">📅 Appointments</h5>
-          {loading ? (
-            <p>Loading appointments...</p>
-          ) : appointments.length === 0 ? (
-            <div className="alert alert-warning">No appointments found.</div>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-striped align-middle">
-                <thead className="table-dark">
-                  <tr>
-                    <th>#</th>
-                    <th>Patient</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Reason</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {appointments.map((appt, index) => (
-                    <tr key={appt._id}>
-                      <td>{index + 1}</td>
-                      <td>{appt.patient?.name || "N/A"}</td>
-                      <td>
-                        {new Date(appt.appointmentDate).toLocaleDateString()}
-                      </td>
-                      <td>{appt.timeSlot}</td>
-                      <td>{appt.status}</td>
-                      <td>{appt.reason || "-"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+        {/* Dynamic Content Section */}
+        {renderContent()}
       </main>
     </div>
   );
