@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import AppNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import HealthServices from "./components/HealthServices";
@@ -29,7 +28,7 @@ import SurgerySection from "./components/Surgeries";
 import CartPage from "./components/Cartpage";
 import DrugSearchPage from "./components/DrugCard";
 import BookAppointment from "./components/BookAppointment";
-
+import About from "./components/About";
 import InClinicAppointments from "./components/InClinicAppointments";
 import LaboratoryTests from "./components/LaboratoryTests";
 import AddPrescription from "./components/AddPrescription";
@@ -137,6 +136,7 @@ function App() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/payment-terms" element={<PaymentTermsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="/book-appointment/:doctorId"
           element={<BookAppointment />}
