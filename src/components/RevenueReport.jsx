@@ -7,6 +7,7 @@ const RevenueReport = ({ doctor }) => {
     monthlyEarnings: 0,
     completedAppointments: 0,
     confirmedAppointments: 0,
+    cancelledAppointments: 0,
     totalAppointments: 0,
     pendingPayments: 0
   });
@@ -29,6 +30,7 @@ const RevenueReport = ({ doctor }) => {
           const appointmentDate = new Date(appointment.appointmentDate);
           const isCompleted = appointment.status === 'completed';
           const isConfirmed = appointment.status === 'confirmed';
+          const isCancelled = appointment.status === 'cancelled';
           const isPaid = appointment.isPaid;
           
           // Count total appointments (including cancelled)
@@ -36,11 +38,12 @@ const RevenueReport = ({ doctor }) => {
           
           // Calculate earnings only for confirmed and completed appointments
           if (isCompleted || isConfirmed) {
-            acc.totalEarnings += doctor.profile.fee;
+            const fee = Number(doctor.profile.fee) || 0;
+            acc.totalEarnings += fee;
             
             // Calculate monthly earnings
             if (appointmentDate >= startOfMonth) {
-              acc.monthlyEarnings += doctor.profile.fee;
+              acc.monthlyEarnings += fee;
             }
             
             // Track completed vs confirmed appointments
@@ -52,8 +55,13 @@ const RevenueReport = ({ doctor }) => {
             
             // Track pending payments (only for completed appointments that aren't paid)
             if (isCompleted && !isPaid) {
-              acc.pendingPayments += doctor.profile.fee;
+              acc.pendingPayments += fee;
             }
+          }
+
+          // Track cancelled appointments
+          if (isCancelled) {
+            acc.cancelledAppointments++;
           }
           
           return acc;
@@ -62,6 +70,7 @@ const RevenueReport = ({ doctor }) => {
           monthlyEarnings: 0,
           completedAppointments: 0,
           confirmedAppointments: 0,
+          cancelledAppointments: 0,
           totalAppointments: 0,
           pendingPayments: 0
         });
@@ -130,6 +139,20 @@ const RevenueReport = ({ doctor }) => {
               <div className={styles['stat-info']}>
                 <h3>{revenueData.confirmedAppointments}</h3>
                 <p>Confirmed Appointments</p>
+              </div>
+            </div>
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>🏥</div>
+              <div className={styles['stat-info']}>
+                <h3>{revenueData.completedAppointments}</h3>
+                <p>Completed Appointments</p>
+              </div>
+            </div>
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>❌</div>
+              <div className={styles['stat-info']}>
+                <h3>{revenueData.cancelledAppointments}</h3>
+                <p>Cancelled Appointments</p>
               </div>
             </div>
             <div className={styles['stat-card']}>

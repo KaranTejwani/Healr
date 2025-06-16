@@ -52,6 +52,29 @@ const DoctorDashboard = ({ doctor }) => {
     }
   };
 
+  const handleCancelAppointment = async (appointmentId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/appointments/${appointmentId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'cancelled' }),
+      });
+
+      if (response.ok) {
+        // Update the local state to reflect the change
+        setAppointments(appointments.map(appt => 
+          appt._id === appointmentId ? { ...appt, status: 'cancelled' } : appt
+        ));
+      } else {
+        console.error('Failed to cancel appointment');
+      }
+    } catch (error) {
+      console.error('Error cancelling appointment:', error);
+    }
+  };
+
   const handleProfileUpdate = (updatedDoctor) => {
     // Update the doctor state in the parent component
     if (typeof onDoctorUpdate === 'function') {
@@ -126,12 +149,20 @@ const DoctorDashboard = ({ doctor }) => {
                         <td>{appt.reason || "-"}</td>
                         <td>
                           {appt.status === 'pending' && (
-                            <button
-                              className="btn btn-success btn-sm"
-                              onClick={() => handleConfirmAppointment(appt._id)}
-                            >
-                              Confirm
-                            </button>
+                            <div className="d-flex gap-2">
+                              <button
+                                className="btn btn-success btn-sm"
+                                onClick={() => handleConfirmAppointment(appt._id)}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={() => handleCancelAppointment(appt._id)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
                           )}
                         </td>
                       </tr>
@@ -158,7 +189,7 @@ const DoctorDashboard = ({ doctor }) => {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="logo">
-          Dr.<span className="text-warning">Dashboard</span>
+          Dr. <span className="text-warning">Dashboard</span>
         </div>
         <nav className="nav">
           {["Appointments", "Revenue Report", "Patients", "Settings"].map(
@@ -182,12 +213,12 @@ const DoctorDashboard = ({ doctor }) => {
         {/* Header */}
         <div className="header">
           <h1 className="welcome">Welcome, {name} 👋</h1>
-          <button
+          {/* <button
             className="add-prescription-btn"
             onClick={() => navigate("/add-prescription")}
           >
             <span>➕</span> Add Prescription
-          </button>
+          </button> */}
         </div>
 
         {/* Doctor Profile Card */}
