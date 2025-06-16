@@ -32,6 +32,7 @@ import BookAppointment from "./components/BookAppointment";
 import InClinicAppointments from "./components/InClinicAppointments";
 import LaboratoryTests from "./components/LaboratoryTests";
 // import AddPrescription from "./components/AddPrescription";
+
 function App() {
   const [patient, setPatient] = useState(null);
 
