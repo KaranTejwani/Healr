@@ -1,6 +1,4 @@
-/* AddPrescription.css */
-
-.add-prescription-wrapper {
+.wrapper {
   display: flex;
   justify-content: center;
   padding: 2rem;
@@ -8,7 +6,7 @@
   min-height: 100vh;
 }
 
-.add-prescription-card {
+.card {
   width: 100%;
   max-width: 1300px;
   background: #fff;
@@ -20,14 +18,14 @@
   gap: 1.5rem;
 }
 
-.add-prescription-row {
+.row {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.add-prescription-input {
+.input {
   padding: 0.75rem;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -53,7 +51,7 @@
   color: #888;
 }
 
-.tab.active {
+.active {
   border-bottom: 2px solid orange;
   color: #000;
 }
@@ -64,7 +62,7 @@
   margin-bottom: 0.5rem;
 }
 
-.followup-row {
+.followupRow {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -79,7 +77,7 @@
   cursor: pointer;
 }
 
-.disabled-button {
+.disabledButton {
   background: #eee;
   color: #aaa;
   padding: 0.75rem 1.5rem;
@@ -98,7 +96,7 @@
   min-width: 280px;
 }
 
-.card-box {
+.cardBox {
   background: #f9fafb;
   padding: 1rem;
   border-radius: 8px;

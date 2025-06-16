@@ -108,6 +108,8 @@ const SurgerySection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitted:", formData);
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
     // You can integrate actual API call or routing here
   };
 

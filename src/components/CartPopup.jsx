@@ -11,40 +11,39 @@ const CartPopup = ({ cart, onClose, onCheckout, onRemove }) => {
         <button className="btn-close" onClick={onClose}>
           ×
         </button>
-        <h4>🛒 Your Cart</h4>
+
+        <h3>🛒 Your Cart</h3>
+
         {cart.length === 0 ? (
           <p>No items in cart.</p>
         ) : (
           <>
-            <ul className="list-group mb-3">
+            <ul>
               {cart.map((item, index) => (
-                <li
-                  className="list-group-item d-flex justify-content-between align-items-center"
-                  key={index}
-                >
-                  <div>
+                <li key={index}>
+                  <div className="item-details">
                     <strong>{item.openfda?.brand_name?.[0]}</strong>
-                    <br />
-                    Qty: {item.quantity}
+                    <div>Qty: {item.quantity}</div>
                   </div>
-                  <div>
-                    Rs. {item.price}
+                  <div className="item-actions">
+                    <div className="item-price">Rs. {item.price}</div>
                     <button
-                      className="btn btn-sm btn-outline-danger ms-2"
+                      className="remove-btn"
                       onClick={() => onRemove(index)}
                     >
-                      ❌
+                      ×
                     </button>
                   </div>
                 </li>
               ))}
             </ul>
-            <div className="mb-3">
-              <strong>Total: Rs. {total}</strong>
+
+            <div className="cart-total">
+              <h4>Total: Rs. {total}</h4>
+              <button className="checkout-btn" onClick={onCheckout}>
+                ✅ Go to Checkout
+              </button>
             </div>
-            <button className="btn btn-success w-100" onClick={onCheckout}>
-              ✅ Go to Checkout
-            </button>
           </>
         )}
       </div>
