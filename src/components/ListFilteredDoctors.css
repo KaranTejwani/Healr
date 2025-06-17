@@ -45,7 +45,7 @@ body {
 
 /* Responsive text */
 .doctor-name {
-  font-size: 1.6vw;
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
   font-weight: 800;
   margin-bottom: 0.3vw;
 }
@@ -85,6 +85,7 @@ body {
   border: 1px solid #2929d6;
   color: #e4e4ea;
 }
+
 .book-btn {
   background-color: #ffa726;
   color: #fff;
@@ -109,8 +110,9 @@ body {
 
 /* Custom styling for filter buttons */
 .filter-buttons-container {
-  /* background-color: white; */
-  /* padding: 0.2rem; */
+  background-color: white;
+  padding: 0.2rem;
+  color: #143fd9;
   /* border-radius: 12px; */
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
   /* margin-bottom: 2rem; */

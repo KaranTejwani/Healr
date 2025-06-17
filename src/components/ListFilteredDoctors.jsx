@@ -5,52 +5,73 @@ import "./ListFilteredDoctors.css";
 
 const ListFilteredDoctors = ({ doctors }) => {
   const [sortOption, setSortOption] = useState("");
+  console.log(doctors);
+  console.log(
+    "Experience:",
+    doctors.Experience,
+    "Fee:",
+    doctors.Fee,
+    "Rating:",
+    doctors.Rating
+  );
 
   const handleSort = (option) => {
     setSortOption(option);
   };
 
   const sortedDoctors = sortOption
-  ? [...doctors].sort((a, b) => {
-      if (sortOption === "experience") {
-        return (b.Experience || 0) - (a.Experience || 0);
-      }
-      if (sortOption === "fee") {
-        return (a.Fee || 0) - (b.Fee || 0);
-      }
-      if (sortOption === "rating") {
-        const ratingA = parseInt(a.Rating?.replace("%", "") || "0");
-        const ratingB = parseInt(b.Rating?.replace("%", "") || "0");
-        return ratingB - ratingA;
-      }
-      return 0;
-    })
-  : doctors;
+    ? [...doctors].sort((a, b) => {
+        if (sortOption === "experience") {
+          const expA = parseInt(a.profile?.experience?.split(" ")[0]) || 0;
+          const expB = parseInt(b.profile?.experience?.split(" ")[0]) || 0;
+          return expB - expA;
+        }
 
+        if (sortOption === "fee") {
+          const feeA = parseInt(a.profile?.fee?.replace(/[^\d]/g, "")) || 0;
+          const feeB = parseInt(b.profile?.fee?.replace(/[^\d]/g, "")) || 0;
+          return feeA - feeB;
+        }
+
+        if (sortOption === "rating") {
+          const ratingA = parseInt(a.profile?.rating?.replace("%", "")) || 0;
+          const ratingB = parseInt(b.profile?.rating?.replace("%", "")) || 0;
+          return ratingB - ratingA;
+        }
+
+        return 0;
+      })
+    : doctors;
 
   return (
     <div className="container my-5">
       {/* 🔘 Sorting Buttons */}
       <div className="mb-4 text-start">
         <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "experience" ? "active" : ""}`}
-            onClick={() => setSortOption("experience")}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+            sortOption === "experience" ? "active" : ""
+          }`}
+          onClick={() => handleSort("experience")}
         >
-            Most Experienced
+          Most Experienced
         </button>
         <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "fee" ? "active" : ""}`}
-            onClick={() => setSortOption("fee")}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+            sortOption === "fee" ? "active" : ""
+          }`}
+          onClick={() => setSortOption("fee")}
         >
-            Lowest Fee
+          Lowest Fee
         </button>
         <button
-            className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${sortOption === "rating" ? "active" : ""}`}
-            onClick={() => setSortOption("rating")}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 ${
+            sortOption === "rating" ? "active" : ""
+          }`}
+          onClick={() => setSortOption("rating")}
         >
-            Highest Rating
+          Highest Rating
         </button>
-        </div>
+      </div>
 
       {/* 🩺 Doctor List */}
       {sortedDoctors.map((doc) => (
@@ -66,7 +87,7 @@ const ListFilteredDoctors = ({ doctors }) => {
               </div>
               <div className="col-md-7">
                 <h5 className="doctor-name">
-                  {doc.Name}{" "}
+                  {doc.name}{" "}
                   {doc.platinum && (
                     <span className="badge bg-warning text-dark ms-2">
                       Platinum Doctor ⭐

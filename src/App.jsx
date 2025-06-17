@@ -118,7 +118,7 @@ function App() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/payment-terms" element={<PaymentTermsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/about" element={<About />} />
+        {/* <Route path="/about" element={<About />} /> */}
         <Route
           path="/book-appointment/:doctorId"
           element={<BookAppointment />}
