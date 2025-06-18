@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import CartPopup from "./CartPopup";
 import { useCart } from "./CartContext";
-import "./LaboratoryTests.module.css";
 import HeroSection from "./HeroSection";
 import PopularLabs from "./PopularLabs";
 import PopularMedicalTests from "./PopularMedicalTests";
@@ -12,25 +11,49 @@ import Footer from "./Footer";
 const TestCard = ({ test, onAddToCart }) => {
   return (
     <div
-      className="card mb-2 p-2"
-      style={{ minHeight: "220px", backgroundColor: "#f3f7fd" }}
+      style={{
+        minHeight: "220px",
+        backgroundColor: "#f3f7fd",
+        borderRadius: "0.5rem",
+        padding: "1rem",
+        marginBottom: "1rem",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+      }}
     >
-      <h5 className="card-title fw-semibold">{test.testName}</h5>
-      <p className="mb-1 text-muted" style={{ fontSize: "0.9rem" }}>
+      <h5 style={{ fontWeight: 600, marginBottom: "0.5rem" }}>
+        {test.testName}
+      </h5>
+      <p
+        style={{
+          fontSize: "0.9rem",
+          color: "#6c757d",
+          marginBottom: "0.25rem",
+        }}
+      >
         Type: {test.testType || "N/A"}
       </p>
-      <p className="mb-1" style={{ fontSize: "0.9rem" }}>
+      <p style={{ fontSize: "0.9rem", marginBottom: "0.5rem" }}>
         Lab: {test.labName}
       </p>
-      <div className="mb-2 fw-bold">
+      <div style={{ fontWeight: 700, marginBottom: "0.75rem" }}>
         Rs. {test.fee}{" "}
-        <span className="fw-normal" style={{ fontSize: "0.85rem" }}>
+        <span
+          style={{ fontWeight: 400, fontSize: "0.85rem", color: "#6c757d" }}
+        >
           per test
         </span>
       </div>
       <button
-        className="btn w-100"
-        style={{ backgroundColor: "#00005c", color: "white" }}
+        style={{
+          width: "100%",
+          backgroundColor: "#00005c",
+          color: "white",
+          fontWeight: 500,
+          padding: "0.5rem",
+          border: "none",
+          borderRadius: "0.5rem",
+          cursor: "pointer",
+        }}
         onClick={() => onAddToCart(test)}
       >
         🛒 Add to Cart
@@ -114,12 +137,14 @@ const LaboratoryTests = () => {
     <>
       <HeroSection />
 
-      <div className="bg-light py-2">
-        <div className="container">
+      <div style={{ backgroundColor: "#f8f9fa", padding: "1rem 0" }}>
+        <div
+          style={{ padding: "0 2rem", maxWidth: "1200px", margin: "0 auto" }}
+        >
           {laboratories && laboratories.length > 0 ? (
             <PopularLabs labs={laboratories.slice(0, 9)} />
           ) : (
-            <p className="text-muted">Loading labs or no labs found.</p>
+            <p style={{ color: "#6c757d" }}>Loading labs or no labs found.</p>
           )}
         </div>
       </div>
@@ -127,12 +152,23 @@ const LaboratoryTests = () => {
       <PopularMedicalTests />
       <PopularRadiologyTests />
 
-      <div className="container py-3">
-        <h5 className="fw-semibold mb-2">Search Tests</h5>
+      <div
+        style={{ padding: "2rem 2rem", maxWidth: "1200px", margin: "0 auto" }}
+      >
+        <h5 style={{ fontWeight: 600, marginBottom: "0.5rem" }}>
+          Search Tests
+        </h5>
 
         <input
           type="text"
-          className="form-control mb-4"
+          style={{
+            width: "100%",
+            marginBottom: "1.5rem",
+            padding: "0.75rem 1rem",
+            border: "2px solid #e9ecef",
+            borderRadius: "0.5rem",
+            fontSize: "1rem",
+          }}
           placeholder="Search test by name..."
           value={searchTerm}
           onChange={(e) => {

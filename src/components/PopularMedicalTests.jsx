@@ -2,39 +2,47 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import CartPopup from "./CartPopup";
-import "./LaboratoryTests.module.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const TestCard = ({ test, onAddToCart }) => {
   return (
     <div
-      className="card mx-2"
       style={{
         minWidth: "280px",
         flex: "0 0 auto",
         backgroundColor: "#f3f7fd",
-        border: "none",
         borderRadius: "1rem",
         padding: "1rem",
+        margin: "0 0.5rem",
       }}
     >
-      <h6 className="fw-semibold">{test.testName}</h6>
+      <h6 style={{ fontWeight: 600 }}>{test.testName}</h6>
       {test.testType && (
-        <p className="text-muted mb-2" style={{ fontSize: "0.85rem" }}>
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "#6c757d",
+            marginBottom: "0.5rem",
+          }}
+        >
           Known as {test.testType}
         </p>
       )}
-      <p className="fw-bold mb-3">
+      <p style={{ fontWeight: 700, marginBottom: "1rem" }}>
         Rs. {test.fee}
         {test.maxFee ? ` - ${test.maxFee}` : ""}
       </p>
       <button
-        className="btn w-100"
         style={{
+          width: "100%",
           backgroundColor: "#00005c",
           color: "#fff",
-          fontWeight: "500",
+          fontWeight: 500,
           fontSize: "0.9rem",
+          border: "none",
+          padding: "0.5rem",
+          borderRadius: "0.5rem",
+          cursor: "pointer",
         }}
         onClick={() => onAddToCart(test)}
       >
@@ -95,10 +103,18 @@ const PopularMedicalTests = ({ labName = "" }) => {
   };
 
   return (
-    <div className="bg-light py-5">
-      <div className="container">
-        <h4 className="fw-semibold text-dark mb-1">Popular Medical Tests</h4>
-        <p className="text-muted mb-4" style={{ fontSize: "0.95rem" }}>
+    <div style={{ backgroundColor: "#f8f9fa", padding: "2rem 0" }}>
+      <div style={{ padding: "0 2rem", maxWidth: "1200px", margin: "0 auto" }}>
+        <h4 style={{ fontWeight: 600, marginBottom: "0.5rem" }}>
+          Popular Medical Tests
+        </h4>
+        <p
+          style={{
+            fontSize: "0.95rem",
+            color: "#6c757d",
+            marginBottom: "1.5rem",
+          }}
+        >
           {labName
             ? `Medical tests from ${labName}`
             : "Browse top medical (pathology) tests across labs"}
@@ -106,37 +122,57 @@ const PopularMedicalTests = ({ labName = "" }) => {
 
         {loading ? (
           <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: "150px" }}
+            style={{
+              height: "150px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <div className="loading">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: "1rem",
+                color: "#6c757d",
+              }}
+            >
+              Loading tests...
             </div>
           </div>
         ) : allTests.length > 0 ? (
-          <div className="position-relative">
+          <div style={{ position: "relative" }}>
             <ChevronLeft
-              className="position-absolute top-50 start-0 translate-middle-y z-1 bg-white border rounded-circle p-1"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: 0,
+                transform: "translateY(-50%)",
+                backgroundColor: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: "50%",
+                padding: "0.25rem",
+                zIndex: 1,
+                cursor: "pointer",
+              }}
               size={30}
               onClick={scrollLeft}
-              role="button"
             />
 
             <div
-              className="d-flex px-4"
               ref={scrollRef}
               style={{
+                display: "flex",
                 overflowX: "auto",
-                scrollBehavior: "smooth",
                 whiteSpace: "nowrap",
                 gap: "1rem",
+                scrollBehavior: "smooth",
                 scrollbarWidth: "none", // Firefox
                 msOverflowStyle: "none", // IE/Edge
-                WebkitOverflowScrolling: "touch", // Touch-drag support
+              }}
+              onScroll={(e) => {
+                e.currentTarget.style.scrollbarWidth = "none";
               }}
             >
               {allTests.map((test, i) => (
@@ -144,24 +180,33 @@ const PopularMedicalTests = ({ labName = "" }) => {
               ))}
             </div>
 
-            {/* Hide scrollbar in WebKit browsers (Chrome, Safari) */}
-            <style>
-              {`
-                .d-flex::-webkit-scrollbar {
-                  display: none;
-                }
-              `}
-            </style>
+            <style>{`
+              div::-webkit-scrollbar {
+                display: none;
+              }
+            `}</style>
 
             <ChevronRight
-              className="position-absolute top-50 end-0 translate-middle-y z-1 bg-white border rounded-circle p-1"
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: 0,
+                transform: "translateY(-50%)",
+                backgroundColor: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: "50%",
+                padding: "0.25rem",
+                zIndex: 1,
+                cursor: "pointer",
+              }}
               size={30}
               onClick={scrollRight}
-              role="button"
             />
           </div>
         ) : (
-          <p className="text-center text-muted">No pathology tests found.</p>
+          <p style={{ textAlign: "center", color: "#6c757d" }}>
+            No pathology tests found.
+          </p>
         )}
       </div>
 
