@@ -32,6 +32,7 @@ import InClinicAppointments from "./components/InClinicAppointments";
 import LaboratoryTests from "./components/LaboratoryTests";
 import AddPrescription from "./components/AddPrescription";
 import LabDetailsPage from "./components/LabDetailsPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [patient, setPatient] = useState(null);
@@ -70,61 +71,64 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <AppNavbar
-        patient={patient}
-        setPatient={setPatient}
-        doctor={doctor}
-        setDoctor={setDoctor}
-      />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <HeroSection />
-              <HealthServices />
-              <DoctorsList />
-              <ConditionsList />
-              <Testimonials />
-              <About />
-              <DoctorsCityWise />
-              <Footer />
-            </>
-          }
+    <>
+      <Router>
+        <ScrollToTop />
+        <AppNavbar
+          patient={patient}
+          setPatient={setPatient}
+          doctor={doctor}
+          setDoctor={setDoctor}
         />
-        <Route
-          path="/in-clinic-appointment"
-          element={<InClinicAppointments />}
-        />
-        <Route path="/labs" element={<LaboratoryTests />} />
-        <Route path="/lab/:labName" element={<LabDetailsPage />} />
-        <Route path="/surgery" element={<SurgerySection />} />
-        <Route path="/medicine" element={<DrugSearchPage />} />
-        <Route
-          path="/cart"
-          element={<CartPage cart={cart} setCart={setCart} />}
-        />
-        <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/login"
-          element={<Login setPatient={setPatient} setDoctor={setDoctor} />}
-        />
-        <Route path="/search-results" element={<SearchResultsPage />} />
-        <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
-        <Route path="/add-prescription" element={<AddPrescription />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
-        <Route path="/refund-policy" element={<RefundPolicyPage />} />
-        <Route path="/payment-terms" element={<PaymentTermsPage />} />
-        <Route path="/contact-us" element={<ContactUsPage />} />
-        {/* <Route path="/about" element={<About />} /> */}
-        <Route
-          path="/book-appointment/:doctorId"
-          element={<BookAppointment />}
-        />
-      </Routes>
-    </Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <HeroSection />
+                <HealthServices />
+                <DoctorsList />
+                <ConditionsList />
+                <Testimonials />
+                <About />
+                <DoctorsCityWise />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/in-clinic-appointment"
+            element={<InClinicAppointments />}
+          />
+          <Route path="/labs" element={<LaboratoryTests />} />
+          <Route path="/lab/:labName" element={<LabDetailsPage />} />
+          <Route path="/surgery" element={<SurgerySection />} />
+          <Route path="/medicine" element={<DrugSearchPage />} />
+          <Route
+            path="/cart"
+            element={<CartPage cart={cart} setCart={setCart} />}
+          />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={<Login setPatient={setPatient} setDoctor={setDoctor} />}
+          />
+          <Route path="/search-results" element={<SearchResultsPage />} />
+          <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
+          <Route path="/add-prescription" element={<AddPrescription />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/delivery-policy" element={<DeliveryPolicyPage />} />
+          <Route path="/refund-policy" element={<RefundPolicyPage />} />
+          <Route path="/payment-terms" element={<PaymentTermsPage />} />
+          <Route path="/contact-us" element={<ContactUsPage />} />
+          {/* <Route path="/about" element={<About />} /> */}
+          <Route
+            path="/book-appointment/:doctorId"
+            element={<BookAppointment />}
+          />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
