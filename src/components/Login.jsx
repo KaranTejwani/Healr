@@ -2,11 +2,57 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css"; // Reuse the same CSS
 
+// Simple Modal Component
+const Modal = ({ show, onClose, title, message }) => {
+  if (!show) return null;
+  return (
+    <div style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0,0,0,0.3)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 9999,
+    }}>
+      <div style={{
+        background: "#fff",
+        borderRadius: 12,
+        padding: 32,
+        minWidth: 320,
+        boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+        textAlign: "center",
+      }}>
+        <h3 style={{ color: '#2e7d32', marginBottom: 12 }}>{title}</h3>
+        <div style={{ marginBottom: 20 }}>{message}</div>
+        <button
+          onClick={onClose}
+          style={{
+            background: '#2c83fb',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 6,
+            padding: '8px 24px',
+            cursor: 'pointer',
+            fontWeight: 600,
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Login = ({ setPatient, setDoctor }) => {
   const [emailOrMobile, setEmailOrMobile] = useState("");
   const [password, setPassword] = useState("");
   const [showAccountSelection, setShowAccountSelection] = useState(false);
   const [availableAccounts, setAvailableAccounts] = useState(null);
+  const [modal, setModal] = useState({ show: false, title: '', message: '' });
   const navigate = useNavigate();
 
   const handleLogin = async (e, preferredAccountType = null) => {
@@ -26,49 +72,41 @@ const Login = ({ setPatient, setDoctor }) => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Login successful:", data);
-        console.log("Has doctor account:", !!data.doctor);
-        console.log("Has user account:", !!data.user);
-        console.log("Has both accounts:", !!(data.doctor && data.user));
-
-        // Check if user has both doctor and patient accounts
-        if (data.doctor && data.user) {
-          console.log("Both accounts detected, showing selection screen");
-          setAvailableAccounts(data);
-          setShowAccountSelection(true);
-          return;
-        }
-
-        // Single account login (existing logic)
-        if (data.doctor && !data.user) {
-          console.log("Doctor only account detected");
-          localStorage.setItem("doctor", JSON.stringify(data.doctor));
-          setDoctor(data.doctor);
-          navigate("/dashboard", { state: { doctor: data.doctor } });
-
-        } else if (data.user && !data.doctor) {
-          console.log("Patient only account detected");
-          localStorage.setItem("patient", JSON.stringify(data.user));
-          setPatient(data.user);
-          navigate("/");
-
-        } else {
-          console.log("Unknown account structure:", data);
-          alert("Unknown user type.");
-        }
+        // Show modal for login success
+        setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.' });
+        setTimeout(() => {
+          setModal({ show: false, title: '', message: '' });
+          // Check if user has both doctor and patient accounts
+          if (data.doctor && data.user) {
+            setAvailableAccounts(data);
+            setShowAccountSelection(true);
+            return;
+          }
+          // Single account login (existing logic)
+          if (data.doctor && !data.user) {
+            localStorage.setItem("doctor", JSON.stringify(data.doctor));
+            setDoctor(data.doctor);
+            navigate("/dashboard", { state: { doctor: data.doctor } });
+          } else if (data.user && !data.doctor) {
+            localStorage.setItem("patient", JSON.stringify(data.user));
+            setPatient(data.user);
+            navigate("/");
+          } else {
+            alert("Unknown user type.");
+          }
+        }, 1500);
+        return;
       } else {
-        console.error("Login failed:", data.message || "Unknown error");
+        // No modal for failure, keep alert
         alert(data.message || "Login failed");
       }
     } catch (error) {
-      console.error("Error during login:", error);
       alert("Something went wrong. Please try again.");
     }
   };
 
   const handleAccountSelection = async (accountType) => {
     try {
-      // Make a new login request with the specific account type
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -82,24 +120,25 @@ const Login = ({ setPatient, setDoctor }) => {
       const data = await response.json();
 
       if (response.ok) {
-        if (accountType === "doctor" && data.doctor) {
-          localStorage.setItem("doctor", JSON.stringify(data.doctor));
-          setDoctor(data.doctor);
-          navigate("/dashboard", { state: { doctor: data.doctor } });
-        } else if (accountType === "patient" && data.user) {
-          localStorage.setItem("patient", JSON.stringify(data.user));
-          setPatient(data.user);
-          navigate("/");
-        }
+        setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.' });
+        setTimeout(() => {
+          setModal({ show: false, title: '', message: '' });
+          if (accountType === "doctor" && data.doctor) {
+            localStorage.setItem("doctor", JSON.stringify(data.doctor));
+            setDoctor(data.doctor);
+            navigate("/dashboard", { state: { doctor: data.doctor } });
+          } else if (accountType === "patient" && data.user) {
+            localStorage.setItem("patient", JSON.stringify(data.user));
+            setPatient(data.user);
+            navigate("/");
+          }
+        }, 1500);
       } else {
         alert(data.error || "Login failed");
       }
     } catch (error) {
-      console.error("Error during account selection:", error);
       alert("Something went wrong. Please try again.");
     }
-    
-    // Reset states
     setShowAccountSelection(false);
     setAvailableAccounts(null);
   };
@@ -113,33 +152,39 @@ const Login = ({ setPatient, setDoctor }) => {
   if (showAccountSelection) {
     return (
       <div className="signup-container">
+        <Modal
+          show={modal.show}
+          onClose={() => setModal({ show: false, title: '', message: '' })}
+          title={modal.title}
+          message={modal.message}
+        />
         <div className="signup-box">
           <h2>
             <span className="brand">healr</span>
           </h2>
           <p>Choose your account type:</p>
           <div style={{ marginBottom: '15px' }}>
-            <button 
-              className="login-btn" 
+            <button
+              className="login-btn"
               onClick={() => handleAccountSelection("doctor")}
               style={{ marginBottom: '10px', width: '100%' }}
             >
               Login as Doctor
             </button>
-            <button 
-              className="login-btn" 
+            <button
+              className="login-btn"
               onClick={() => handleAccountSelection("patient")}
               style={{ marginBottom: '10px', width: '100%', backgroundColor: '#28a745' }}
             >
               Login as Patient
             </button>
           </div>
-          <button 
+          <button
             onClick={handleBackToLogin}
-            style={{ 
-              background: 'transparent', 
-              border: 'none', 
-              color: '#007bff', 
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#007bff',
               textDecoration: 'underline',
               cursor: 'pointer',
               fontSize: '14px'
@@ -155,6 +200,12 @@ const Login = ({ setPatient, setDoctor }) => {
   // Regular login screen
   return (
     <div className="signup-container">
+      <Modal
+        show={modal.show}
+        onClose={() => setModal({ show: false, title: '', message: '' })}
+        title={modal.title}
+        message={modal.message}
+      />
       <div className="signup-box">
         <h2>
           <span className="brand">healr</span>
