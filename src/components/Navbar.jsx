@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import fetchAllDoctors from "./fetchAllDoctors";
 import DoctorDropdown from "./DoctorDropdown";
 import ConditionsDropdown from "./ConditionDropdown";
+import CityDropdown from "./CityDropdown";
 
 const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
   const navigate = useNavigate();
@@ -70,19 +71,7 @@ const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
             }}
           >
             <DoctorDropdown />
-            <a
-              href="#"
-              style={{
-                color: "#333",
-                textDecoration: "none",
-                fontWeight: "500",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              Hospitals
-            </a>
+            <CityDropdown />
             <ConditionsDropdown />
             <a
               href="#About"
