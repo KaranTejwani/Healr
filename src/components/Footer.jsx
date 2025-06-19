@@ -92,16 +92,16 @@ const Footer = () => {
           <h4>Lab Tests</h4>
           <ul>
             <li>
-              <a href="#">MRI in Lahore</a>
+              <Link to="/labs?query=MRI">MRI in Lahore</Link>
             </li>
             <li>
-              <a href="#">CT Scan</a>
+              <Link to="/labs?query=CT%20Scan">CT Scan</Link>
             </li>
             <li>
-              <a href="#">X-Ray</a>
+              <Link to="/labs?query=X-Ray">X-Ray</Link>
             </li>
             <li>
-              <a href="#">Ultrasound</a>
+              <Link to="/labs?query=Ultrasound">Ultrasound</Link>
             </li>
           </ul>
         </div>

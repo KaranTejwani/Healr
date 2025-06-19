@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CartPopup from "./CartPopup";
 import { useCart } from "./CartContext";
 import HeroSection from "./HeroSection";
@@ -70,6 +70,16 @@ const LaboratoryTests = () => {
   const [isCartVisible, setIsCartVisible] = useState(false);
   const { cart, addToCart, removeFromCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get("query");
+    if (query) {
+      setSearchTerm(query);
+      setCurrentPage(1);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const fetchLaboratories = async () => {
