@@ -18,7 +18,7 @@ const updateAppointmentStatuses = async () => {
       await appointment.save();
     }
 
-    console.log(`Updated ${appointments.length} appointments to completed status`);
+    // console.log(`Updated ${appointments.length} appointments to completed status`);
   } catch (error) {
     console.error('Error updating appointment statuses:', error);
   }
