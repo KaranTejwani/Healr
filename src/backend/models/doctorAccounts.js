@@ -11,6 +11,7 @@ const doctorAccountsSchema = new mongoose.Schema({
     degrees: [String],
     experience: String,
     fee: String,
+    surgeryFee: String,
     waitTime: String,
     numberOfPatients: { type: String, default: "0" },
     rating: { type: String, default: "0" },
