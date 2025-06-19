@@ -139,12 +139,65 @@ const LaboratoryTests = () => {
 
       <div style={{ backgroundColor: "#f8f9fa", padding: "1rem 0" }}>
         <div
-          style={{ padding: "0 2rem", maxWidth: "1200px", margin: "0 auto" }}
+          style={{
+            padding: "0 2rem",
+            maxWidth: "1200px",
+            margin: "0 auto",
+            position: "relative",
+            minHeight: "60px",
+          }}
         >
+          <style>{`
+            .loader {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 0.1em;
+              font-size: 1.2rem;
+              
+              height: 80px;
+            }
+            .loader span {
+              color: black;
+              opacity: 0;
+              letter-spacing: 0.1em;
+              text-shadow: 2px 2px 3px #919191;
+              animation: pass 2s ease-in-out infinite;
+            }
+            .l { animation-delay: 0.2s; }
+            .o { animation-delay: 0.4s; }
+            .a { animation-delay: 0.6s; }
+            .d { animation-delay: 0.8s; }
+            .i { animation-delay: 1s; }
+            .n { animation-delay: 1.2s; }
+            .g { animation-delay: 1.4s; }
+            .d1 { animation-delay: 1.6s; animation-name: pass1; }
+            .d2 { animation-delay: 2s; animation-name: pass1; }
+
+            @keyframes pass {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0; }
+            }
+            @keyframes pass1 {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0; }
+            }
+          `}</style>
+
           {laboratories && laboratories.length > 0 ? (
             <PopularLabs labs={laboratories.slice(0, 9)} />
           ) : (
-            <p style={{ color: "#6c757d" }}>Loading labs or no labs found.</p>
+            <div className="loader">
+              <span className="l">L</span>
+              <span className="o">o</span>
+              <span className="a">a</span>
+              <span className="d">d</span>
+              <span className="i">i</span>
+              <span className="n">n</span>
+              <span className="g">g</span>
+              <span className="d1">.</span>
+              <span className="d2">.</span>
+            </div>
           )}
         </div>
       </div>
@@ -158,7 +211,6 @@ const LaboratoryTests = () => {
         <h5 style={{ fontWeight: 600, marginBottom: "0.5rem" }}>
           Search Tests
         </h5>
-
         <input
           type="text"
           style={{
