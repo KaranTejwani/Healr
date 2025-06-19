@@ -33,6 +33,7 @@ import LaboratoryTests from "./components/LaboratoryTests";
 import AddPrescription from "./components/AddPrescription";
 import LabDetailsPage from "./components/LabDetailsPage";
 import ScrollToTop from "./components/ScrollToTop";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [patient, setPatient] = useState(null);
@@ -100,6 +101,8 @@ function App() {
             path="/in-clinic-appointment"
             element={<InClinicAppointments />}
           />
+          <Route path="*" element={<NotFound />} />
+
           <Route path="/labs" element={<LaboratoryTests />} />
           <Route path="/lab/:labName" element={<LabDetailsPage />} />
           <Route path="/surgery" element={<SurgerySection />} />
