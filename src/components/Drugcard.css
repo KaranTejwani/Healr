@@ -83,7 +83,7 @@
   border-radius: 999px;
   box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
   transition: all 0.2s ease-in-out;
-  min-width: 130px; /* ensures both buttons are equal */
+  /* min-width: 130px; ensures both buttons are equal */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -258,6 +258,7 @@ form .btn {
   overflow: hidden;
   box-shadow: 0 0 0 2px #d0dfef;
   background-color: #f8f9fa;
+  height: 45px;
 }
 
 .search-input-merged {

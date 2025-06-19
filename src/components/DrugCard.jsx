@@ -95,7 +95,7 @@ const DrugSearchPage = () => {
 
   // ✅ Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 20;
   const totalPages = Math.ceil(drugs.length / itemsPerPage);
   const paginatedDrugs = drugs.slice(
     (currentPage - 1) * itemsPerPage,
@@ -109,13 +109,13 @@ const DrugSearchPage = () => {
       const fetchPromises = defaultMedicines.map(async (name) => {
         try {
           const res = await fetch(
-            `https://api.fda.gov/drug/label.json?search=openfda.brand_name:${name}&limit=1`
+            `https://api.fda.gov/drug/label.json?search=openfda.brand_name:${name}&limit=3`
           );
           const data = await res.json();
           if (data.results?.[0]) {
             return {
               ...data.results[0],
-              price: Math.floor(Math.random() * (600 - 10 + 1)) + 10,
+              price: Math.floor(Math.random() * (200 - 10 + 1)) + 10,
             };
           }
         } catch (err) {
@@ -226,21 +226,29 @@ const DrugSearchPage = () => {
 
             {/* ✅ Pagination Controls */}
             {/* ✅ Modern Pagination Controls */}
-            <div className="d-flex justify-content-center mt-5 gap-4">
-              <button
-                className="modern-pagination-btn"
-                onClick={() => setCurrentPage((p) => p - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-              <button
-                className="modern-pagination-btn"
-                onClick={() => setCurrentPage((p) => p + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </button>
+            <div className="d-flex justify-content-center mt-5 gap-2 flex-wrap">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (num) => (
+                  <button
+                    key={num}
+                    className={`modern-pagination-btn ${
+                      currentPage === num ? "active" : ""
+                    }`}
+                    onClick={() => setCurrentPage(num)}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: currentPage === num ? "#022442" : "#fff",
+                      color: currentPage === num ? "#fff" : "#000",
+                      border: "1px solid #ccc",
+                      borderRadius: "0.375rem",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {num}
+                  </button>
+                )
+              )}
             </div>
           </>
         ) : (
