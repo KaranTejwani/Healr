@@ -26,12 +26,12 @@ const Modal = ({ show, onClose, title, message }) => {
         boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
         textAlign: "center",
       }}>
-        <h3 style={{ color: '#2e7d32', marginBottom: 12 }}>{title}</h3>
+        <h3 style={{ color: title === 'Login Successful!' ? '#2e7d32' : '#c62828', marginBottom: 12 }}>{title}</h3>
         <div style={{ marginBottom: 20 }}>{message}</div>
         <button
           onClick={onClose}
           style={{
-            background: '#2c83fb',
+            background: title === 'Login Successful!' ? '#2c83fb' : '#c62828',
             color: '#fff',
             border: 'none',
             borderRadius: 6,
@@ -72,17 +72,14 @@ const Login = ({ setPatient, setDoctor }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Show modal for login success
         setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.' });
         setTimeout(() => {
           setModal({ show: false, title: '', message: '' });
-          // Check if user has both doctor and patient accounts
           if (data.doctor && data.user) {
             setAvailableAccounts(data);
             setShowAccountSelection(true);
             return;
           }
-          // Single account login (existing logic)
           if (data.doctor && !data.user) {
             localStorage.setItem("doctor", JSON.stringify(data.doctor));
             setDoctor(data.doctor);
@@ -92,16 +89,24 @@ const Login = ({ setPatient, setDoctor }) => {
             setPatient(data.user);
             navigate("/");
           } else {
-            alert("Unknown user type.");
+            setModal({ show: true, title: 'Login Failed', message: 'Unknown user type.' });
           }
         }, 1500);
         return;
       } else {
-        // No modal for failure, keep alert
-        alert(data.message || "Login failed");
+        // Show modal for all login failures
+        let errorMsg =
+          data.message ||
+          data.error ||
+          (response.status === 401
+            ? 'Invalid credentials. Please check your email/mobile and password.'
+            : response.status === 404
+              ? 'User does not exist.'
+              : 'Login failed. Please try again.');
+        setModal({ show: true, title: 'Login Failed', message: errorMsg });
       }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      setModal({ show: true, title: 'Login Failed', message: 'Network or server error. Please try again.' });
     }
   };
 
@@ -131,13 +136,23 @@ const Login = ({ setPatient, setDoctor }) => {
             localStorage.setItem("patient", JSON.stringify(data.user));
             setPatient(data.user);
             navigate("/");
+          } else {
+            setModal({ show: true, title: 'Login Failed', message: 'Unknown user type.' });
           }
         }, 1500);
       } else {
-        alert(data.error || "Login failed");
+        let errorMsg =
+          data.message ||
+          data.error ||
+          (response.status === 401
+            ? 'Invalid credentials. Please check your email/mobile and password.'
+            : response.status === 404
+              ? 'User does not exist.'
+              : 'Login failed. Please try again.');
+        setModal({ show: true, title: 'Login Failed', message: errorMsg });
       }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      setModal({ show: true, title: 'Login Failed', message: 'Network or server error. Please try again.' });
     }
     setShowAccountSelection(false);
     setAvailableAccounts(null);
