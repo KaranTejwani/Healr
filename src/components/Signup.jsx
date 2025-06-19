@@ -4,9 +4,53 @@ import * as Yup from "yup";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 
+// Simple Modal Component
+const Modal = ({ show, onClose, title, message, isSuccess }) => {
+  if (!show) return null;
+  return (
+    <div style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0,0,0,0.3)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 9999,
+    }}>
+      <div style={{
+        background: "#fff",
+        borderRadius: 12,
+        padding: 32,
+        minWidth: 320,
+        boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+        textAlign: "center",
+      }}>
+        <h3 style={{ color: isSuccess ? '#2e7d32' : '#c62828', marginBottom: 12 }}>{title}</h3>
+        <div style={{ marginBottom: 20 }}>{message}</div>
+        <button
+          onClick={onClose}
+          style={{
+            background: isSuccess ? '#2c83fb' : '#c62828',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 6,
+            padding: '8px 24px',
+            cursor: 'pointer',
+            fontWeight: 600,
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Signup = () => {
-  const [message, setMessage] = useState("");
-  const [isSuccess, setIsSuccess] = useState(null);
+  const [modal, setModal] = useState({ show: false, title: '', message: '', isSuccess: null });
   const [showDropdown, setShowDropdown] = useState(false);
 
   const navigate = useNavigate();
@@ -31,14 +75,14 @@ const Signup = () => {
     "Oncologist",
   ];
 
-  const showMessage = (msg, success) => {
-    setMessage(msg);
-    setIsSuccess(success);
-    setTimeout(() => {
-      setMessage("");
-      setIsSuccess(null);
-      if (success) navigate("/login");
-    }, 3000);
+  const showModal = (title, msg, success) => {
+    setModal({ show: true, title, message: msg, isSuccess: success });
+    if (success) {
+      setTimeout(() => {
+        setModal({ show: false, title: '', message: '', isSuccess: null });
+        navigate("/login");
+      }, 2500);
+    }
   };
 
   const formik = useFormik({
@@ -158,12 +202,39 @@ const Signup = () => {
 
         const data = await res.json();
         if (res.ok) {
-          showMessage("Signup successful! Now Please Login", true);
+          showModal(
+            "Sign Up Successful!",
+            "Your account has been created. Please login to continue.",
+            true
+          );
         } else {
-          showMessage(data.error || "Signup failed", false);
+          // Handle specific error messages
+          if (data.error && data.error.toLowerCase().includes("already exists")) {
+            showModal(
+              "Sign Up Failed",
+              "A user with this email or mobile already exists. Please try logging in or use a different email/mobile.",
+              false
+            );
+          } else if (data.error && data.error.toLowerCase().includes("validation")) {
+            showModal(
+              "Sign Up Failed",
+              "Validation error: " + data.error,
+              false
+            );
+          } else {
+            showModal(
+              "Sign Up Failed",
+              data.error || "Signup failed. Please try again.",
+              false
+            );
+          }
         }
       } catch (error) {
-        showMessage("Network error. Please try again.", false);
+        showModal(
+          "Network Error",
+          "Network error. Please check your connection and try again.",
+          false
+        );
       }
     },
   });
@@ -173,19 +244,18 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
+      <Modal
+        show={modal.show}
+        onClose={() => setModal({ show: false, title: '', message: '', isSuccess: null })}
+        title={modal.title}
+        message={modal.message}
+        isSuccess={modal.isSuccess}
+      />
       <div className="signup-box">
         <h2>
           <span className="brand">healr</span>
         </h2>
         <p>Create your account below:</p>
-
-        {message && (
-          <div
-            className={`alert ${isSuccess ? "alert-success" : "alert-error"}`}
-          >
-            {message}
-          </div>
-        )}
 
         <form onSubmit={formik.handleSubmit}>
           <input
