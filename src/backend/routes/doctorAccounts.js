@@ -154,4 +154,30 @@ router.get('/cities', async (req, res) => {
   }
 });
 
+// Get all doctors (for admin)
+router.get('/admin/all', async (req, res) => {
+  try {
+    const doctors = await DoctorAccounts.find();
+    res.json(doctors);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch doctors' });
+  }
+});
+
+// Verify/unverify a doctor
+router.put('/admin/verify/:id', async (req, res) => {
+  const { id } = req.params;
+  const { verified } = req.body;
+  try {
+    const updatedDoctor = await DoctorAccounts.findByIdAndUpdate(
+      id,
+      { 'profile.verified': verified },
+      { new: true }
+    );
+    res.json(updatedDoctor);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update verification status' });
+  }
+});
+
 export default router;
