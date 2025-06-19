@@ -141,4 +141,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// ✅ Get all unique cities from doctor profiles
+router.get('/cities', async (req, res) => {
+  try {
+    const cities = await DoctorAccounts.distinct('profile.location');
+    // Remove empty/null/undefined and sort alphabetically
+    const filteredCities = cities.filter(Boolean).sort((a, b) => a.localeCompare(b));
+    res.json(filteredCities);
+  } catch (err) {
+    console.error('Error fetching cities:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;
