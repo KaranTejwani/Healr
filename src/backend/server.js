@@ -9,6 +9,7 @@ import laboratoryRoutes from './routes/laboratories.js';
 import prescriptionRoutes from './routes/prescriptions.js';
 import surgeriesRoute from './routes/surgeries.js';
 import './utils/appointmentScheduler.js'; // Import the scheduler
+import './utils/surgeryScheduler.js'; // Import the surgery scheduler
 
 dotenv.config();
 const app = express();

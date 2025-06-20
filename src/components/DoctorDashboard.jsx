@@ -10,6 +10,8 @@ const DoctorDashboard = ({ doctor }) => {
   const [activeSection, setActiveSection] = useState("Appointments");
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [surgeries, setSurgeries] = useState([]);
+  const [loadingSurgeries, setLoadingSurgeries] = useState(true);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -26,7 +28,22 @@ const DoctorDashboard = ({ doctor }) => {
       }
     };
 
-    if (doctor?._id) fetchAppointments();
+    const fetchSurgeries = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/surgeries?doctorId=${doctor._id}`);
+        const data = await res.json();
+        setSurgeries(data.filter(s => s.doctorId === doctor._id));
+        setLoadingSurgeries(false);
+      } catch (error) {
+        console.error("Error fetching surgeries:", error);
+        setLoadingSurgeries(false);
+      }
+    };
+
+    if (doctor?._id) {
+      fetchAppointments();
+      fetchSurgeries();
+    }
   }, [doctor]);
 
   const handleConfirmAppointment = async (appointmentId) => {
@@ -72,6 +89,48 @@ const DoctorDashboard = ({ doctor }) => {
       }
     } catch (error) {
       console.error('Error cancelling appointment:', error);
+    }
+  };
+
+  const handleConfirmSurgery = async (surgeryId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/surgeries/${surgeryId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'confirmed' }),
+      });
+      if (response.ok) {
+        setSurgeries(surgeries.map(s =>
+          s._id === surgeryId ? { ...s, status: 'confirmed' } : s
+        ));
+      } else {
+        console.error('Failed to confirm surgery');
+      }
+    } catch (error) {
+      console.error('Error confirming surgery:', error);
+    }
+  };
+
+  const handleCancelSurgery = async (surgeryId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/surgeries/${surgeryId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'cancelled' }),
+      });
+      if (response.ok) {
+        setSurgeries(surgeries.map(s =>
+          s._id === surgeryId ? { ...s, status: 'cancelled' } : s
+        ));
+      } else {
+        console.error('Failed to cancel surgery');
+      }
+    } catch (error) {
+      console.error('Error cancelling surgery:', error);
     }
   };
 
@@ -173,6 +232,71 @@ const DoctorDashboard = ({ doctor }) => {
             )}
           </div>
         );
+      case "Surgeries":
+        return (
+          <div className="appointments-card">
+            <h3 className="mb-4">🏥 Surgery Requests</h3>
+            {loadingSurgeries ? (
+              <div className="loading-state">Loading surgeries...</div>
+            ) : surgeries.length === 0 ? (
+              <div className="empty-state">
+                <p>No surgery requests assigned to you.</p>
+              </div>
+            ) : (
+              <div className="table-container">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Patient</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Surgery</th>
+                      <th>Date</th>
+                      <th>City</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {surgeries.map((surg, index) => (
+                      <tr key={surg._id}>
+                        <td>{index + 1}</td>
+                        <td>{surg.patientName}</td>
+                        <td>{surg.patientEmail}</td>
+                        <td>{surg.patientContact}</td>
+                        <td>{surg.surgery}</td>
+                        <td>{surg.date}</td>
+                        <td>{surg.city}</td>
+                        <td>
+                          <span className={`status-badge ${surg.status.toLowerCase()}`}>{surg.status}</span>
+                        </td>
+                        <td>
+                          {surg.status === 'pending' && (
+                            <div className="d-flex gap-2">
+                              <button
+                                className="btn btn-success btn-sm"
+                                onClick={() => handleConfirmSurgery(surg._id)}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={() => handleCancelSurgery(surg._id)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        );
       case "Patients":
         return <PatientList doctor={doctor} />;
       case "Revenue Report":
@@ -192,7 +316,7 @@ const DoctorDashboard = ({ doctor }) => {
           Dr. <span className="text-warning">Dashboard</span>
         </div>
         <nav className="nav">
-          {["Appointments", "Revenue Report", "Patients", "Settings"].map(
+          {["Appointments", "Surgeries", "Revenue Report", "Patients", "Settings"].map(
             (section) => (
               <button
                 key={section}

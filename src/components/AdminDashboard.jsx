@@ -6,6 +6,10 @@ const AdminDashboard = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [surgeries, setSurgeries] = useState([]);
+  const [loadingSurgeries, setLoadingSurgeries] = useState(true);
+  const [allDoctors, setAllDoctors] = useState([]);
+  const [assigning, setAssigning] = useState(null);
 
   const fetchDoctors = async () => {
     setLoading(true);
@@ -15,9 +19,26 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
+  const fetchSurgeries = async () => {
+    setLoadingSurgeries(true);
+    const res = await fetch('http://localhost:5000/api/surgeries');
+    const data = await res.json();
+    setSurgeries(data.filter(s => !s.doctorId));
+    setLoadingSurgeries(false);
+  };
+
+  const fetchAllDoctorsForAssign = async () => {
+    const res = await fetch('http://localhost:5000/api/doctorAccounts/admin/all');
+    const data = await res.json();
+    setAllDoctors(data);
+  };
+
   useEffect(() => {
     if (activeSection === 'Doctor Verification') {
       fetchDoctors();
+    } else if (activeSection === 'Surgery Requests') {
+      fetchSurgeries();
+      fetchAllDoctorsForAssign();
     }
   }, [activeSection]);
 
@@ -30,8 +51,20 @@ const AdminDashboard = () => {
     fetchDoctors();
   };
 
+  const handleAssignDoctor = async (surgeryId, doctorId) => {
+    setAssigning(surgeryId);
+    await fetch(`http://localhost:5000/api/surgeries/${surgeryId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ doctorId })
+    });
+    setAssigning(null);
+    fetchSurgeries();
+  };
+
   const sidebarOptions = [
     'Doctor Verification',
+    'Surgery Requests',
     'Manage Users',
     'Manage Appointments',
     'Reports',
@@ -48,6 +81,62 @@ const AdminDashboard = () => {
   });
 
   const renderContent = () => {
+    if (activeSection === 'Surgery Requests') {
+      return (
+        <div>
+          <h2>Surgery Requests (Unassigned)</h2>
+          <p>Assign a doctor to each surgery request.</p>
+          {loadingSurgeries ? (
+            <p>Loading surgery requests...</p>
+          ) : surgeries.length === 0 ? (
+            <p>No unassigned surgery requests.</p>
+          ) : (
+            <div className={styles.tableWrapper}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Surgery</th>
+                    <th>Date</th>
+                    <th>City</th>
+                    <th>Assign Doctor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {surgeries.map((surg) => (
+                    <tr key={surg._id}>
+                      <td>{surg.patientName}</td>
+                      <td>{surg.patientEmail}</td>
+                      <td>{surg.patientContact}</td>
+                      <td>{surg.surgery}</td>
+                      <td>{surg.date}</td>
+                      <td>{surg.city}</td>
+                      <td>
+                        <select
+                          defaultValue=""
+                          onChange={e => handleAssignDoctor(surg._id, e.target.value)}
+                          disabled={assigning === surg._id}
+                        >
+                          <option value="" disabled>Select Doctor</option>
+                          {allDoctors.map(doc => (
+                            <option key={doc._id} value={doc._id}>
+                              {doc.name} ({doc.profile?.specialization?.join(', ')})
+                            </option>
+                          ))}
+                        </select>
+                        {assigning === surg._id && <span style={{ marginLeft: 8 }}>Assigning...</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      );
+    }
     if (activeSection !== 'Doctor Verification') {
       return <h2>{activeSection} <span style={{ fontWeight: 400, fontSize: '0.9rem' }}>Coming soon...</span></h2>;
     }
