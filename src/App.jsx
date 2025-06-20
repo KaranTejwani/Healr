@@ -35,6 +35,7 @@ import LabDetailsPage from "./components/LabDetailsPage";
 import ScrollToTop from "./components/ScrollToTop";
 import NotFound from "./components/NotFound";
 import AdminDashboard from "./components/AdminDashboard";
+import SurgeryResultsPage from "./components/SurgeryResultsPage";
 
 function App() {
   const [patient, setPatient] = useState(null);
@@ -146,6 +147,7 @@ function App() {
             element={<BookAppointment />}
           />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/surgery-results" element={<SurgeryResultsPage />} />
         </Routes>
       </Router>
     </>
