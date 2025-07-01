@@ -1,28 +1,90 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./Signup.css";
+
+const Modal = ({ show, onClose, title, message, isSuccess }) => {
+  if (!show) return null;
+  const isSuccessMsg = isSuccess;
+  return (
+    <div className="modal-overlay" style={{}}>
+      <div
+        className="modal-content"
+        style={{
+          '--modal-bg': isSuccessMsg ? '#e3f0fd' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
+          '--modal-icon-bg': isSuccessMsg ? '#2c83fb' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
+          '--modal-icon-shadow': isSuccessMsg ? '#2c83fb40' : '#ff4e4e40',
+          '--modal-title-color': isSuccessMsg ? '#20509e' : '#c62828',
+          '--modal-btn-bg': isSuccessMsg ? '#2c83fb' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
+          '--modal-btn-shadow': isSuccessMsg ? '#2c83fb30' : '#ff4e4e30',
+        }}
+      >
+        <div className="modal-icon">
+          {isSuccessMsg ? (
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="19" fill="none" />
+              <path d="M11 20.5L17 26.5L27 14.5" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="19" fill="none" />
+              <path d="M13 13L25 25M25 13L13 25" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+            </svg>
+          )}
+        </div>
+        <h3 className="modal-title">{title}</h3>
+        <div className="modal-message">{message}</div>
+        <button
+          className="modal-close-btn"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const BookAppointment = () => {
-  const { doctorId } = useParams(); // Get doctorId from URL
+  const { doctorId } = useParams();
   const [patientId, setPatientId] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
   const [reason, setReason] = useState("");
-  const [message, setMessage] = useState("");
+  const [modal, setModal] = useState({ show: false, title: '', message: '', isSuccess: null });
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedPatient = localStorage.getItem("patient");
     if (storedPatient) {
       const patientObj = JSON.parse(storedPatient);
-      setPatientId(patientObj._id); // ✅ Get ID from stored patient object
+      setPatientId(patientObj._id);
     } else {
-      alert("Please log in first to book an appointment.");
-      navigate("/login"); // ✅ Redirect to login page
+      setModal({ show: true, title: 'Not Logged In', message: 'Please log in first to book an appointment.', isSuccess: false });
     }
   }, [navigate]);
 
+  const handleModalClose = () => {
+    setModal({ show: false, title: '', message: '', isSuccess: null });
+    if (modal.title === 'Not Logged In') {
+      navigate("/login");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(appointmentDate);
+    if (selectedDate < today) {
+      setModal({ show: true, title: 'Invalid Date', message: 'Appointment date cannot be before today.', isSuccess: false });
+      return;
+    }
+
+    if (!/\b(am|pm)\b/i.test(timeSlot)) {
+      setModal({ show: true, title: 'Invalid Time', message: 'Please specify AM or PM in the time slot.', isSuccess: false });
+      return;
+    }
 
     const appointmentData = {
       patient: patientId,
@@ -44,23 +106,35 @@ const BookAppointment = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Appointment booked successfully!");
-        // Optionally navigate to another page after success
-        // navigate("/appointments");
+        setModal({ show: true, title: 'Success', message: 'Appointment booked successfully!', isSuccess: true });
       } else {
-        setMessage(data.message || "Failed to book appointment.");
+        setModal({ show: true, title: 'Booking Failed', message: data.message || 'Failed to book appointment.', isSuccess: false });
       }
     } catch (error) {
-      console.error("Booking error:", error);
-      setMessage("Something went wrong.");
+      setModal({ show: true, title: 'Network Error', message: 'Something went wrong.', isSuccess: false });
     }
   };
 
-  // Prevent rendering the form until patientId is set
-  if (!patientId) return null;
+  if (!patientId)
+    return (
+      <Modal
+        show={modal.show}
+        onClose={handleModalClose}
+        title={modal.title}
+        message={modal.message}
+        isSuccess={modal.isSuccess}
+      />
+    );
 
   return (
     <div className="container mt-5">
+      <Modal
+        show={modal.show}
+        onClose={handleModalClose}
+        title={modal.title}
+        message={modal.message}
+        isSuccess={modal.isSuccess}
+      />
       <h2>Book an Appointment</h2>
       <form onSubmit={handleSubmit}>
         <label>Appointment Date:</label>
@@ -93,7 +167,6 @@ const BookAppointment = () => {
           Book Now
         </button>
       </form>
-      {message && <div className="alert alert-info mt-3">{message}</div>}
     </div>
   );
 };
