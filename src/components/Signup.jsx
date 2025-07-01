@@ -4,43 +4,43 @@ import * as Yup from "yup";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 
-// Simple Modal Component
 const Modal = ({ show, onClose, title, message, isSuccess }) => {
   if (!show) return null;
+  const isSuccessMsg = isSuccess;
   return (
-    <div style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      background: "rgba(0,0,0,0.3)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 9999,
-    }}>
-      <div style={{
-        background: "#fff",
-        borderRadius: 12,
-        padding: 32,
-        minWidth: 320,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-        textAlign: "center",
-      }}>
-        <h3 style={{ color: isSuccess ? '#2e7d32' : '#c62828', marginBottom: 12 }}>{title}</h3>
-        <div style={{ marginBottom: 20 }}>{message}</div>
+    <div
+      className="modal-overlay"
+      style={{}}
+    >
+      <div
+        className="modal-content"
+        style={{
+          '--modal-bg': isSuccessMsg ? '#e3f0fd' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
+          '--modal-icon-bg': isSuccessMsg ? '#2c83fb' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
+          '--modal-icon-shadow': isSuccessMsg ? '#2c83fb40' : '#ff4e4e40',
+          '--modal-title-color': isSuccessMsg ? '#20509e' : '#c62828',
+          '--modal-btn-bg': isSuccessMsg ? '#2c83fb' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
+          '--modal-btn-shadow': isSuccessMsg ? '#2c83fb30' : '#ff4e4e30',
+        }}
+      >
+        <div className="modal-icon">
+          {isSuccessMsg ? (
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="19" fill="none" />
+              <path d="M11 20.5L17 26.5L27 14.5" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="19" fill="none" />
+              <path d="M13 13L25 25M25 13L13 25" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+        </div>
+        <h3 className="modal-title">{title}</h3>
+        <div className="modal-message">{message}</div>
         <button
+          className="modal-close-btn"
           onClick={onClose}
-          style={{
-            background: isSuccess ? '#2c83fb' : '#c62828',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 6,
-            padding: '8px 24px',
-            cursor: 'pointer',
-            fontWeight: 600,
-          }}
         >
           Close
         </button>
@@ -208,7 +208,6 @@ const Signup = () => {
             true
           );
         } else {
-          // Handle specific error messages
           if (data.error && data.error.toLowerCase().includes("already exists")) {
             showModal(
               "Sign Up Failed",
