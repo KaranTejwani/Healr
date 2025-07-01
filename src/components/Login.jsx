@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Signup.css"; // Reuse the same CSS
+import "./Signup.css";
 
-// Simple Modal Component
 const Modal = ({ show, onClose, title, message }) => {
   if (!show) return null;
   const isSuccess = title === 'Login Successful!';
@@ -21,7 +20,7 @@ const Modal = ({ show, onClose, title, message }) => {
       animation: 'fadeInBg 0.3s',
     }}>
       <div style={{
-        background: isSuccess ? 'linear-gradient(135deg, #e3fcec 0%, #b2f7ef 100%)' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
+        background: isSuccess ? '#e3f0fd' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
         borderRadius: 20,
         padding: '40px 32px 32px 32px',
         minWidth: 340,
@@ -35,12 +34,12 @@ const Modal = ({ show, onClose, title, message }) => {
           width: 70,
           height: 70,
           borderRadius: '50%',
-          background: isSuccess ? 'linear-gradient(135deg, #2ecc40 60%, #2c83fb 100%)' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
+          background: isSuccess ? '#2c83fb' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           margin: '0 auto 18px auto',
-          boxShadow: isSuccess ? '0 2px 12px #2ecc4040' : '0 2px 12px #ff4e4e40',
+          boxShadow: isSuccess ? '0 2px 12px #2c83fb40' : '0 2px 12px #ff4e4e40',
         }}>
           {isSuccess ? (
             <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +54,7 @@ const Modal = ({ show, onClose, title, message }) => {
           )}
         </div>
         <h3 style={{
-          color: isSuccess ? '#187a3c' : '#c62828',
+          color: isSuccess ? '#20509e' : '#c62828',
           marginBottom: 10,
           fontWeight: 700,
           fontSize: 24,
@@ -70,7 +69,7 @@ const Modal = ({ show, onClose, title, message }) => {
         <button
           onClick={onClose}
           style={{
-            background: isSuccess ? 'linear-gradient(90deg, #2c83fb 60%, #2ecc40 100%)' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
+            background: isSuccess ? '#2c83fb' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
             color: '#fff',
             border: 'none',
             borderRadius: 8,
@@ -84,7 +83,6 @@ const Modal = ({ show, onClose, title, message }) => {
         >
           Close
         </button>
-        {/* Animations */}
         <style>{`
           @keyframes popIn {
             0% { transform: scale(0.7); opacity: 0; }
@@ -118,7 +116,7 @@ const Login = ({ setPatient, setDoctor }) => {
         body: JSON.stringify({
           email: emailOrMobile,
           password: password,
-          accountType: preferredAccountType // Send preferred type to backend
+          accountType: preferredAccountType
         }),
       });
 
@@ -147,7 +145,6 @@ const Login = ({ setPatient, setDoctor }) => {
         }, 1500);
         return;
       } else {
-        // Show modal for all login failures
         let errorMsg =
           data.message ||
           data.error ||
@@ -216,7 +213,6 @@ const Login = ({ setPatient, setDoctor }) => {
     setAvailableAccounts(null);
   };
 
-  // Account selection screen
   if (showAccountSelection) {
     return (
       <div className="signup-container">
@@ -265,7 +261,6 @@ const Login = ({ setPatient, setDoctor }) => {
     );
   }
 
-  // Regular login screen
   return (
     <div className="signup-container">
       <Modal
