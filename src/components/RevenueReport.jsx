@@ -9,7 +9,11 @@ const RevenueReport = ({ doctor }) => {
     confirmedAppointments: 0,
     cancelledAppointments: 0,
     totalAppointments: 0,
-    pendingPayments: 0
+    pendingPayments: 0,
+    totalSurgeries: 0,
+    completedSurgeries: 0,
+    confirmedSurgeries: 0,
+    cancelledSurgeries: 0
   });
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('month');
@@ -17,53 +21,34 @@ const RevenueReport = ({ doctor }) => {
   useEffect(() => {
     const fetchRevenueData = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/appointments/doctor/${doctor._id}`
-        );
-        const appointments = await res.json();
-        
-        // Process appointments to calculate revenue
+        const [apptRes, surgRes] = await Promise.all([
+          fetch(`http://localhost:5000/api/appointments/doctor/${doctor._id}`),
+          fetch(`http://localhost:5000/api/surgeries?doctorId=${doctor._id}`)
+        ]);
+        const appointments = await apptRes.json();
+        const surgeries = (await surgRes.json()).filter(s => s.doctorId === doctor._id);
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        
-        const processedData = appointments.reduce((acc, appointment) => {
+
+        // Process appointments
+        const apptData = appointments.reduce((acc, appointment) => {
           const appointmentDate = new Date(appointment.appointmentDate);
           const isCompleted = appointment.status === 'completed';
           const isConfirmed = appointment.status === 'confirmed';
           const isCancelled = appointment.status === 'cancelled';
           const isPaid = appointment.isPaid;
-          
-          // Count total appointments (including cancelled)
           acc.totalAppointments++;
-          
-          // Calculate earnings only for confirmed and completed appointments
           if (isCompleted || isConfirmed) {
             const fee = Number(doctor.profile.fee) || 0;
             acc.totalEarnings += fee;
-            
-            // Calculate monthly earnings
             if (appointmentDate >= startOfMonth) {
               acc.monthlyEarnings += fee;
             }
-            
-            // Track completed vs confirmed appointments
-            if (isCompleted) {
-              acc.completedAppointments++;
-            } else if (isConfirmed) {
-              acc.confirmedAppointments++;
-            }
-            
-            // Track pending payments (only for completed appointments that aren't paid)
-            if (isCompleted && !isPaid) {
-              acc.pendingPayments += fee;
-            }
+            if (isCompleted) acc.completedAppointments++;
+            else if (isConfirmed) acc.confirmedAppointments++;
+            if (isCompleted && !isPaid) acc.pendingPayments += fee;
           }
-
-          // Track cancelled appointments
-          if (isCancelled) {
-            acc.cancelledAppointments++;
-          }
-          
+          if (isCancelled) acc.cancelledAppointments++;
           return acc;
         }, {
           totalEarnings: 0,
@@ -75,7 +60,53 @@ const RevenueReport = ({ doctor }) => {
           pendingPayments: 0
         });
 
-        setRevenueData(processedData);
+        // Process surgeries
+        const surgData = surgeries.reduce((acc, surgery) => {
+          const surgeryDate = new Date(surgery.date);
+          const isCompleted = surgery.status === 'completed';
+          const isConfirmed = surgery.status === 'confirmed';
+          const isCancelled = surgery.status === 'cancelled';
+          acc.totalSurgeries++;
+          let fee = 0;
+          if (surgery.surgeryFee) {
+            // Remove 'Rs.' and commas, parse as number
+            fee = parseInt((surgery.surgeryFee + '').replace(/[^0-9]/g, '')) || 0;
+          } else if (doctor.profile.surgeryFee) {
+            fee = parseInt((doctor.profile.surgeryFee + '').replace(/[^0-9]/g, '')) || 0;
+          }
+          if (isCompleted || isConfirmed) {
+            acc.totalEarnings += fee;
+            if (surgeryDate >= startOfMonth) {
+              acc.monthlyEarnings += fee;
+            }
+            if (isCompleted) acc.completedSurgeries++;
+            else if (isConfirmed) acc.confirmedSurgeries++;
+          }
+          if (isCancelled) acc.cancelledSurgeries++;
+          return acc;
+        }, {
+          totalSurgeries: 0,
+          completedSurgeries: 0,
+          confirmedSurgeries: 0,
+          cancelledSurgeries: 0,
+          totalEarnings: 0,
+          monthlyEarnings: 0
+        });
+
+        // Combine
+        setRevenueData({
+          totalEarnings: apptData.totalEarnings + surgData.totalEarnings,
+          monthlyEarnings: apptData.monthlyEarnings + surgData.monthlyEarnings,
+          completedAppointments: apptData.completedAppointments,
+          confirmedAppointments: apptData.confirmedAppointments,
+          cancelledAppointments: apptData.cancelledAppointments,
+          totalAppointments: apptData.totalAppointments,
+          pendingPayments: apptData.pendingPayments,
+          totalSurgeries: surgData.totalSurgeries,
+          completedSurgeries: surgData.completedSurgeries,
+          confirmedSurgeries: surgData.confirmedSurgeries,
+          cancelledSurgeries: surgData.cancelledSurgeries
+        });
         setLoading(false);
       } catch (error) {
         console.error("Error fetching revenue data:", error);
@@ -162,6 +193,42 @@ const RevenueReport = ({ doctor }) => {
                 <p>Fee per Appointment</p>
               </div>
             </div>
+            {/* Surgeries Stats */}
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>🩺</div>
+              <div className={styles['stat-info']}>
+                <h3>{revenueData.totalSurgeries}</h3>
+                <p>Total Surgeries</p>
+              </div>
+            </div>
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>✅</div>
+              <div className={styles['stat-info']}>
+                <h3>{revenueData.confirmedSurgeries}</h3>
+                <p>Confirmed Surgeries</p>
+              </div>
+            </div>
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>🏥</div>
+              <div className={styles['stat-info']}>
+                <h3>{revenueData.completedSurgeries}</h3>
+                <p>Completed Surgeries</p>
+              </div>
+            </div>
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>❌</div>
+              <div className={styles['stat-info']}>
+                <h3>{revenueData.cancelledSurgeries}</h3>
+                <p>Cancelled Surgeries</p>
+              </div>
+            </div>
+            <div className={styles['stat-card']}>
+              <div className={styles['stat-icon']}>💵</div>
+              <div className={styles['stat-info']}>
+                <h3>₹{doctor.profile.surgeryFee}</h3>
+                <p>Fee per Surgery</p>
+              </div>
+            </div>
           </div>
 
           {/* Pending Payments */}
@@ -180,4 +247,4 @@ const RevenueReport = ({ doctor }) => {
   );
 };
 
-export default RevenueReport; 
+export default RevenueReport;

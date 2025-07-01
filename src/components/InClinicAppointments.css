@@ -63,14 +63,14 @@ label {
 }
 
 .city-button:hover {
-  border-color: #fdba74;
+  border-color: #ffa726;
   background-color: #fff7ed;
 }
 
 .city-button.selected {
-  border-color: #f97316;
+  border-color: #ffa726;
   background-color: #fff7ed;
-  color: #ea580c;
+  color: #ffa726;
 }
 
 /* Specialization Input */
@@ -92,12 +92,12 @@ label {
 
 .specialty-input:focus {
   outline: none;
-  border-color: #fdba74;
+  border-color: #ffa726;
   background: #fffdf7;
 }
 
 .specialty-input.highlighted {
-  border-color: #f97316;
+  border-color: #ffa726;
   background: #fff7ed;
 }
 
@@ -164,7 +164,7 @@ label {
 
 .dropdown-item.active {
   background: #fff7ed;
-  color: #ea580c;
+  color: #ffa726;
 }
 
 .dropdown-empty {
@@ -202,14 +202,14 @@ label {
 }
 
 .search-btn.active {
-  background-color: #f97316;
+  background-color: #ffa726;
   color: white;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
 }
 
 .search-btn.active:hover {
-  background-color: #ea580c;
+  background-color: #ffa726;
 }
 
 .search-btn.disabled {
@@ -226,7 +226,7 @@ label {
 }
 
 .contact-link {
-  color: #f97316;
+  color: #ffa726;
   cursor: pointer;
   font-weight: 500;
 }

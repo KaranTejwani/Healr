@@ -7,7 +7,9 @@ import authRoute from './routes/auth.js';
 import doctorAccountsRoutes from './routes/doctorAccounts.js';
 import laboratoryRoutes from './routes/laboratories.js';
 import prescriptionRoutes from './routes/prescriptions.js';
+import surgeriesRoute from './routes/surgeries.js';
 import './utils/appointmentScheduler.js'; // Import the scheduler
+import './utils/surgeryScheduler.js'; // Import the surgery scheduler
 
 dotenv.config();
 const app = express();
@@ -31,6 +33,7 @@ app.use('/api/doctorAccounts', doctorAccountsRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/laboratories', laboratoryRoutes);
 app.use('/api/prescriptions', prescriptionRoutes);
+app.use('/api/surgeries', surgeriesRoute);
 
 
 // Start server

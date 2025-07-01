@@ -2,27 +2,24 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
-const Modal = ({ show, onClose, title, message }) => {
+const Modal = ({ show, onClose, title, message, isSuccess }) => {
   if (!show) return null;
-  const isSuccess = title === 'Login Successful!';
+  const isSuccessMsg = isSuccess;
   return (
-    <div
-      className="modal-overlay"
-      style={{}}
-    >
+    <div className="modal-overlay" style={{}}>
       <div
         className="modal-content"
         style={{
-          '--modal-bg': isSuccess ? '#e3f0fd' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
-          '--modal-icon-bg': isSuccess ? '#2c83fb' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
-          '--modal-icon-shadow': isSuccess ? '#2c83fb40' : '#ff4e4e40',
-          '--modal-title-color': isSuccess ? '#20509e' : '#c62828',
-          '--modal-btn-bg': isSuccess ? '#2c83fb' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
-          '--modal-btn-shadow': isSuccess ? '#2c83fb30' : '#ff4e4e30',
+          '--modal-bg': isSuccessMsg ? '#e3f0fd' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
+          '--modal-icon-bg': isSuccessMsg ? '#2c83fb' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
+          '--modal-icon-shadow': isSuccessMsg ? '#2c83fb40' : '#ff4e4e40',
+          '--modal-title-color': isSuccessMsg ? '#20509e' : '#c62828',
+          '--modal-btn-bg': isSuccessMsg ? '#2c83fb' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
+          '--modal-btn-shadow': isSuccessMsg ? '#2c83fb30' : '#ff4e4e30',
         }}
       >
         <div className="modal-icon">
-          {isSuccess ? (
+          {isSuccessMsg ? (
             <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="19" cy="19" r="19" fill="none" />
               <path d="M11 20.5L17 26.5L27 14.5" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
@@ -52,7 +49,7 @@ const Login = ({ setPatient, setDoctor }) => {
   const [password, setPassword] = useState("");
   const [showAccountSelection, setShowAccountSelection] = useState(false);
   const [availableAccounts, setAvailableAccounts] = useState(null);
-  const [modal, setModal] = useState({ show: false, title: '', message: '' });
+  const [modal, setModal] = useState({ show: false, title: '', message: '', isSuccess: null });
   const navigate = useNavigate();
 
   const handleLogin = async (e, preferredAccountType = null) => {
@@ -72,28 +69,40 @@ const Login = ({ setPatient, setDoctor }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.' });
-        setTimeout(() => {
-          setModal({ show: false, title: '', message: '' });
-          if (data.doctor && data.user) {
-            setAvailableAccounts(data);
-            setShowAccountSelection(true);
-            return;
-          }
-          if (data.doctor && !data.user) {
+        // Admin login
+        if (data.admin) {
+          localStorage.setItem("admin", JSON.stringify(data.admin));
+          navigate("/admin-dashboard");
+          return;
+        }
+        // Check if user has both doctor and patient accounts
+        if (data.doctor && data.user) {
+          setAvailableAccounts(data);
+          setShowAccountSelection(true);
+          return;
+        }
+        // Single account login (existing logic)
+        if (data.doctor && !data.user) {
+          setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.', isSuccess: true });
+          setTimeout(() => {
+            setModal({ show: false, title: '', message: '', isSuccess: null });
             localStorage.setItem("doctor", JSON.stringify(data.doctor));
             setDoctor(data.doctor);
             navigate("/dashboard", { state: { doctor: data.doctor } });
-          } else if (data.user && !data.doctor) {
+          }, 1500);
+        } else if (data.user && !data.doctor) {
+          setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.', isSuccess: true });
+          setTimeout(() => {
+            setModal({ show: false, title: '', message: '', isSuccess: null });
             localStorage.setItem("patient", JSON.stringify(data.user));
             setPatient(data.user);
             navigate("/");
-          } else {
-            setModal({ show: true, title: 'Login Failed', message: 'Unknown user type.' });
-          }
-        }, 1500);
-        return;
+          }, 1500);
+        } else {
+          setModal({ show: true, title: 'Login Failed', message: 'Unknown user type.', isSuccess: false });
+        }
       } else {
+
         let errorMsg =
           data.message ||
           data.error ||
@@ -102,10 +111,10 @@ const Login = ({ setPatient, setDoctor }) => {
             : response.status === 404
               ? 'User does not exist.'
               : 'Login failed. Please try again.');
-        setModal({ show: true, title: 'Login Failed', message: errorMsg });
+        setModal({ show: true, title: 'Login Failed', message: errorMsg, isSuccess: false });
       }
     } catch (error) {
-      setModal({ show: true, title: 'Login Failed', message: 'Network or server error. Please try again.' });
+      setModal({ show: true, title: 'Login Failed', message: 'Something went wrong. Please try again.', isSuccess: false });
     }
   };
 
@@ -124,9 +133,9 @@ const Login = ({ setPatient, setDoctor }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.' });
+        setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.', isSuccess: true });
         setTimeout(() => {
-          setModal({ show: false, title: '', message: '' });
+          setModal({ show: false, title: '', message: '', isSuccess: null });
           if (accountType === "doctor" && data.doctor) {
             localStorage.setItem("doctor", JSON.stringify(data.doctor));
             setDoctor(data.doctor);
@@ -136,7 +145,7 @@ const Login = ({ setPatient, setDoctor }) => {
             setPatient(data.user);
             navigate("/");
           } else {
-            setModal({ show: true, title: 'Login Failed', message: 'Unknown user type.' });
+            setModal({ show: true, title: 'Login Failed', message: 'Unknown user type.', isSuccess: false });
           }
         }, 1500);
       } else {
@@ -148,10 +157,10 @@ const Login = ({ setPatient, setDoctor }) => {
             : response.status === 404
               ? 'User does not exist.'
               : 'Login failed. Please try again.');
-        setModal({ show: true, title: 'Login Failed', message: errorMsg });
+        setModal({ show: true, title: 'Login Failed', message: errorMsg, isSuccess: false });
       }
     } catch (error) {
-      setModal({ show: true, title: 'Login Failed', message: 'Network or server error. Please try again.' });
+      setModal({ show: true, title: 'Login Failed', message: 'Something went wrong. Please try again.', isSuccess: false });
     }
     setShowAccountSelection(false);
     setAvailableAccounts(null);
@@ -167,9 +176,10 @@ const Login = ({ setPatient, setDoctor }) => {
       <div className="signup-container">
         <Modal
           show={modal.show}
-          onClose={() => setModal({ show: false, title: '', message: '' })}
+          onClose={() => setModal({ show: false, title: '', message: '', isSuccess: null })}
           title={modal.title}
           message={modal.message}
+          isSuccess={modal.isSuccess}
         />
         <div className="signup-box">
           <h2>
@@ -214,9 +224,10 @@ const Login = ({ setPatient, setDoctor }) => {
     <div className="signup-container">
       <Modal
         show={modal.show}
-        onClose={() => setModal({ show: false, title: '', message: '' })}
+        onClose={() => setModal({ show: false, title: '', message: '', isSuccess: null })}
         title={modal.title}
         message={modal.message}
+        isSuccess={modal.isSuccess}
       />
       <div className="signup-box">
         <h2>

@@ -89,10 +89,13 @@ const SurgerySection = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
-    city: "",
+    contact: "",
+    email: "",
     surgery: "",
+    date: "",
+    city: ""
   });
+  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const handleSearch = (e) => {
@@ -105,21 +108,64 @@ const SurgerySection = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // Map surgery name to specialization
+  const surgeryToSpecialization = {
+    "Liposuction": "Plastic Surgeon",
+    "Rhinoplasty": "ENT Surgeon",
+    "Hair Transplant": "Dermatologist",
+    "Caesarean (C-Section)": "Gynecologist",
+    "IVF": "Fertility Specialist",
+    "Penile Implants": "Urologist",
+    "Vasectomy": "Urologist",
+    "Hernia Surgery": "General Surgeon",
+    "Circumcision": "Urologist",
+    "Fistula": "Colorectal Surgeon",
+    "Cataract Eye Surgery": "Ophthalmologist",
+    "Renal (Kidney) Transplant": "Nephrologist",
+    "Root Canal": "Dentist",
+    "CO2 Fractional Laser": "Dermatologist",
+    "Dental Implants": "Dentist",
+    "Nephrectomy": "Urologist",
+    "Varicocele Microsurgery (Varicocelectomy)": "Urologist",
+    "ACL Reconstruction Surgery": "Orthopedic Surgeon",
+    "Knee Replacement Surgery": "Orthopedic Surgeon"
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted:", formData);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    // You can integrate actual API call or routing here
+    setMessage(null);
+    try {
+      const specialization = surgeryToSpecialization[formData.surgery] || '';
+      const payload = {
+        patientName: formData.name,
+        patientContact: formData.contact,
+        patientEmail: formData.email,
+        surgery: formData.surgery,
+        date: formData.date,
+        city: formData.city,
+        specialization,
+        doctorId: null
+      };
+      const res = await fetch('http://localhost:5000/api/surgeries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Failed to submit request');
+      setMessage('Surgery request submitted successfully!');
+      setFormData({ name: '', contact: '', email: '', surgery: '', date: '', city: '' });
+      setTimeout(() => setMessage(null), 2000);
+    } catch (error) {
+      setMessage('Failed to submit request. Please try again.');
+    }
   };
 
   const closeModal = () => setSubmitted(false);
 
   const handleSurgeryClick = (specialization) => {
-    const lowerSpecialization = specialization.toLowerCase();
-    if (lowerSpecialization && lowerSpecialization.length > 0) {
-      const encodedSpecialization = encodeURIComponent(lowerSpecialization);
-      navigate(`/search-results?query=${encodedSpecialization}`);
+    if (specialization && specialization.length > 0) {
+      const encodedSpecialization = encodeURIComponent(specialization);
+      navigate(`/surgery-results?query=${encodedSpecialization}`);
     } else {
       alert("No specialization found for this condition.");
     }
@@ -242,63 +288,49 @@ const SurgerySection = () => {
                 Plan your Surgery with HEALR!
               </h5>
               <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="form-label text-dark fw-semibold">
-                    Patient Name*
-                  </label>
+                <div className="mb-3">
+                  <label className="form-label">Patient Name *</label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="form-control form-control-lg"
+                    className="form-control"
                     placeholder="Enter patient name"
                     required
                   />
                 </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-dark fw-semibold">
-                    Phone No*
-                  </label>
+                <div className="mb-3">
+                  <label className="form-label">Contact Number *</label>
                   <input
                     type="tel"
-                    name="phone"
-                    value={formData.phone}
+                    name="contact"
+                    value={formData.contact}
                     onChange={handleChange}
-                    className="form-control form-control-lg"
+                    className="form-control"
                     placeholder="Enter phone number"
                     required
                   />
                 </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-dark fw-semibold">
-                    City*
-                  </label>
-                  <select
-                    name="city"
-                    value={formData.city}
+                <div className="mb-3">
+                  <label className="form-label">Email *</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleChange}
-                    className="form-select form-select-lg"
+                    className="form-control"
+                    placeholder="Enter email"
                     required
-                  >
-                    <option value="">Select City</option>
-                    <option value="Lahore">Lahore</option>
-                    <option value="Karachi">Karachi</option>
-                    <option value="Islamabad">Islamabad</option>
-                  </select>
+                  />
                 </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-dark fw-semibold">
-                    Surgery*
-                  </label>
+                <div className="mb-3">
+                  <label className="form-label">Surgery For *</label>
                   <select
                     name="surgery"
                     value={formData.surgery}
                     onChange={handleChange}
-                    className="form-select form-select-lg"
+                    className="form-select"
                     required
                   >
                     <option value="">Select Surgery</option>
@@ -309,12 +341,38 @@ const SurgerySection = () => {
                     ))}
                   </select>
                 </div>
-
-                <button type="submit" className="btn  w-100 fw-bold py-2">
+                <div className="mb-3">
+                  <label className="form-label">Preferred Date *</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="form-control"
+                    min={new Date().toISOString().split('T')[0]}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="form-label">City *</label>
+                  <select
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    className="form-select"
+                    required
+                  >
+                    <option value="">Select City</option>
+                    <option value="Lahore">Lahore</option>
+                    <option value="Karachi">Karachi</option>
+                    <option value="Islamabad">Islamabad</option>
+                  </select>
+                </div>
+                <button type="submit" className="btn btn-warning text-white w-100 fw-bold py-2">
                   Request Surgery Booking
                 </button>
+                {message && <div className="mt-3 alert alert-info">{message}</div>}
               </form>
-
               {/* ✅ Confirmation Modal */}
               {submitted && (
                 <div

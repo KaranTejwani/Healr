@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/User.js';
 import DoctorAccounts from '../models/doctorAccounts.js';
+import Admin from '../models/Admin.js';
 
 const router = express.Router();
 
@@ -52,6 +53,14 @@ router.post('/signup', async (req, res) => {
       await doctor.save();
       return res.status(201).json({ message: 'Doctor created successfully', doctor });
 
+    } else if (role === 'admin') {
+      const existingAdmin = await Admin.findOne({ email });
+      if (existingAdmin) {
+        return res.status(400).json({ error: 'Admin already exists' });
+      }
+      const admin = new Admin({ name, email, password, role: 'admin' });
+      await admin.save();
+      return res.status(201).json({ message: 'Admin created successfully', admin });
     } else {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -69,16 +78,30 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Login (common for both)
+// Login (common for all roles)
 router.post('/login', async (req, res) => {
   const { email, password, accountType } = req.body;
 
   try {
-    // Check both account types simultaneously
-    const [user, doctor] = await Promise.all([
+    if (accountType === 'admin') {
+      const admin = await Admin.findOne({ email, password });
+      if (admin) {
+        return res.status(200).json({ message: 'Login successful', admin });
+      } else {
+        return res.status(400).json({ error: 'Invalid admin credentials' });
+      }
+    }
+
+    // Always check for admin, doctor, and patient if no accountType is provided
+    const [admin, user, doctor] = await Promise.all([
+      Admin.findOne({ email, password }),
       User.findOne({ email, password }),
       DoctorAccounts.findOne({ email, password })
     ]);
+
+    if (admin) {
+      return res.status(200).json({ message: 'Login successful', admin });
+    }
 
     // If specific account type is requested (from account selection)
     if (accountType) {
@@ -116,5 +139,7 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Login failed' });
   }
 });
+
+// Future: Add admin-specific API routes here (e.g., GET /api/admin/users, /api/admin/requests)
 
 export default router;

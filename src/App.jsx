@@ -34,15 +34,19 @@ import AddPrescription from "./components/AddPrescription";
 import LabDetailsPage from "./components/LabDetailsPage";
 import ScrollToTop from "./components/ScrollToTop";
 import NotFound from "./components/NotFound";
+import AdminDashboard from "./components/AdminDashboard";
+import SurgeryResultsPage from "./components/SurgeryResultsPage";
 
 function App() {
   const [patient, setPatient] = useState(null);
-
   const [cart, setCart] = useState([]);
   const [doctor, setDoctor] = useState(null);
+  const [admin, setAdmin] = useState(null);
+
   useEffect(() => {
     const storedPatient = localStorage.getItem("patient");
     const storedDoctor = localStorage.getItem("doctor");
+    const storedAdmin = localStorage.getItem("admin");
 
     if (storedPatient) {
       try {
@@ -59,12 +63,23 @@ function App() {
         console.error("Invalid doctor JSON in localStorage", e);
       }
     }
+
+    if (storedAdmin) {
+      try {
+        setAdmin(JSON.parse(storedAdmin));
+      } catch (e) {
+        console.error("Invalid admin JSON in localStorage", e);
+      }
+    }
+
     const handleStorageChange = () => {
       const updatedPatient = localStorage.getItem("patient");
       const updatedDoctor = localStorage.getItem("doctor");
+      const updatedAdmin = localStorage.getItem("admin");
 
       setPatient(updatedPatient ? JSON.parse(updatedPatient) : null);
       setDoctor(updatedDoctor ? JSON.parse(updatedDoctor) : null);
+      setAdmin(updatedAdmin ? JSON.parse(updatedAdmin) : null);
     };
 
     window.addEventListener("storage", handleStorageChange);
@@ -80,6 +95,8 @@ function App() {
           setPatient={setPatient}
           doctor={doctor}
           setDoctor={setDoctor}
+          admin={admin}
+          setAdmin={setAdmin}
         />
         <Routes>
           <Route
@@ -129,6 +146,8 @@ function App() {
             path="/book-appointment/:doctorId"
             element={<BookAppointment />}
           />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/surgery-results" element={<SurgeryResultsPage />} />
         </Routes>
       </Router>
     </>

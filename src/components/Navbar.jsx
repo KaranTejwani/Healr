@@ -1,19 +1,20 @@
 // src/components/Navbar.jsx
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import fetchAllDoctors from "./fetchAllDoctors";
 import DoctorDropdown from "./DoctorDropdown";
 import ConditionsDropdown from "./ConditionDropdown";
 import CityDropdown from "./CityDropdown";
 
-const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
+const AppNavbar = ({ patient, setPatient, doctor, setDoctor, admin, setAdmin }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("patient");
     localStorage.removeItem("doctor");
+    localStorage.removeItem("admin");
     if (setPatient) setPatient(null);
     if (setDoctor) setDoctor(null);
+    if (setAdmin) setAdmin(null);
     navigate("/login");
   };
 
@@ -95,7 +96,7 @@ const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
               position: "relative",
             }}
           >
-            {!patient && !doctor ? (
+            {!patient && !doctor && !admin ? (
               <>
                 <Link
                   to="/login"
@@ -128,6 +129,38 @@ const AppNavbar = ({ patient, setPatient, doctor, setDoctor }) => {
                   SignUp
                 </Link>
               </>
+            ) : admin ? (
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <button
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "#f0f0f0",
+                    color: "#333",
+                    border: "none",
+                    cursor: "default",
+                  }}
+                >
+                  {admin?.name || admin?.email || "Admin"}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "6px",
+                    fontWeight: "500",
+                    fontSize: "0.95rem",
+                    background: "#ff4d4f",
+                    color: "white",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <button

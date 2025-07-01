@@ -118,16 +118,16 @@ const InClinicAppointments = () => {
               )}
             </div>
 
-            {selectedSpecialty && <p className="selected-tag">✓ Selected: {selectedSpecialty}</p>}
+            {/* {selectedSpecialty && <p className="selected-tag">✓ Selected: {selectedSpecialty}</p>} */}
           </div>
 
-          {(selectedCity || selectedSpecialty) && (
+          {/* {(selectedCity || selectedSpecialty) && (
             <div className="summary-box">
               <h3>Your Selection:</h3>
               {selectedCity && <p><strong>City:</strong> {selectedCity}</p>}
               {selectedSpecialty && <p><strong>Specialization:</strong> {selectedSpecialty}</p>}
             </div>
-          )}
+          )} */}
 
           <button
             onClick={handleSearch}

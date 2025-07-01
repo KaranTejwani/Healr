@@ -79,7 +79,9 @@ const ListFilteredDoctors = ({ doctors }) => {
             <div className="row align-items-center">
               <div className="col-md-2 text-center">
                 <img
-                  src={doc.profile?.profilePicture || "./src/IMAGES/profile.jpg"}
+                  src={
+                    doc.profile?.profilePicture || "./src/IMAGES/profile.jpg"
+                  }
                   alt={doc.name}
                   className="img-fluid rounded-circle doctor-avatar"
                 />
@@ -94,7 +96,8 @@ const ListFilteredDoctors = ({ doctors }) => {
                   )}
                 </h5>
                 <p className="mb-1">
-                  {doc.profile?.specialization?.join(", ") || "No Specialization"}
+                  {doc.profile?.specialization?.join(", ") ||
+                    "No Specialization"}
                 </p>
                 <p className="mb-1 text-muted">
                   {doc.profile?.highestDegree}{" "}
@@ -137,7 +140,8 @@ const ListFilteredDoctors = ({ doctors }) => {
               <div className="col-md-6">
                 <p className="mb-1 fw-semibold">Online Video Consultation</p>
                 <p className="text-success mb-1">
-                  Available {doc.profile?.availableSlots?.length ? "today" : "soon"}
+                  Available{" "}
+                  {doc.profile?.availableSlots?.length ? "today" : "soon"}
                 </p>
                 <p>Rs. {doc.videoFee || "1,500"}</p>
               </div>
