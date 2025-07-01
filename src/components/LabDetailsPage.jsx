@@ -4,7 +4,6 @@ import PopularMedicalTests from "../components/PopularMedicalTests";
 import PopularRadiologyTests from "../components/PopularRadiologyTests";
 import CartPopup from "../components/CartPopup";
 
-// 💳 Card component (your version)
 const TestCard = ({ test, onAddToCart }) => {
   return (
     <div
@@ -46,7 +45,6 @@ const LabDetailsPage = () => {
   const [isCartVisible, setIsCartVisible] = useState(false);
   const testsPerPage = 6;
 
-  // ✅ Fetch labs from backend
   useEffect(() => {
     const fetchLaboratories = async () => {
       try {
@@ -60,7 +58,6 @@ const LabDetailsPage = () => {
     fetchLaboratories();
   }, []);
 
-  // ✅ Flatten all tests
   const allTests = useMemo(() => {
     if (!Array.isArray(laboratories)) return [];
     return laboratories.reduce((acc, lab) => {
@@ -72,7 +69,6 @@ const LabDetailsPage = () => {
     }, []);
   }, [laboratories]);
 
-  // ✅ Filter by selected lab and search
   const filteredTests = useMemo(() => {
     return allTests.filter(
       (test) =>
@@ -161,9 +157,8 @@ const LabDetailsPage = () => {
 
                 {getPageNumbers().map((pageNum) => (
                   <li
-                    className={`page-item ${
-                      currentPage === pageNum ? "active" : ""
-                    }`}
+                    className={`page-item ${currentPage === pageNum ? "active" : ""
+                      }`}
                     key={pageNum}
                   >
                     <button

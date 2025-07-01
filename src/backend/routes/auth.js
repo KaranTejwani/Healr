@@ -117,11 +117,11 @@ router.post('/login', async (req, res) => {
     // Handle different account scenarios
     if (user && doctor) {
       // Both accounts exist - return both for frontend to handle
-      return res.status(200).json({ 
-        message: 'Multiple accounts found', 
-        user, 
+      return res.status(200).json({
+        message: 'Multiple accounts found',
+        user,
         doctor,
-        hasBothAccounts: true 
+        hasBothAccounts: true
       });
     } else if (user) {
       // Only patient account
@@ -139,7 +139,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Login failed' });
   }
 });
-
-// Future: Add admin-specific API routes here (e.g., GET /api/admin/users, /api/admin/requests)
 
 export default router;

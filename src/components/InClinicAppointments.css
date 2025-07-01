@@ -1,4 +1,3 @@
-/* General Layout */
 .appointments-wrapper {
   min-height: 100vh;
   background: linear-gradient(to bottom right, #ebf8ff, #e0e7ff);
@@ -44,7 +43,6 @@ label {
   gap: 0.5rem;
 }
 
-/* City Buttons */
 .city-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -73,7 +71,6 @@ label {
   color: #ffa726;
 }
 
-/* Specialization Input */
 .specialty-section {
   margin-top: 2rem;
 }
@@ -101,7 +98,6 @@ label {
   background: #fff7ed;
 }
 
-/* Input Icons */
 .input-icons {
   position: absolute;
   top: 50%;
@@ -133,7 +129,6 @@ label {
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* Dropdown */
 .dropdown-list {
   position: absolute;
   top: 110%;
@@ -173,7 +168,6 @@ label {
   color: #9ca3af;
 }
 
-/* Summary Box */
 .summary-box {
   background: #f9fafb;
   border-radius: 0.5rem;
@@ -187,7 +181,6 @@ label {
   font-weight: 500;
 }
 
-/* Search Button */
 .search-btn {
   margin-top: 1.5rem;
   padding: 1rem;
@@ -218,7 +211,6 @@ label {
   cursor: not-allowed;
 }
 
-/* Footer */
 .footer-text {
   text-align: center;
   margin-top: 2rem;

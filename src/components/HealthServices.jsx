@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./HealthServices.css";
 
-// import images...
 import consultImage from "../IMAGES/consult.webp";
 import clinicImage from "../IMAGES/clinic.webp";
 import labImage from "../IMAGES/Laboratory.jpg";
@@ -31,7 +30,7 @@ const services = [
     title: "Procedures & Surgeries",
     description: "Plan your surgeries at discounted rates.",
     image: surgeryImage,
-    route: "/surgery", // 👈 route added
+    route: "/surgery",
   },
   {
     title: "Medicines",

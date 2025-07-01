@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "./CartContext";
-import "./CartPage.css"; // Import the CSS file
+import "./CartPage.css";
 
 const CartPage = () => {
   const navigate = useNavigate();

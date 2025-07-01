@@ -3,12 +3,12 @@ import mongoose from 'mongoose';
 const appointmentSchema = new mongoose.Schema({
   patient: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to users collection
+    ref: 'User',
     required: true
   },
   doctor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'DoctorAccounts', // Reference to doctorAccounts collection
+    ref: 'DoctorAccounts',
     required: true
   },
   appointmentDate: {
@@ -16,7 +16,7 @@ const appointmentSchema = new mongoose.Schema({
     required: true
   },
   timeSlot: {
-    type: String, // e.g., "10:00 AM - 10:30 AM"
+    type: String,
     required: true
   },
   status: {
@@ -25,7 +25,7 @@ const appointmentSchema = new mongoose.Schema({
     default: 'pending'
   },
   reason: {
-    type: String // Reason for visit (optional)
+    type: String
   },
   isPaid: {
     type: Boolean,

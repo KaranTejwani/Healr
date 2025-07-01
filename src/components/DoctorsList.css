@@ -35,11 +35,9 @@
 
 .doctors-grid {
   display: grid;
-  /* FIXED: Increased minimum width and used fixed column count approach */
   grid-template-columns: repeat(6, 1fr);
   gap: 24px;
   justify-items: center;
-  /* ADDED: Prevent grid items from overflowing */
   overflow: hidden;
 }
 
@@ -53,14 +51,12 @@
   transition: transform 0.2s ease;
   padding: 16px 12px;
   border-radius: 12px;
-  /* FIXED: Set explicit width and prevent overflow */
   width: 100%;
   max-width: 180px;
   min-height: 140px;
   position: relative;
   overflow: visible;
   box-sizing: border-box;
-  /* FIXED: Set explicit width and prevent overflow */
   width: 100%;
   max-width: 180px;
   min-height: 140px;
@@ -111,7 +107,6 @@
 .doctor-icon svg {
   width: 40px;
   height: 40px;
-  /* FIXED: Center the actual SVG inside the blue circle */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -128,18 +123,15 @@
   color: #374151;
   margin: 0;
   line-height: 1.2;
-  /* FIXED: Better text wrapping and overflow handling */
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
   max-width: 100%;
-  /* ADDED: Ensure text is perfectly centered */
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .doctors-grid {
     grid-template-columns: repeat(4, 1fr);

@@ -69,19 +69,16 @@ const Login = ({ setPatient, setDoctor }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Admin login
         if (data.admin) {
           localStorage.setItem("admin", JSON.stringify(data.admin));
           navigate("/admin-dashboard");
           return;
         }
-        // Check if user has both doctor and patient accounts
         if (data.doctor && data.user) {
           setAvailableAccounts(data);
           setShowAccountSelection(true);
           return;
         }
-        // Single account login (existing logic)
         if (data.doctor && !data.user) {
           setModal({ show: true, title: 'Login Successful!', message: 'You have logged in successfully.', isSuccess: true });
           setTimeout(() => {

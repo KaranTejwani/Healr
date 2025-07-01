@@ -81,7 +81,6 @@ const DrugSearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedDrug, setSelectedDrug] = useState(null);
-  // const [cart, setCart] = useState([]);
   const [selectedCartDrug, setSelectedCartDrug] = useState(null);
   const [isCartVisible, setIsCartVisible] = useState(false);
 
@@ -90,11 +89,10 @@ const DrugSearchPage = () => {
   const navigate = useNavigate();
 
   const handleAddToCart = (drug) => {
-    addToCart(drug); // ✅ This already updates the cart in context
-    setIsCartVisible(true); // ✅ This opens the cart popup
+    addToCart(drug);
+    setIsCartVisible(true);
   };
 
-  // ✅ Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 30;
   const totalPages = Math.ceil(drugs.length / itemsPerPage);
@@ -126,7 +124,7 @@ const DrugSearchPage = () => {
       });
 
       const allResults = await Promise.all(fetchPromises);
-      const filteredResults = allResults.filter(Boolean); // remove nulls
+      const filteredResults = allResults.filter(Boolean);
 
       setDrugs(filteredResults);
       setCurrentPage(1);
@@ -167,7 +165,7 @@ const DrugSearchPage = () => {
       setDrugs([]);
     } finally {
       setLoading(false);
-      setCurrentPage(1); // ✅ Reset page
+      setCurrentPage(1);
     }
   };
 
@@ -226,16 +224,13 @@ const DrugSearchPage = () => {
                 ))}
               </div>
 
-              {/* ✅ Pagination Controls */}
-              {/* ✅ Modern Pagination Controls */}
               <div className="d-flex justify-content-center mt-5 gap-2 flex-wrap">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (num) => (
                     <button
                       key={num}
-                      className={`modern-pagination-btn ${
-                        currentPage === num ? "active" : ""
-                      }`}
+                      className={`modern-pagination-btn ${currentPage === num ? "active" : ""
+                        }`}
                       onClick={() => setCurrentPage(num)}
                       style={{
                         padding: "0.5rem 1rem",
@@ -297,10 +292,10 @@ const DrugSearchPage = () => {
           <CartPopup
             cart={cart}
             onClose={() => setIsCartVisible(false)}
-            onRemove={(index) => removeFromCart(index)} // ✅ Use context method
+            onRemove={(index) => removeFromCart(index)}
             onCheckout={() => {
               setIsCartVisible(false);
-              navigate("/cart"); // ✅ Redirect to cart page
+              navigate("/cart");
             }}
           />
         )}

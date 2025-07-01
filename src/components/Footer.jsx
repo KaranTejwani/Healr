@@ -24,7 +24,6 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* ✅ Only this section updated with <Link> */}
         <div className="footer-col">
           <h4>Company</h4>
           <ul>

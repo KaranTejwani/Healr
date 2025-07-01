@@ -30,7 +30,6 @@ const RevenueReport = ({ doctor }) => {
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-        // Process appointments
         const apptData = appointments.reduce((acc, appointment) => {
           const appointmentDate = new Date(appointment.appointmentDate);
           const isCompleted = appointment.status === 'completed';
@@ -60,7 +59,6 @@ const RevenueReport = ({ doctor }) => {
           pendingPayments: 0
         });
 
-        // Process surgeries
         const surgData = surgeries.reduce((acc, surgery) => {
           const surgeryDate = new Date(surgery.date);
           const isCompleted = surgery.status === 'completed';
@@ -93,7 +91,6 @@ const RevenueReport = ({ doctor }) => {
           monthlyEarnings: 0
         });
 
-        // Combine
         setRevenueData({
           totalEarnings: apptData.totalEarnings + surgData.totalEarnings,
           monthlyEarnings: apptData.monthlyEarnings + surgData.monthlyEarnings,
@@ -127,13 +124,13 @@ const RevenueReport = ({ doctor }) => {
           <p>Track your earnings and payment history</p>
         </div>
         <div className={styles['period-selector']}>
-          <button 
+          <button
             className={selectedPeriod === 'month' ? styles.active : ''}
             onClick={() => setSelectedPeriod('month')}
           >
             This Month
           </button>
-          <button 
+          <button
             className={selectedPeriod === 'all' ? styles.active : ''}
             onClick={() => setSelectedPeriod('all')}
           >
@@ -149,7 +146,6 @@ const RevenueReport = ({ doctor }) => {
         </div>
       ) : (
         <>
-          {/* Stats Cards */}
           <div className={styles['stats-grid']}>
             <div className={styles['stat-card']}>
               <div className={styles['stat-icon']}>💰</div>
@@ -193,7 +189,6 @@ const RevenueReport = ({ doctor }) => {
                 <p>Fee per Appointment</p>
               </div>
             </div>
-            {/* Surgeries Stats */}
             <div className={styles['stat-card']}>
               <div className={styles['stat-icon']}>🩺</div>
               <div className={styles['stat-info']}>
@@ -231,7 +226,6 @@ const RevenueReport = ({ doctor }) => {
             </div>
           </div>
 
-          {/* Pending Payments */}
           {revenueData.pendingPayments > 0 && (
             <div className={styles['pending-payments-section']}>
               <h3>Pending Payments</h3>

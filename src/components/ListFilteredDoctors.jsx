@@ -20,59 +20,54 @@ const ListFilteredDoctors = ({ doctors }) => {
 
   const sortedDoctors = sortOption
     ? [...doctors].sort((a, b) => {
-        if (sortOption === "experience") {
-          return (
-            getComparableValue(b.profile.experience) -
-            getComparableValue(a.profile.experience)
-          );
-        }
-        if (sortOption === "fee") {
-          return (
-            getComparableValue(a.profile.fee, Infinity) -
-            getComparableValue(b.profile.fee, Infinity)
-          );
-        }
-        if (sortOption === "rating") {
-          return (
-            getComparableValue(b.profile.rating) -
-            getComparableValue(a.profile.rating)
-          );
-        }
-        return 0;
-      })
+      if (sortOption === "experience") {
+        return (
+          getComparableValue(b.profile.experience) -
+          getComparableValue(a.profile.experience)
+        );
+      }
+      if (sortOption === "fee") {
+        return (
+          getComparableValue(a.profile.fee, Infinity) -
+          getComparableValue(b.profile.fee, Infinity)
+        );
+      }
+      if (sortOption === "rating") {
+        return (
+          getComparableValue(b.profile.rating) -
+          getComparableValue(a.profile.rating)
+        );
+      }
+      return 0;
+    })
     : doctors;
 
   return (
     <div className="container my-5">
-      {/* 🔘 Sorting Buttons */}
       <div className="mb-4 text-start filter-buttons-container">
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
-            sortOption === "experience" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${sortOption === "experience" ? "active" : ""
+            }`}
           onClick={() => handleSort("experience")}
         >
           Most Experienced
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
-            sortOption === "fee" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${sortOption === "fee" ? "active" : ""
+            }`}
           onClick={() => handleSort("fee")}
         >
           Lowest Fee
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
-            sortOption === "rating" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${sortOption === "rating" ? "active" : ""
+            }`}
           onClick={() => handleSort("rating")}
         >
           Highest Rating
         </button>
       </div>
 
-      {/* 🩺 Doctor List */}
       {sortedDoctors.map((doc) => (
         <div key={doc._id} className="card mb-4 shadow-sm doctor-card-style">
           <div className="card-body">

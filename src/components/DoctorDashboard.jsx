@@ -57,8 +57,7 @@ const DoctorDashboard = ({ doctor }) => {
       });
 
       if (response.ok) {
-        // Update the local state to reflect the change
-        setAppointments(appointments.map(appt => 
+        setAppointments(appointments.map(appt =>
           appt._id === appointmentId ? { ...appt, status: 'confirmed' } : appt
         ));
       } else {
@@ -80,8 +79,7 @@ const DoctorDashboard = ({ doctor }) => {
       });
 
       if (response.ok) {
-        // Update the local state to reflect the change
-        setAppointments(appointments.map(appt => 
+        setAppointments(appointments.map(appt =>
           appt._id === appointmentId ? { ...appt, status: 'cancelled' } : appt
         ));
       } else {
@@ -135,7 +133,6 @@ const DoctorDashboard = ({ doctor }) => {
   };
 
   const handleProfileUpdate = (updatedDoctor) => {
-    // Update the doctor state in the parent component
     if (typeof onDoctorUpdate === 'function') {
       onDoctorUpdate(updatedDoctor);
     }
@@ -198,9 +195,8 @@ const DoctorDashboard = ({ doctor }) => {
                         <td>{appt.timeSlot}</td>
                         <td>
                           <span
-                            className={`status-badge ${
-                              appt.status.toLowerCase()
-                            }`}
+                            className={`status-badge ${appt.status.toLowerCase()
+                              }`}
                           >
                             {appt.status}
                           </span>
@@ -310,7 +306,6 @@ const DoctorDashboard = ({ doctor }) => {
 
   return (
     <div className="dashboard">
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="logo">
           Dr. <span className="text-warning">Dashboard</span>
@@ -320,9 +315,8 @@ const DoctorDashboard = ({ doctor }) => {
             (section) => (
               <button
                 key={section}
-                className={`nav-button ${
-                  activeSection === section ? "active" : ""
-                }`}
+                className={`nav-button ${activeSection === section ? "active" : ""
+                  }`}
                 onClick={() => setActiveSection(section)}
               >
                 {section}
@@ -332,20 +326,11 @@ const DoctorDashboard = ({ doctor }) => {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <main className="main">
-        {/* Header */}
         <div className="header">
           <h1 className="welcome">Welcome, {name} 👋</h1>
-          {/* <button
-            className="add-prescription-btn"
-            onClick={() => navigate("/add-prescription")}
-          >
-            <span>➕</span> Add Prescription
-          </button> */}
         </div>
 
-        {/* Doctor Profile Card */}
         <div className="profile-card">
           <div className="profile-header">
             <img
@@ -390,7 +375,6 @@ const DoctorDashboard = ({ doctor }) => {
           </div>
         </div>
 
-        {/* Dynamic Content Section */}
         {renderContent()}
       </main>
     </div>

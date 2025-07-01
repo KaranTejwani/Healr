@@ -11,9 +11,7 @@ body {
   padding: 1rem;
   min-height: 30vh;
   margin-left: 60px;
-
-  /* 🛠️ Critical fix below */
-  margin-top: 30px; /* ensures it is pushed down */
+  margin-top: 30px;
   position: relative;
   z-index: 1;
 }
@@ -24,7 +22,7 @@ body {
 }
 
 .hero-section .highlight {
-  color: #ffa500; /* orange-yellow */
+  color: #ffa500;
 }
 
 .badge-box {
@@ -39,16 +37,15 @@ body {
   font-weight: 600;
 }
 
-/* Updated search container styles */
 .search-container {
   display: flex;
   gap: 0;
-  max-width: 800px; /* Increased width significantly */
+  max-width: 800px;
   background-color: white;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 4px; /* Added padding around the entire container */
+  padding: 4px;
 }
 
 .location-section {

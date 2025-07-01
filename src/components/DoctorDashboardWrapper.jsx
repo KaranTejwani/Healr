@@ -6,8 +6,6 @@ const DoctorDashboardWrapper = () => {
   const storedDoctor = JSON.parse(localStorage.getItem("doctor"));
   const doctor = location.state?.doctor || storedDoctor;
 
-
-  // Redirect to login if doctor data is not found
   if (!doctor) return <Navigate to="/" replace />;
 
   return <DoctorDashboard doctor={doctor} />;

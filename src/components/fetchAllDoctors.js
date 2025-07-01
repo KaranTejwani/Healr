@@ -1,5 +1,3 @@
-// src/components/fetchAllDoctors.js
-
 const fetchAllDoctors = async () => {
   try {
     const res = await fetch("http://localhost:5000/api/doctorAccounts");

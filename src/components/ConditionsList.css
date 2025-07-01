@@ -89,7 +89,6 @@
   max-width: 120px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .conditions-container {
     padding: 15px;

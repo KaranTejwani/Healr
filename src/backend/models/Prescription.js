@@ -1,4 +1,3 @@
-// models/Prescription.js
 import mongoose from 'mongoose';
 
 const prescriptionSchema = new mongoose.Schema({
@@ -26,7 +25,7 @@ const prescriptionSchema = new mongoose.Schema({
   // Medical Information
   symptoms: [{ type: String }],
   diagnosis: { type: String },
-  
+
   // Medications
   medications: [{
     name: { type: String, required: true },
@@ -38,7 +37,7 @@ const prescriptionSchema = new mongoose.Schema({
 
   // Instructions and Advice
   advice: { type: String },
-  
+
   // Follow-up
   followUp: {
     required: { type: Boolean, default: false },
@@ -55,14 +54,14 @@ const prescriptionSchema = new mongoose.Schema({
 
   // Status and Metadata
   prescriptionNumber: { type: String, unique: true }, // Auto-generated
-  
+
   // Timestamps
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
 
 // Auto-generate prescription number
-prescriptionSchema.pre('save', async function(next) {
+prescriptionSchema.pre('save', async function (next) {
   if (!this.prescriptionNumber) {
     const count = await this.constructor.countDocuments();
     this.prescriptionNumber = `RX-${Date.now()}-${(count + 1).toString().padStart(4, '0')}`;

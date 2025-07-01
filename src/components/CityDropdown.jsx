@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './DoctorDropdown.css'; // Reuse the dropdown styles
+import './DoctorDropdown.css';
 
 const cities = ['Karachi', 'Lahore', 'Islamabad'];
 
@@ -11,7 +11,7 @@ const CityDropdown = () => {
 
   const handleCitiesClick = () => {
     setShowCities((prev) => {
-      if (prev) setSelectedCity(''); // Reset selection when closing
+      if (prev) setSelectedCity('');
       return !prev;
     });
   };
@@ -19,7 +19,6 @@ const CityDropdown = () => {
   const handleSelect = (city) => {
     setSelectedCity(city);
     setShowCities(false);
-    // Immediately search on selection
     navigate(`/search-results?query=${encodeURIComponent(city)}`);
   };
 

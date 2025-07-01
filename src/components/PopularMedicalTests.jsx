@@ -217,8 +217,8 @@ const PopularMedicalTests = ({ labName = "" }) => {
                 whiteSpace: "nowrap",
                 gap: "1rem",
                 scrollBehavior: "smooth",
-                scrollbarWidth: "none", // Firefox
-                msOverflowStyle: "none", // IE/Edge
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
               }}
               onScroll={(e) => {
                 e.currentTarget.style.scrollbarWidth = "none";

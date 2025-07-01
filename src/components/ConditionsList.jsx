@@ -2,7 +2,6 @@ import React from "react";
 import "./ConditionsList.css";
 import { useNavigate } from "react-router-dom";
 
-// Images
 import Acne from "../assets/conditions/acne.png";
 import Diarrhea from "../assets/conditions/diarrhea.png";
 import Fever from "../assets/conditions/fever.png";
@@ -16,7 +15,6 @@ import Ear from "../assets/conditions/ear.png";
 import SkinDisease from "../assets/conditions/skin-disease.png";
 import ToothAche from "../assets/conditions/tooth-ache.png";
 
-// Condition to Specialization Mapping
 const conditionToSpecialization = {
   acne: ["Dermatologist"],
   diarrhea: ["Gastroenterologist", "General Physician"],
@@ -32,7 +30,6 @@ const conditionToSpecialization = {
   "tooth ache": ["Dentist"],
 };
 
-// List of Conditions
 const conditions = [
   { name: "Acne", icon: Acne },
   { name: "Diarrhea", icon: Diarrhea },

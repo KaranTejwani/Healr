@@ -12,10 +12,9 @@ const PatientList = ({ doctor }) => {
           `http://localhost:5000/api/appointments/doctor/${doctor._id}`
         );
         const appointments = await res.json();
-        
-        // Process appointments to get unique patients with visit counts
+
         const patientMap = new Map();
-        
+
         appointments.forEach(appointment => {
           if (appointment.patient) {
             const patientId = appointment.patient._id;
@@ -28,10 +27,8 @@ const PatientList = ({ doctor }) => {
               });
             } else {
               const patient = patientMap.get(patientId);
-              // Only increment visit count for completed appointments
               if (appointment.status === 'completed') {
                 patient.visitCount++;
-                // Update last visit if this completed appointment is more recent
                 if (!patient.lastVisit || new Date(appointment.appointmentDate) > new Date(patient.lastVisit)) {
                   patient.lastVisit = appointment.appointmentDate;
                 }
@@ -41,11 +38,10 @@ const PatientList = ({ doctor }) => {
           }
         });
 
-        // Convert Map to Array and sort by last visit date
         const patientsArray = Array.from(patientMap.values())
-          .filter(patient => patient.visitCount > 0) // Only show patients with completed visits
+          .filter(patient => patient.visitCount > 0)
           .sort((a, b) => new Date(b.lastVisit) - new Date(a.lastVisit));
-        
+
         setPatients(patientsArray);
         setLoading(false);
       } catch (error) {
@@ -88,7 +84,7 @@ const PatientList = ({ doctor }) => {
                   <p className={styles['patient-email']}>{patient.email}</p>
                 </div>
               </div>
-              
+
               <div className={styles['patient-stats']}>
                 <div className={styles['stat-item']}>
                   <span className={styles['stat-icon']}>🏥</span>

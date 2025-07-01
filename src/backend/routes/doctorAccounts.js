@@ -4,7 +4,7 @@ import DoctorAccounts from '../models/doctorAccounts.js';
 
 const router = express.Router();
 
-// ✅ Get all doctor accounts
+// Get all doctor accounts
 router.get('/', async (req, res) => {
   try {
     const doctors = await DoctorAccounts.find();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ General search (OR logic for name, specialization, location)
+// General search (OR logic for name, specialization, location)
 router.get('/search', async (req, res) => {
   const { search } = req.query;
   if (!search) return res.status(400).json({ error: "Search term required" });
@@ -38,7 +38,7 @@ router.get('/search', async (req, res) => {
   }
 });
 
-// ✅ Filter doctors (AND logic)
+// Filter doctors (AND logic)
 router.get('/search/filter', async (req, res) => {
   const { specialization, location } = req.query;
 
@@ -55,7 +55,7 @@ router.get('/search/filter', async (req, res) => {
   }
 });
 
-// ✅ Specific filter for both specialization and location (mandatory both)
+// Specific filter for both specialization and location (mandatory both)
 router.get('/search/selected', async (req, res) => {
   const { specialization, location } = req.query;
 
@@ -76,7 +76,7 @@ router.get('/search/selected', async (req, res) => {
   }
 });
 
-// ✅ Register a new doctor
+// Register a new doctor
 router.post('/register', async (req, res) => {
   try {
     const doctor = new DoctorAccounts(req.body);
@@ -88,7 +88,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ✅ Update a doctor's profile
+// Update a doctor's profile
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -108,7 +108,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// ✅ Delete a doctor account
+// Delete a doctor account
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -124,7 +124,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// ✅ Get a doctor by ID (must be LAST to prevent route conflicts)
+// Get a doctor by ID (must be LAST to prevent route conflicts)
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -141,7 +141,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// ✅ Get all unique cities from doctor profiles
+// Get all unique cities from doctor profiles
 router.get('/cities', async (req, res) => {
   try {
     const cities = await DoctorAccounts.distinct('profile.location');

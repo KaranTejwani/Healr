@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     const doctorExists = await DoctorAccounts.findById(doctor);
     if (!doctorExists) return res.status(404).json({ message: 'Doctor not found' });
 
-    // Optional: Check for existing booking at the same time
+    //Check for existing booking at the same time
     const isSlotTaken = await Appointment.findOne({ doctor, appointmentDate, timeSlot });
     if (isSlotTaken) return res.status(400).json({ message: 'Time slot already booked' });
 

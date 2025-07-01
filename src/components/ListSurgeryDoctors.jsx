@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './ListFilteredDoctors.css';
 
-// Surgery options for dropdown
 const surgeryOptions = [
   "Liposuction",
   "Rhinoplasty",
@@ -40,7 +39,6 @@ const SurgeryRequestForm = ({ doctor, onClose }) => {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
 
-  // Map surgery name to specialization
   const surgeryToSpecialization = {
     "Liposuction": "Plastic Surgeon",
     "Rhinoplasty": "ENT Surgeon",
@@ -125,9 +123,9 @@ const SurgeryRequestForm = ({ doctor, onClose }) => {
       }}>
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h4 className="mb-0">Request Surgery with Dr. {doctor.name}</h4>
-          <button 
-            type="button" 
-            className="btn-close" 
+          <button
+            type="button"
+            className="btn-close"
             onClick={onClose}
             disabled={submitting}
           ></button>
@@ -135,37 +133,37 @@ const SurgeryRequestForm = ({ doctor, onClose }) => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Patient Name *</label>
-            <input 
+            <input
               type="text"
-              name="name" 
+              name="name"
               className="form-control"
-              value={form.name} 
-              onChange={handleChange} 
-              required 
+              value={form.name}
+              onChange={handleChange}
+              required
               disabled={submitting}
             />
           </div>
           <div className="mb-3">
             <label className="form-label">Contact Number *</label>
-            <input 
+            <input
               type="tel"
-              name="contact" 
+              name="contact"
               className="form-control"
-              value={form.contact} 
-              onChange={handleChange} 
-              required 
+              value={form.contact}
+              onChange={handleChange}
+              required
               disabled={submitting}
             />
           </div>
           <div className="mb-3">
             <label className="form-label">Email *</label>
-            <input 
+            <input
               type="email"
-              name="email" 
+              name="email"
               className="form-control"
-              value={form.email} 
-              onChange={handleChange} 
-              required 
+              value={form.email}
+              onChange={handleChange}
+              required
               disabled={submitting}
             />
           </div>
@@ -187,14 +185,14 @@ const SurgeryRequestForm = ({ doctor, onClose }) => {
           </div>
           <div className="mb-3">
             <label className="form-label">Preferred Date *</label>
-            <input 
+            <input
               type="date"
-              name="date" 
+              name="date"
               className="form-control"
-              value={form.date} 
-              onChange={handleChange} 
+              value={form.date}
+              onChange={handleChange}
               min={new Date().toISOString().split('T')[0]}
-              required 
+              required
               disabled={submitting}
             />
           </div>
@@ -215,8 +213,8 @@ const SurgeryRequestForm = ({ doctor, onClose }) => {
             </select>
           </div>
           <div className="d-flex gap-2">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-warning text-white w-100"
               disabled={submitting}
             >
@@ -229,8 +227,8 @@ const SurgeryRequestForm = ({ doctor, onClose }) => {
                 'Submit Request'
               )}
             </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="btn btn-secondary"
               onClick={onClose}
               disabled={submitting}
@@ -263,59 +261,54 @@ const ListSurgeryDoctors = ({ doctors }) => {
 
   const sortedDoctors = sortOption
     ? [...doctors].sort((a, b) => {
-        if (sortOption === "experience") {
-          return (
-            getComparableValue(b.profile?.experience) -
-            getComparableValue(a.profile?.experience)
-          );
-        }
-        if (sortOption === "fee") {
-          return (
-            getComparableValue(a.profile?.surgeryFee || a.profile?.fee, Infinity) -
-            getComparableValue(b.profile?.surgeryFee || b.profile?.fee, Infinity)
-          );
-        }
-        if (sortOption === "rating") {
-          return (
-            getComparableValue(b.profile?.rating) -
-            getComparableValue(a.profile?.rating)
-          );
-        }
-        return 0;
-      })
+      if (sortOption === "experience") {
+        return (
+          getComparableValue(b.profile?.experience) -
+          getComparableValue(a.profile?.experience)
+        );
+      }
+      if (sortOption === "fee") {
+        return (
+          getComparableValue(a.profile?.surgeryFee || a.profile?.fee, Infinity) -
+          getComparableValue(b.profile?.surgeryFee || b.profile?.fee, Infinity)
+        );
+      }
+      if (sortOption === "rating") {
+        return (
+          getComparableValue(b.profile?.rating) -
+          getComparableValue(a.profile?.rating)
+        );
+      }
+      return 0;
+    })
     : doctors;
 
   return (
     <div className="container my-5">
-      {/* Sorting Buttons */}
       <div className="mb-4 text-start filter-buttons-container">
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
-            sortOption === "experience" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${sortOption === "experience" ? "active" : ""
+            }`}
           onClick={() => handleSort("experience")}
         >
           Most Experienced
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
-            sortOption === "fee" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${sortOption === "fee" ? "active" : ""
+            }`}
           onClick={() => handleSort("fee")}
         >
           Lowest Surgery Fee
         </button>
         <button
-          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${
-            sortOption === "rating" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary btn-sm rounded-pill me-2 filter-btn ${sortOption === "rating" ? "active" : ""
+            }`}
           onClick={() => handleSort("rating")}
         >
           Highest Rating
         </button>
       </div>
 
-      {/* Surgeons List */}
       {sortedDoctors && sortedDoctors.length > 0 ? (
         sortedDoctors.map((doctor) => (
           <div key={doctor._id} className="card mb-4 shadow-sm doctor-card-style">
@@ -391,11 +384,10 @@ const ListSurgeryDoctors = ({ doctors }) => {
         </div>
       )}
 
-      {/* Surgery Request Modal */}
       {selectedDoctor && (
-        <SurgeryRequestForm 
-          doctor={selectedDoctor} 
-          onClose={() => setSelectedDoctor(null)} 
+        <SurgeryRequestForm
+          doctor={selectedDoctor}
+          onClose={() => setSelectedDoctor(null)}
         />
       )}
     </div>

@@ -44,7 +44,6 @@ const DoctorSettings = ({ doctor, onProfileUpdate }) => {
     setMessage({ type: '', text: '' });
 
     try {
-      // Convert comma-separated strings to arrays
       const specializationArray = formData.specialization.split(',').map(s => s.trim()).filter(Boolean);
       const degreesArray = formData.degrees.split(',').map(d => d.trim()).filter(Boolean);
 

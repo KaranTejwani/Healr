@@ -1,4 +1,3 @@
-// src/components/CartPopup.js
 import React from "react";
 import "./Cartpopup.css";
 

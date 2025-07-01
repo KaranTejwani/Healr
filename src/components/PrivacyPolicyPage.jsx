@@ -2,7 +2,7 @@ import React from "react";
 
 const styles = {
   pageWrapper: {
-    backgroundColor: "#e5e7eb", // light gray background like paper backdrop
+    backgroundColor: "#e5e7eb",
     padding: "40px 20px",
     minHeight: "100vh",
     display: "flex",
@@ -116,8 +116,6 @@ const PrivacyPolicyPage = () => {
           textAlign: "center",
           fontSize: "0.85rem",
           padding: "20px",
-          // marginTop: "40px",
-          // borderTop: "1px solid #e5e7eb",
           color: "white",
           backgroundColor: "black",
         }}

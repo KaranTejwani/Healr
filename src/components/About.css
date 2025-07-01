@@ -11,7 +11,7 @@
   gap: 40px;
   max-width: 1200px;
   margin: auto;
-  flex-wrap: wrap; /* responsive stacking */
+  flex-wrap: wrap;
 }
 
 .about-text {
@@ -44,7 +44,7 @@
 }
 
 .highlight {
-  color: #ffa500; /* Customize this to your brand color */
+  color: #ffa500;
 }
 
 .about-image img {

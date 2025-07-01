@@ -1,4 +1,3 @@
-// routes/prescriptions.js
 import express from 'express';
 import Prescription from '../models/Prescription.js';
 
@@ -25,7 +24,7 @@ router.post('/create', async (req, res) => {
 router.get('/doctor/:doctorId', async (req, res) => {
   try {
     const { page = 1, limit = 10, search = '' } = req.query;
-    
+
     const query = {
       'doctorInfo.doctorId': req.params.doctorId,
       ...(search && {
@@ -72,15 +71,15 @@ router.get('/:prescriptionId', async (req, res) => {
 router.get('/patient/history', async (req, res) => {
   try {
     const { phone, name } = req.query;
-    
+
     const prescriptions = await Prescription.find({
       $or: [
         { 'patientInfo.phone': phone },
         { 'patientInfo.name': { $regex: name, $options: 'i' } }
       ]
     })
-    .sort({ createdAt: -1 })
-    .populate('doctorInfo.doctorId', 'name profile.specialization');
+      .sort({ createdAt: -1 })
+      .populate('doctorInfo.doctorId', 'name profile.specialization');
 
     res.json({ prescriptions, count: prescriptions.length });
   } catch (error) {
@@ -114,7 +113,7 @@ router.put('/:prescriptionId', async (req, res) => {
 router.delete('/:prescriptionId', async (req, res) => {
   try {
     const prescription = await Prescription.findByIdAndDelete(req.params.prescriptionId);
-    
+
     if (!prescription) {
       return res.status(404).json({ error: 'Prescription not found' });
     }
