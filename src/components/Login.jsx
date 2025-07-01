@@ -5,6 +5,7 @@ import "./Signup.css"; // Reuse the same CSS
 // Simple Modal Component
 const Modal = ({ show, onClose, title, message }) => {
   if (!show) return null;
+  const isSuccess = title === 'Login Successful!';
   return (
     <div style={{
       position: "fixed",
@@ -12,36 +13,88 @@ const Modal = ({ show, onClose, title, message }) => {
       left: 0,
       width: "100vw",
       height: "100vh",
-      background: "rgba(0,0,0,0.3)",
+      background: "rgba(0,0,0,0.25)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       zIndex: 9999,
+      animation: 'fadeInBg 0.3s',
     }}>
       <div style={{
-        background: "#fff",
-        borderRadius: 12,
-        padding: 32,
-        minWidth: 320,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-        textAlign: "center",
+        background: isSuccess ? 'linear-gradient(135deg, #e3fcec 0%, #b2f7ef 100%)' : 'linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%)',
+        borderRadius: 20,
+        padding: '40px 32px 32px 32px',
+        minWidth: 340,
+        maxWidth: '90vw',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+        textAlign: 'center',
+        position: 'relative',
+        animation: 'popIn 0.35s cubic-bezier(.68,-0.55,.27,1.55)',
       }}>
-        <h3 style={{ color: title === 'Login Successful!' ? '#2e7d32' : '#c62828', marginBottom: 12 }}>{title}</h3>
-        <div style={{ marginBottom: 20 }}>{message}</div>
+        <div style={{
+          width: 70,
+          height: 70,
+          borderRadius: '50%',
+          background: isSuccess ? 'linear-gradient(135deg, #2ecc40 60%, #2c83fb 100%)' : 'linear-gradient(135deg, #ff4e4e 60%, #c62828 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto 18px auto',
+          boxShadow: isSuccess ? '0 2px 12px #2ecc4040' : '0 2px 12px #ff4e4e40',
+        }}>
+          {isSuccess ? (
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="19" fill="none" />
+              <path d="M11 20.5L17 26.5L27 14.5" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="19" fill="none" />
+              <path d="M13 13L25 25M25 13L13 25" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+            </svg>
+          )}
+        </div>
+        <h3 style={{
+          color: isSuccess ? '#187a3c' : '#c62828',
+          marginBottom: 10,
+          fontWeight: 700,
+          fontSize: 24,
+          letterSpacing: 0.5,
+        }}>{title}</h3>
+        <div style={{
+          marginBottom: 28,
+          color: '#222',
+          fontSize: 16,
+          lineHeight: 1.5,
+        }}>{message}</div>
         <button
           onClick={onClose}
           style={{
-            background: title === 'Login Successful!' ? '#2c83fb' : '#c62828',
+            background: isSuccess ? 'linear-gradient(90deg, #2c83fb 60%, #2ecc40 100%)' : 'linear-gradient(90deg, #ff4e4e 60%, #c62828 100%)',
             color: '#fff',
             border: 'none',
-            borderRadius: 6,
-            padding: '8px 24px',
+            borderRadius: 8,
+            padding: '10px 36px',
             cursor: 'pointer',
             fontWeight: 600,
+            fontSize: 16,
+            boxShadow: isSuccess ? '0 2px 8px #2c83fb30' : '0 2px 8px #ff4e4e30',
+            transition: 'background 0.2s',
           }}
         >
           Close
         </button>
+        {/* Animations */}
+        <style>{`
+          @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+          }
+          @keyframes fadeInBg {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+        `}</style>
       </div>
     </div>
   );
