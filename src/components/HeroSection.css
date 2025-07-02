@@ -5,15 +5,21 @@ body {
 }
 
 .hero-section {
-  width: 90vw;
+  width: 85vw;
   background: linear-gradient(to right, #683d2b, #1b0c4e);
   border-radius: 18px;
-  padding: 1rem;
-  min-height: 30vh;
+  padding: 2rem 1rem;
+  height: 350px;
   margin-left: 60px;
   margin-top: 30px;
   position: relative;
   z-index: 1;
+}
+
+.hero-image {
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .hero-section h1 {
@@ -105,10 +111,10 @@ body {
   border-radius: 4px;
 }
 
-.hero-image {
+/* .hero-image {
   max-height: 350px;
   width: auto;
-}
+} */
 
 @media (max-width: 768px) {
   .hero-section h1 {
