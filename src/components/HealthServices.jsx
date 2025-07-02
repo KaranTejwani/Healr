@@ -4,7 +4,7 @@ import "./HealthServices.css";
 
 import consultImage from "../images/consult.webp";
 import clinicImage from "../images/clinic.webp";
-import labImage from "../images/Laboratory.jpg";
+import labImage from "../images/laboratory.jpg";
 import surgeryImage from "../images/surgery.png";
 import medicineImage from "../images/medicine.jpg";
 
