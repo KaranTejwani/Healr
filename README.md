@@ -1,21 +1,33 @@
 # Healr
 
-Healr is a full-stack healthcare platform that connects patients, doctors, and laboratories. It allows users to book appointments, consult online, manage prescriptions, and access a wide range of medical and surgical services.
+Healr is an online healthcare website that helps people find medicines, view lab tests, and manage their health needs in one place. Users can search for FDA-approved medicines, check available medical tests from different labs, and add them to a cart for easy access. Patients can also book appointments with doctors available in major cities like Lahore, Karachi, and Islamabad.
+Healr includes separate dashboards for patients, doctors, and the admin. Doctors can manage their profiles, while the admin can verify new doctors, manage surgeries, and handle all appointments. This system makes it easy for patients to connect with trusted doctors and get medical help from home.
 
-## Features
 
-- Patient, Doctor, and Admin roles
-- Book and manage appointments
-- Online consultations
-- Laboratory test booking and management
-- Surgery and specialist doctor listings
-- Admin dashboard for platform management
+## 🌟 Core Features
 
-## Tech Stack
+- **Signup/Login** with form validation using Formik & Yup
+- **Medicine Search** using FDA API (with fallback data)
+- **Lab Test Listings** with lab-wise filtering
+- **Doctor Booking System** with filters:
+  - By Disease
+  - By Speciality
+  - By City
+- **Cart System** for medicines and tests
+- **Video Consultation** support (under development)
+- **Role-Based Dashboards** for patients, doctors, and admin
+- **Admin Panel** to verify doctors and manage appointments
 
-- **Frontend:** React (Vite)
-- **Backend:** Node.js, Express, MongoDB (Mongoose)
-- **Deployment:** Vercel (frontend and backend deployed separately)
+## 🛠️ Tech Stack
+
+| Layer      | Technology        |
+|------------|-------------------|
+| Frontend   | ReactJS, Bootstrap |
+| Backend    | Node.js, ExpressJS |
+| Database   | MongoDB            |
+| Forms      | Formik + Yup       |
+| Deployment | Vercel (Frontend)  |
+| Version Control | Git & GitHub  |
 
 ---
 
