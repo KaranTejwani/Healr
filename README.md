@@ -2,20 +2,30 @@
 
 Healr is a full-stack healthcare platform that connects patients, doctors, and laboratories. It allows users to book appointments, consult online, manage prescriptions, and access a wide range of medical and surgical services.
 
-## Features
+## 🌟 Core Features
 
-- Patient, Doctor, and Admin roles
-- Book and manage appointments
-- Online consultations
-- Laboratory test booking and management
-- Surgery and specialist doctor listings
-- Admin dashboard for platform management
+- **Signup/Login** with form validation using Formik & Yup
+- **Medicine Search** using FDA API (with fallback data)
+- **Lab Test Listings** with lab-wise filtering
+- **Doctor Booking System** with filters:
+  - By Disease
+  - By Speciality
+  - By City
+- **Cart System** for medicines and tests
+- **Video Consultation** support (under development)
+- **Role-Based Dashboards** for patients, doctors, and admin
+- **Admin Panel** to verify doctors and manage appointments
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Frontend:** React (Vite)
-- **Backend:** Node.js, Express, MongoDB (Mongoose)
-- **Deployment:** Vercel (frontend and backend deployed separately)
+| Layer      | Technology        |
+|------------|-------------------|
+| Frontend   | ReactJS, Bootstrap |
+| Backend    | Node.js, ExpressJS |
+| Database   | MongoDB            |
+| Forms      | Formik + Yup       |
+| Deployment | Vercel (Frontend)  |
+| Version Control | Git & GitHub  |
 
 ---
 
