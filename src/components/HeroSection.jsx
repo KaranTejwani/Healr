@@ -22,10 +22,11 @@ const HeroSection = () => {
           {/* Left Content */}
           <div className="col-md-6 text-white">
             <h1 className="display-5 fw-bold">
-              Find and Book the <span className="highlight">Best Doctors</span> near you
+              Find and Book the <span className="highlight">Best Doctors</span>{" "}
+              near you
             </h1>
             <div className="badge-box mt-3">
-              <span className="badge-text">✅ 50M+ patients served</span>
+              <span className="badge-text">🧑‍⚕️ Where doctors meet digital.</span>
             </div>
 
             <form onSubmit={handleSearch} className="search-bar mt-4">
