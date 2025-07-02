@@ -36,6 +36,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import NotFound from "./components/NotFound";
 import AdminDashboard from "./components/AdminDashboard";
 import SurgeryResultsPage from "./components/SurgeryResultsPage";
+import ConsultOnline from "./components/ConsultOnline";
 
 function App() {
   const [patient, setPatient] = useState(null);
@@ -114,6 +115,7 @@ function App() {
               </>
             }
           />
+          <Route path="/consult-online" element={<ConsultOnline />} />
           <Route
             path="/in-clinic-appointment"
             element={<InClinicAppointments />}

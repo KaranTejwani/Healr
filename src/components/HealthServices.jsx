@@ -50,9 +50,11 @@ const HealthServices = () => {
           <div
             className="service-card shadow-sm"
             key={index}
-            style={{ cursor: service.route ? "pointer" : "default" }}
+            style={{ cursor: service.title === "Consult Online" || service.route ? "pointer" : "default" }}
             onClick={() => {
-              if (service.route) {
+              if (service.title === "Consult Online") {
+                navigate("/consult-online");
+              } else if (service.route) {
                 navigate(service.route);
               }
             }}
