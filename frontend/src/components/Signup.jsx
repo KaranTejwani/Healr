@@ -176,6 +176,17 @@ const Signup = () => {
     }),
 
     onSubmit: async (values) => {
+      // Check for missing required fields using formik validation
+      if (Object.keys(formik.errors).length > 0) {
+        setModal({
+          show: true,
+          title: "Missing Credentials",
+          message: "Please fill in all required fields.",
+          isSuccess: false,
+        });
+        return;
+      }
+
       const body = {
         name: values.name,
         email: values.email,

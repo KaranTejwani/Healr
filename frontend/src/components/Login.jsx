@@ -86,6 +86,16 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
   const handleLogin = async (e, preferredAccountType = null) => {
     e.preventDefault();
 
+    if (!emailOrMobile || !password) {
+      setModal({
+        show: true,
+        title: "Missing Credentials",
+        message: "Please enter both email/mobile and password.",
+        isSuccess: false,
+      });
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
@@ -324,21 +334,23 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
           <span className="brand">healr</span>
         </h2>
         <p>Login to your account:</p>
-        <input
-          type="text"
-          placeholder="Email or Mobile number"
-          value={emailOrMobile}
-          onChange={(e) => setEmailOrMobile(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="login-btn" onClick={handleLogin}>
-          Login
-        </button>
+        <form onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="Email or Mobile number"
+            value={emailOrMobile}
+            onChange={(e) => setEmailOrMobile(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="login-btn" type="submit">
+            Login
+          </button>
+        </form>
         <p className="signup-link">
           Don't have an account? <a href="/signup">Sign up</a>
         </p>
