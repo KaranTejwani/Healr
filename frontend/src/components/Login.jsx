@@ -101,9 +101,18 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
 
       if (response.ok) {
         if (data.admin) {
-          localStorage.setItem("admin", JSON.stringify(data.admin));
-          setAdmin(data.admin);
-          navigate("/admin-dashboard");
+          setModal({
+            show: true,
+            title: "Login Successful!",
+            message: "You have logged in successfully.",
+            isSuccess: true,
+          });
+          setTimeout(() => {
+            setModal({ show: false, title: "", message: "", isSuccess: null });
+            localStorage.setItem("admin", JSON.stringify(data.admin));
+            setAdmin(data.admin);
+            navigate("/admin-dashboard");
+          }, 1500);
           return;
         }
         if (data.doctor && data.user) {
