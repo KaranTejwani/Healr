@@ -140,4 +140,10 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Add this at the top or bottom of auth.js
+router.get('/test', (req, res) => {
+  res.json({ success: true, message: 'Auth route working on Vercel!' });
+});
+
+
 export default router;
