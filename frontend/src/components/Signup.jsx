@@ -263,7 +263,7 @@ const Signup = () => {
       />
       <div className="signup-box">
         <h2>
-          <span className="brand">healr</span>
+          <span className="brand"><span style={{ color: '#ff6b35' }}>hea</span><span style={{ color: '#0033cc' }}>lr</span></span>
         </h2>
         <p>Create your account below:</p>
 
