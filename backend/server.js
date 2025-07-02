@@ -15,10 +15,20 @@ dotenv.config();
 const app = express();
 
 // Enable CORS for frontend (Vite default: localhost:5173)
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://healr.vercel.app'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 }));
+
+// app.use(cors({
+//   origin: 'http://localhost:5173',
+//   credentials: true,
+// }));
 
 app.use(express.json());
 
@@ -36,6 +46,14 @@ app.use('/api/prescriptions', prescriptionRoutes);
 app.use('/api/surgeries', surgeriesRoute);
 
 
-// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Only start the server when not on Vercel
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Export the app for Vercel
+export default app;
