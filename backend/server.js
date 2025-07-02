@@ -16,7 +16,7 @@ const app = express();
 
 // Enable CORS for frontend (Vite default: localhost:5173)
 app.use(cors({
-  origin: 'https://healr-frontend.vercel.app', // Update after deploying frontend
+  origin: 'https://healr.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
