@@ -48,10 +48,34 @@ const AppNavbar = ({
       width: 100%;
     }
   `;
+  const loginstyle = `
+  .nav-login-btn {
+    background: transparent;
+    color: #2c83fb; /* blue text */
+    border: 1px solid #2c83fb;
+    transition: all 0.3s ease;
+  }
+  .nav-login-btn:hover {
+    background: #2c83fb;
+    color: #fff;
+  }
+
+  .nav-signup-btn {
+    background: #ffc107;
+    color: #333;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  .nav-signup-btn:hover {
+    background: #e0a800;
+    color: white;
+  }
+`;
 
   return (
     <>
       <style>{underlineStyle}</style>
+      <style>{loginstyle}</style>
       <nav
         style={{
           position: "sticky",
@@ -104,7 +128,6 @@ const AppNavbar = ({
                 gap: "3rem",
               }}
             >
-              {/* Assuming dropdowns internally use links/buttons */}
               <div className="underline-hover">
                 <DoctorDropdown />
               </div>
@@ -141,30 +164,26 @@ const AppNavbar = ({
                 <>
                   <Link
                     to="/login"
+                    className="nav-login-btn"
                     style={{
                       padding: "0.75rem 1.5rem",
                       borderRadius: "6px",
                       textDecoration: "none",
                       fontWeight: "500",
                       fontSize: "0.95rem",
-                      background: "transparent",
-                      color: "#333",
-                      border: "1px solid #333",
                     }}
                   >
                     Login
                   </Link>
                   <Link
                     to="/signup"
+                    className="nav-signup-btn"
                     style={{
                       padding: "0.75rem 1.5rem",
                       borderRadius: "6px",
                       textDecoration: "none",
                       fontWeight: "500",
                       fontSize: "0.95rem",
-                      background: "#ffc107",
-                      color: "#333",
-                      border: "none",
                     }}
                   >
                     SignUp
