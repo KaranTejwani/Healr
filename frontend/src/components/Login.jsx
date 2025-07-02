@@ -149,7 +149,7 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
     <div className="signup-container two-column-layout">
       <div className="animation-column">
         <DotLottieReact
-          src="https://lottie.host/044cce1c-ecca-4c1f-83bd-f540ccfa994a/ddWZ1dXTjZ.lottie"
+          src="https://lottie.host/5cba9fdd-765f-4e36-9602-420490579b3e/t9T8vIhMDQ.lottie"
           autoplay
           loop
           style={{ width: "100%", height: "100%" }}
