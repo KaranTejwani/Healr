@@ -62,7 +62,6 @@ const ConditionsList = () => {
     <div className="conditions-container">
       <div className="conditions-header">
         <h2>Search doctor by Conditions</h2>
-        <a href="/conditions" className="view-all-link">View All</a>
       </div>
       <div className="conditions-grid">
         {conditions.map((condition, index) => (

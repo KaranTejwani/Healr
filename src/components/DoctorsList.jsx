@@ -46,7 +46,6 @@ const DoctorsList = () => {
     <div className="doctors-container">
       <div className="doctors-header">
         <h2>Consult best doctors online</h2>
-        <a href="/doctors" className="view-all-link">View All</a>
       </div>
       <div className="doctors-grid">
         {doctors.map((doc, index) => (

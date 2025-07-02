@@ -233,7 +233,7 @@ const LaboratoryTests = () => {
             width: "100%",
             marginBottom: "1.5rem",
             padding: "0.75rem 1rem",
-            border: "2px solid #00005c",
+            border: "2px solid rgb(153, 153, 255)",
             borderRadius: "0.5rem",
             fontSize: "1rem",
           }}
