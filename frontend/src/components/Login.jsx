@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Modal = ({ show, onClose, title, message, isSuccess }) => {
   if (!show) return null;
@@ -71,8 +73,6 @@ const Modal = ({ show, onClose, title, message, isSuccess }) => {
 };
 
 const Login = ({ setPatient, setDoctor, setAdmin }) => {
-  const [emailOrMobile, setEmailOrMobile] = useState("");
-  const [password, setPassword] = useState("");
   const [showAccountSelection, setShowAccountSelection] = useState(false);
   const [availableAccounts, setAvailableAccounts] = useState(null);
   const [modal, setModal] = useState({
@@ -83,112 +83,110 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
   });
   const navigate = useNavigate();
 
-  const handleLogin = async (e, preferredAccountType = null) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      emailOrMobile: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      emailOrMobile: Yup.string().required("Email or mobile is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: values.emailOrMobile,
+            password: values.password,
+          }),
+        });
+        const data = await response.json();
 
-    if (!emailOrMobile || !password) {
-      setModal({
-        show: true,
-        title: "Missing Credentials",
-        message: "Please enter both email/mobile and password.",
-        isSuccess: false,
-      });
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: emailOrMobile,
-          password: password,
-          accountType: preferredAccountType,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        if (data.admin) {
-          setModal({
-            show: true,
-            title: "Login Successful!",
-            message: "You have logged in successfully.",
-            isSuccess: true,
-          });
-          setTimeout(() => {
-            setModal({ show: false, title: "", message: "", isSuccess: null });
-            localStorage.setItem("admin", JSON.stringify(data.admin));
-            setAdmin(data.admin);
-            navigate("/admin-dashboard");
-          }, 1500);
-          return;
-        }
-        if (data.doctor && data.user) {
-          setAvailableAccounts(data);
-          setShowAccountSelection(true);
-          return;
-        }
-        if (data.doctor && !data.user) {
-          setModal({
-            show: true,
-            title: "Login Successful!",
-            message: "You have logged in successfully.",
-            isSuccess: true,
-          });
-          setTimeout(() => {
-            setModal({ show: false, title: "", message: "", isSuccess: null });
-            localStorage.setItem("doctor", JSON.stringify(data.doctor));
-            setDoctor(data.doctor);
-            navigate("/dashboard", { state: { doctor: data.doctor } });
-          }, 1500);
-        } else if (data.user && !data.doctor) {
-          setModal({
-            show: true,
-            title: "Login Successful!",
-            message: "You have logged in successfully.",
-            isSuccess: true,
-          });
-          setTimeout(() => {
-            setModal({ show: false, title: "", message: "", isSuccess: null });
-            localStorage.setItem("patient", JSON.stringify(data.user));
-            setPatient(data.user);
-            navigate("/");
-          }, 1500);
+        if (response.ok) {
+          if (data.admin) {
+            setModal({
+              show: true,
+              title: "Login Successful!",
+              message: "You have logged in successfully.",
+              isSuccess: true,
+            });
+            setTimeout(() => {
+              setModal({ show: false, title: "", message: "", isSuccess: null });
+              localStorage.setItem("admin", JSON.stringify(data.admin));
+              setAdmin(data.admin);
+              navigate("/admin-dashboard");
+            }, 1500);
+            return;
+          }
+          if (data.doctor && data.user) {
+            setAvailableAccounts(data);
+            setShowAccountSelection(true);
+            return;
+          }
+          if (data.doctor && !data.user) {
+            setModal({
+              show: true,
+              title: "Login Successful!",
+              message: "You have logged in successfully.",
+              isSuccess: true,
+            });
+            setTimeout(() => {
+              setModal({ show: false, title: "", message: "", isSuccess: null });
+              localStorage.setItem("doctor", JSON.stringify(data.doctor));
+              setDoctor(data.doctor);
+              navigate("/dashboard", { state: { doctor: data.doctor } });
+            }, 1500);
+          } else if (data.user && !data.doctor) {
+            setModal({
+              show: true,
+              title: "Login Successful!",
+              message: "You have logged in successfully.",
+              isSuccess: true,
+            });
+            setTimeout(() => {
+              setModal({ show: false, title: "", message: "", isSuccess: null });
+              localStorage.setItem("patient", JSON.stringify(data.user));
+              setPatient(data.user);
+              navigate("/");
+            }, 1500);
+          } else {
+            setModal({
+              show: true,
+              title: "Login Failed",
+              message: "Unknown user type.",
+              isSuccess: false,
+            });
+          }
         } else {
+          let errorMsg =
+            data.message ||
+            data.error ||
+            (response.status === 401
+              ? "Invalid credentials. Please check your email/mobile and password."
+              : response.status === 404
+                ? "User does not exist."
+                : "Login failed. Please try again.");
           setModal({
             show: true,
             title: "Login Failed",
-            message: "Unknown user type.",
+            message: errorMsg,
             isSuccess: false,
           });
         }
-      } else {
-        let errorMsg =
-          data.message ||
-          data.error ||
-          (response.status === 401
-            ? "Invalid credentials. Please check your email/mobile and password."
-            : response.status === 404
-              ? "User does not exist."
-              : "Login failed. Please try again.");
+      } catch (error) {
         setModal({
           show: true,
           title: "Login Failed",
-          message: errorMsg,
+          message: "Something went wrong. Please try again.",
           isSuccess: false,
         });
+      } finally {
+        setSubmitting(false);
       }
-    } catch (error) {
-      setModal({
-        show: true,
-        title: "Login Failed",
-        message: "Something went wrong. Please try again.",
-        isSuccess: false,
-      });
-    }
-  };
+    },
+  });
 
   const handleAccountSelection = async (accountType) => {
     try {
@@ -196,8 +194,8 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: emailOrMobile,
-          password: password,
+          email: formik.values.emailOrMobile,
+          password: formik.values.password,
           accountType: accountType,
         }),
       });
@@ -334,20 +332,30 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
           <span className="brand">healr</span>
         </h2>
         <p>Login to your account:</p>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={formik.handleSubmit}>
           <input
             type="text"
+            name="emailOrMobile"
             placeholder="Email or Mobile number"
-            value={emailOrMobile}
-            onChange={(e) => setEmailOrMobile(e.target.value)}
+            value={formik.values.emailOrMobile}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.emailOrMobile && formik.errors.emailOrMobile && (
+            <div className="error">{formik.errors.emailOrMobile}</div>
+          )}
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
-          <button className="login-btn" type="submit">
+          {formik.touched.password && formik.errors.password && (
+            <div className="error">{formik.errors.password}</div>
+          )}
+          <button className="login-btn" type="submit" disabled={formik.isSubmitting}>
             Login
           </button>
         </form>
