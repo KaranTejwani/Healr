@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./HeroSection.css";
-import doctorImage from "../IMAGES/image1.png";
+import doctorImage from "../images/image1.png";
 import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
