@@ -186,6 +186,22 @@ This document describes the available API endpoints for the Healr backend. All e
 
 ---
 
+## Medicine Search (External API)
+
+### GET `https://api.fda.gov/drug/label.json?search=openfda.brand_name:<name>&limit=<number>`
+- **Description:** Search for medicines by brand name using the openFDA public API. Used in the app for medicine lookup and details.
+- **Parameters:**
+  - `search` (string, required): e.g. `openfda.brand_name:Panadol*`
+  - `limit` (integer, optional): Number of results to return (default varies)
+- **Example:**
+  - `https://api.fda.gov/drug/label.json?search=openfda.brand_name:Panadol*&limit=10`
+- **Response:**
+  - Array of drug label objects (see openFDA documentation for full schema)
+- **Note:**
+  - This is a public API provided by the US FDA, not by Healr. Data is for informational purposes only.
+
+---
+
 ## Error Handling
 - All endpoints return errors in the form `{ error: string }` or `{ message: string }` with appropriate HTTP status codes.
 
