@@ -131,7 +131,13 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route
             path="/login"
-            element={<Login setPatient={setPatient} setDoctor={setDoctor} />}
+            element={
+              <Login
+                setPatient={setPatient}
+                setDoctor={setDoctor}
+                setAdmin={setAdmin}
+              />
+            }
           />
           <Route path="/search-results" element={<SearchResultsPage />} />
           <Route path="/dashboard" element={<DoctorDashboardWrapper />} />
