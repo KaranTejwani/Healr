@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./HealthServices.css";
 
-import consultImage from "../IMAGES/consult.webp";
-import clinicImage from "../IMAGES/clinic.webp";
-import labImage from "../IMAGES/Laboratory.jpg";
-import surgeryImage from "../IMAGES/surgery.png";
-import medicineImage from "../IMAGES/medicine.jpg";
+import consultImage from "../images/consult.webp";
+import clinicImage from "../images/clinic.webp";
+import labImage from "../images/Laboratory.jpg";
+import surgeryImage from "../images/surgery.png";
+import medicineImage from "../images/medicine.jpg";
 
 const services = [
   {

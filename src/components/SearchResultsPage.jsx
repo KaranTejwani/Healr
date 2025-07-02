@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ListFilteredDoctors from "./ListFilteredDoctors";
-import SearchDoctor from "./searchDoctor";
+import SearchDoctor from "./SearchDoctor";
 import fetchSelectedDoctors from "./fetchSelectedDoctors";
 
 const SearchResultsPage = () => {
