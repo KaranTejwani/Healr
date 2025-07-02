@@ -104,27 +104,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-
-        <div className="footer-col">
-          <h4>Connect with us</h4>
-          <div className="connect-inline">
-            <a href="mailto:support@healr.com" aria-label="Email">
-              <FaEnvelope />
-            </a>
-            <a href="tel:+922100000000" aria-label="Phone">
-              <FaPhone />
-            </a>
-            <a href="#" aria-label="Facebook">
-              <FaFacebookF />
-            </a>
-            <a href="#" aria-label="Twitter">
-              <FaTwitter />
-            </a>
-            <a href="#" aria-label="Instagram">
-              <FaInstagram />
-            </a>
-          </div>
-        </div>
       </div>
     </footer>
   );
