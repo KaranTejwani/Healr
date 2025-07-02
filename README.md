@@ -1,6 +1,8 @@
 # Healr
 
-Healr is a full-stack healthcare platform that connects patients, doctors, and laboratories. It allows users to book appointments, consult online, manage prescriptions, and access a wide range of medical and surgical services.
+Healr is an online healthcare website that helps people find medicines, view lab tests, and manage their health needs in one place. Users can search for FDA-approved medicines, check available medical tests from different labs, and add them to a cart for easy access. Patients can also book appointments with doctors available in major cities like Lahore, Karachi, and Islamabad.
+Healr includes separate dashboards for patients, doctors, and the admin. Doctors can manage their profiles, while the admin can verify new doctors, manage surgeries, and handle all appointments. This system makes it easy for patients to connect with trusted doctors and get medical help from home.
+
 
 ## 🌟 Core Features
 
