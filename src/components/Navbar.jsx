@@ -4,7 +4,14 @@ import DoctorDropdown from "./DoctorDropdown";
 import ConditionsDropdown from "./ConditionDropdown";
 import CityDropdown from "./CityDropdown";
 
-const AppNavbar = ({ patient, setPatient, doctor, setDoctor, admin, setAdmin }) => {
+const AppNavbar = ({
+  patient,
+  setPatient,
+  doctor,
+  setDoctor,
+  admin,
+  setAdmin,
+}) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,186 +24,226 @@ const AppNavbar = ({ patient, setPatient, doctor, setDoctor, admin, setAdmin }) 
     navigate("/login");
   };
 
+  const underlineStyle = `
+    .underline-hover {
+      position: relative;
+      display: inline-block;
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .underline-hover::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      left: 0;
+      bottom: -4px;
+      background-color: #ff6b35;
+      transition: width 0.3s ease;
+    }
+
+    .underline-hover:hover::after {
+      width: 100%;
+    }
+  `;
+
   return (
-    <nav
-      style={{
-        position: "sticky",
-        top: 0,
-        width: "100%",
-        background: "white",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        zIndex: 1000,
-        padding: "1rem 0",
-      }}
-    >
-      <div
+    <>
+      <style>{underlineStyle}</style>
+      <nav
         style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 1rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "2rem",
-          height: "40px",
+          position: "sticky",
+          top: 0,
+          width: "100%",
+          background: "white",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          zIndex: 1000,
+          padding: "1rem 0",
         }}
       >
-        <Link
-          to="/"
-          style={{
-            fontSize: "1.8rem",
-            fontWeight: "700",
-            textDecoration: "none",
-          }}
-        >
-          <span style={{ color: "#ff6b35" }}>hea</span>
-          <span style={{ color: "#0033cc" }}>lr</span>
-        </Link>
-
         <div
           style={{
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "0 1rem",
             display: "flex",
             alignItems: "center",
-            gap: "3rem",
+            justifyContent: "space-between",
             flexWrap: "wrap",
+            gap: "2rem",
+            height: "40px",
           }}
         >
+          <Link
+            to="/"
+            style={{
+              fontSize: "1.8rem",
+              fontWeight: "700",
+              textDecoration: "none",
+            }}
+          >
+            <span style={{ color: "#ff6b35" }}>hea</span>
+            <span style={{ color: "#0033cc" }}>lr</span>
+          </Link>
+
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
               gap: "3rem",
+              flexWrap: "wrap",
             }}
           >
-            <DoctorDropdown />
-            <CityDropdown />
-            <ConditionsDropdown />
-            <a
-              href="#About"
+            <div
               style={{
-                color: "#333",
-                textDecoration: "none",
-                fontWeight: "500",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "3rem",
               }}
             >
-              About
-            </a>
-
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.75rem",
-              flexWrap: "wrap",
-              position: "relative",
-            }}
-          >
-            {!patient && !doctor && !admin ? (
-              <>
-                <Link
-                  to="/login"
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "transparent",
-                    color: "#333",
-                    border: "1px solid #333",
-                  }}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "#ffc107",
-                    color: "#333",
-                    border: "none",
-                  }}
-                >
-                  SignUp
-                </Link>
-              </>
-            ) : admin ? (
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <button
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "#f0f0f0",
-                    color: "#333",
-                    border: "none",
-                    cursor: "default",
-                  }}
-                >
-                  {admin?.name || admin?.email || "Admin"}
-                </button>
-                <button
-                  onClick={handleLogout}
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "#ff4d4f",
-                    color: "white",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Logout
-                </button>
+              {/* Assuming dropdowns internally use links/buttons */}
+              <div className="underline-hover">
+                <DoctorDropdown />
               </div>
-            ) : (
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <button
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "#f0f0f0",
-                    color: "#333",
-                    border: "none",
-                    cursor: "default",
-                  }}
-                >
-                  {patient?.name || doctor?.name}
-                </button>
-                <button
-                  onClick={handleLogout}
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "6px",
-                    fontWeight: "500",
-                    fontSize: "0.95rem",
-                    background: "#ff4d4f",
-                    color: "white",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Logout
-                </button>
+              <div className="underline-hover">
+                <CityDropdown />
               </div>
-            )}
+              <div className="underline-hover">
+                <ConditionsDropdown />
+              </div>
+
+              <a
+                href="#About"
+                className="underline-hover"
+                style={{
+                  color: "#333",
+                  textDecoration: "none",
+                  fontWeight: "500",
+                }}
+              >
+                About
+              </a>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                flexWrap: "wrap",
+                position: "relative",
+              }}
+            >
+              {!patient && !doctor && !admin ? (
+                <>
+                  <Link
+                    to="/login"
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      borderRadius: "6px",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      fontSize: "0.95rem",
+                      background: "transparent",
+                      color: "#333",
+                      border: "1px solid #333",
+                    }}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      borderRadius: "6px",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      fontSize: "0.95rem",
+                      background: "#ffc107",
+                      color: "#333",
+                      border: "none",
+                    }}
+                  >
+                    SignUp
+                  </Link>
+                </>
+              ) : admin ? (
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                >
+                  <button
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      borderRadius: "6px",
+                      fontWeight: "500",
+                      fontSize: "0.95rem",
+                      background: "#f0f0f0",
+                      color: "#333",
+                      border: "none",
+                      cursor: "default",
+                    }}
+                  >
+                    {admin?.name || admin?.email || "Admin"}
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      borderRadius: "6px",
+                      fontWeight: "500",
+                      fontSize: "0.95rem",
+                      background: "#ff4d4f",
+                      color: "white",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                >
+                  <button
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      borderRadius: "6px",
+                      fontWeight: "500",
+                      fontSize: "0.95rem",
+                      background: "#f0f0f0",
+                      color: "#333",
+                      border: "none",
+                      cursor: "default",
+                    }}
+                  >
+                    {patient?.name || doctor?.name}
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      borderRadius: "6px",
+                      fontWeight: "500",
+                      fontSize: "0.95rem",
+                      background: "#ff4d4f",
+                      color: "white",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 

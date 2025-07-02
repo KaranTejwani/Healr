@@ -218,16 +218,22 @@ const LaboratoryTests = () => {
       <div
         style={{ padding: "2rem 2rem", maxWidth: "1200px", margin: "0 auto" }}
       >
-        <h5 style={{ fontWeight: 600, marginBottom: "0.5rem" }}>
+        <h4
+          style={{
+            fontWeight: 600,
+            marginBottom: "0.5rem",
+            textAlign: "center",
+          }}
+        >
           Search Tests
-        </h5>
+        </h4>
         <input
           type="text"
           style={{
             width: "100%",
             marginBottom: "1.5rem",
             padding: "0.75rem 1rem",
-            border: "2px solid #e9ecef",
+            border: "2px solid #00005c",
             borderRadius: "0.5rem",
             fontSize: "1rem",
           }}
@@ -237,8 +243,7 @@ const LaboratoryTests = () => {
             setSearchTerm(e.target.value);
             setCurrentPage(1);
           }}
-        />
-
+        />{" "}
         <div className="row">
           {currentTests.map((test, index) => (
             <div className="col-md-4" key={index}>
@@ -246,7 +251,6 @@ const LaboratoryTests = () => {
             </div>
           ))}
         </div>
-
         {totalPages > 1 && (
           <div className="d-flex justify-content-center mt-3">
             <nav>
