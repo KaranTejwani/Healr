@@ -15,15 +15,12 @@ dotenv.config();
 const app = express();
 
 // Enable CORS for frontend (Vite default: localhost:5173)
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://healr.vercel.app'
-];
-
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
+  origin: 'https://healr-frontend.vercel.app', // Update after deploying frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
+
 
 // app.use(cors({
 //   origin: 'http://localhost:5173',
