@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import { useFormik } from "formik";
@@ -82,6 +82,16 @@ const Login = ({ setPatient, setDoctor, setAdmin }) => {
     isSuccess: null,
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // On mount, log out any existing user
+    localStorage.removeItem("patient");
+    localStorage.removeItem("doctor");
+    localStorage.removeItem("admin");
+    if (setPatient) setPatient(null);
+    if (setDoctor) setDoctor(null);
+    if (setAdmin) setAdmin(null);
+  }, []);
 
   const formik = useFormik({
     initialValues: {

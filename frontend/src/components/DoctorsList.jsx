@@ -53,7 +53,7 @@ const DoctorsList = () => {
             className="doctor-card"
             key={index}
             onClick={() => handleSpecializationClick(doc.name)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", background: 'none', boxShadow: 'none', padding: 0, border: 'none' }}
           >
             <div className="doctor-icon">
               <img src={doc.icon} alt={doc.name} />
