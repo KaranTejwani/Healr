@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SurgerySection.css";
-import surgeryImage from "../IMAGES/surgery.png"; // replace with actual image path
+import surgeryImage from "../images/surgery.png"; // replace with actual image path
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer"; // Adjust the path as needed
 
