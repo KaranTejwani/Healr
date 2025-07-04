@@ -104,6 +104,7 @@ node uploadDoctorAccounts.js
 Both frontend and backend are ready for deployment on Vercel.  
 - Frontend: [https://healr.vercel.app](https://healr.vercel.app)
 - Backend: [https://healr-backend.vercel.app](https://healr-backend.vercel.app)
+- if you want to run backend on vercel you need to run the server locally it will then run on vercel.
 
 The frontend is configured to proxy `/api/*` requests to the backend using `vercel.json`.
 
