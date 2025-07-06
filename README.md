@@ -74,7 +74,7 @@ Make sure your MongoDB server is running locally or update the connection string
 
 ```bash
 cd backend
-npm start
+node server.js
 ```
 
 The backend will run on [http://localhost:5000](http://localhost:5000).
@@ -114,8 +114,8 @@ The frontend is configured to proxy `/api/*` requests to the backend using `verc
 
 ### Doctor
 
-- **Email:** dr.afshanahmad_dermatologist@example.com
-- **Password:** 12345678
+- **Email:** karan@test.com
+- **Password:** 111111
 
 ### Patient
 
