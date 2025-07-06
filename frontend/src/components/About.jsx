@@ -10,7 +10,7 @@ const About = () => {
 
         <div className="row mt-4">
           <div className="col-md-4">
-            <Link to="/book-appointment/0" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to="/consult-online" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div className="card border-0 shadow-sm p-4 h-100" style={{ cursor: 'pointer' }}>
                 <div className="card-body d-flex flex-column align-items-center">
                   <i className="bi bi-person-badge fs-2 text-primary"></i>

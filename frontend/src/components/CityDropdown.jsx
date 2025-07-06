@@ -23,7 +23,9 @@ const CityDropdown = () => {
   };
 
   return (
-    <div className="position-relative">
+    <div className="position-relative"
+      onMouseLeave={() => setShowCities(false)}
+    >
       <div
         onClick={handleCitiesClick}
         className="nav-link nav-underline"

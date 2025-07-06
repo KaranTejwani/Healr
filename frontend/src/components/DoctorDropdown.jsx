@@ -28,7 +28,9 @@ const DoctorDropdown = () => {
   };
 
   return (
-    <div className="position-relative">
+    <div className="position-relative"
+      onMouseLeave={() => setShowSpecializations(false)}
+    >
       <div
         onClick={handleDoctorsClick}
         className="nav-link nav-underline"

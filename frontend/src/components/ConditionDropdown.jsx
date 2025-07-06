@@ -51,7 +51,9 @@ const ConditionsDropdown = () => {
   };
 
   return (
-    <div className="position-relative">
+    <div className="position-relative"
+      onMouseLeave={() => setShowConditions(false)}
+    >
       <div
         onClick={toggleDropdown}
         className="nav-link nav-underline"
